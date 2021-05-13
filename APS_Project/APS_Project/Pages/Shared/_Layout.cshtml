@@ -41,15 +41,17 @@
 </head>
 <body>
     <header>
-        <div id="mySidenav" class="sidenav">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a href="#">Publish</a>
-            <a href="#">My favourites</a>
-            <a href="#">Recepies</a>
-            <a href="#">Log out</a>
-        </div>
-        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
-        <!-- <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div id="mySidenav" class="sidenav">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                <a href="#">Publish</a>
+                <a href="#">My favourites</a>
+                <a href="#">Recepies</a>
+                <a href="#">Log out</a>
+            </div>
+            <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+            <img src="/Data/Logo.png" alt="Logo" style="float:right; width:128px; height: 128px; margin-right: 20px">
+
+            <!-- <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container">
             <a class="navbar-brand" asp-area="" asp-page="/Index">APS_Project</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -69,7 +71,7 @@
             </div>
         </div>
     </nav>-->
-    </header>
+</header>
     <script>
         function openNav() {
             document.getElementById("mySidenav").style.width = "250px";
