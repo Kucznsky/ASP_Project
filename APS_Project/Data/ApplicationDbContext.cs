@@ -12,7 +12,7 @@ namespace APS_Project.Data
         public DbSet<CategoryRelations> CategoryRelations { get; set; }
         public DbSet<Catergory> Catergories { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> AppUsers { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

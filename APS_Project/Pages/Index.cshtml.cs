@@ -34,6 +34,7 @@ namespace APS_Project.Pages
             catch (Exception ex)
             {
                 Recipes = new List<Recipe>();
+                Recipes.Add(new Recipe());
                 Console.WriteLine(ex.Message);
             }
         }
