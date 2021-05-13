@@ -6,10 +6,50 @@
     <title>@ViewData["Title"] - APS_Project</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            opacity: 0.5;
+        }
+
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <!--<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="#">Publish</a>
+            <a href="#">My favourites</a>
+            <a href="#">Recepies</a>
+            <a href="#">Log out</a>
+        </div>
+        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+        <!-- <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container">
             <a class="navbar-brand" asp-area="" asp-page="/Index">APS_Project</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -29,8 +69,16 @@
             </div>
         </div>
     </nav>-->
-
     </header>
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
