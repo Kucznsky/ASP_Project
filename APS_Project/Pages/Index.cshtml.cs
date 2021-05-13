@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using APS_Project.Data;
+using APS_Project.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,16 +12,21 @@ namespace APS_Project.Pages
 {
     public class IndexModel : PageModel
     {
+        const int Quantity = 10; 
         private readonly ILogger<IndexModel> _logger;
+        private readonly ApplicationDbContext _dbContext;
+        public List<Recipe> Recipes { get; set; }
+        
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(ILogger<IndexModel> logger, ApplicationDbContext dbContext)
         {
             _logger = logger;
+            _dbContext = dbContext;
         }
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-
+            Recipes = await _dbContext.Recipes.OrderBy(p => p.Upvoters.Count - p.Downvoters.Count).Take(Quantity).ToListAsync();
         }
     }
 }
