@@ -9,9 +9,9 @@ namespace APS_Project.Models
     public class User
     {
         public int UserId { get; set; }
-        [ForeignKey("RecipeId")]
+        //[ForeignKey("RecipeId")]
         public IEnumerable<int> ListOfFavs { get; set; }
-        [ForeignKey("RecipeId")]
+        //[ForeignKey("RecipeId")]
         public IEnumerable<int> ListOfMyRecepies {get;set;}
         public string Name { get; set; }
         public string LastName { get; set; }
