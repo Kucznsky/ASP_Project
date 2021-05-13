@@ -6,42 +6,6 @@
     <title>@ViewData["Title"] - APS_Project</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <style>
-        .sidenav {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            background-color: white;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-            opacity: 0.5;
-        }
-
-        .sidenav a {
-            padding: 8px 8px 8px 32px;
-            text-decoration: none;
-            font-size: 25px;
-            color: #818181;
-            display: block;
-            transition: 0.3s;
-        }
-
-        .sidenav a:hover {
-            color: #f1f1f1;
-        }
-
-        .sidenav .closebtn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-        }
-    </style>
 </head>
 <body class="background">
     <header>
@@ -57,26 +21,7 @@
             <span style="color:#ffc7c7;font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
             <img src="/Data/Logo.png" alt="Logo" style="float:right; width:128px; height: 128px; margin-right: 20px; margin-bottom: 50px">
             <hr style="height:2px; border-width:0; color:#ffc7c7; background-color:#ffc7c7; margin-top:50px">
-            <!-- <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container">
-            <a class="navbar-brand" asp-area="" asp-page="/Index">APS_Project</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                    </li>
-                </ul>
-                <partial name="_LoginPartial" />
-            </div>
-        </div>
-    </nav>-->
+           
 </header>
     <script>
         function openNav() {
