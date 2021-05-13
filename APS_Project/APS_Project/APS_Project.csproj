@@ -15,4 +15,13 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\HomePage\" />
+    <Folder Include="Pages\Favourites\" />
+    <Folder Include="Pages\MyRecipes\" />
+    <Folder Include="Pages\Account\" />
+    <Folder Include="Pages\Recipe\" />
+    <Folder Include="Pages\Nowy folder\" />
+  </ItemGroup>
+
 </Project>
