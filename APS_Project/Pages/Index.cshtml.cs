@@ -2,6 +2,7 @@
 using APS_Project.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,15 @@ namespace APS_Project.Pages
 
         public async Task OnGetAsync()
         {
-            Recipes = await _dbContext.Recipes.OrderBy(p => p.Upvoters.Count - p.Downvoters.Count).Take(Quantity).ToListAsync();
+            try
+            {
+                Recipes = await _dbContext.Recipes.OrderBy(p => p.Upvoters.Count - p.Downvoters.Count).Take(Quantity).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Recipes = new List<Recipe>();
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
