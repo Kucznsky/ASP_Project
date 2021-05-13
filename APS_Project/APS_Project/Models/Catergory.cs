@@ -7,7 +7,7 @@ namespace APS_Project.Models
 {
     public class Catergory
     {
-        string Name { get; set; }
-        int CategoryID { get; set; }
+        public string Name { get; set; }
+        public int CategoryID { get; set; }
     }
 }
