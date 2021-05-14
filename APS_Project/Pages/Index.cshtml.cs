@@ -27,16 +27,7 @@ namespace APS_Project.Pages
 
         public async Task OnGetAsync()
         {
-            try
-            {
-                Recipes = await _dbContext.Recipes.OrderBy(p => p.Upvoters.Count - p.Downvoters.Count).Take(Quantity).ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                Recipes = new List<Recipe>();
-                Recipes.Add(new Recipe());
-                Console.WriteLine(ex.Message);
-            }
+             Recipes = await _dbContext.Recipes.ToListAsync();
         }
     }
 }

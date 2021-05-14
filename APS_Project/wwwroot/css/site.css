@@ -77,7 +77,10 @@ body {
     width: 300px;
     height: 300px;
     box-shadow: initial;
+    text-align: center;
     background-image: linear-gradient(#fb6c56, #5570df );
+    border-radius: 25px;
+    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.8);
 }
 t {
     font: 28px Arial;
@@ -101,7 +104,9 @@ t {
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
-    opacity:1;
+    opacity: 1;
+    background-image: linear-gradient(#5570df, #fb6c56 );
+    box-shadow: 0px 0px 9px 2px #000000
 }
 
 .sidenav a {
@@ -123,4 +128,38 @@ t {
     right: 25px;
     font-size: 36px;
     margin-left: 50px;
+}
+
+.line {
+    height: 1px;
+    border-width: 0;
+    background-color: #ffc7c7;
+}
+.menu-button {
+    color: #ffc7c7;
+    font-size: 30px;
+    cursor: pointer;
+    margin: 15px;
+    text-shadow: 0px 0px 2px #000000;
+    opacity:0.8;
+}
+.search {
+    border: none;
+    border-radius: 10px;
+    opacity: 0.3;
+    padding: 10px;
+    box-shadow: 0px 0px 9px 2px #000000;
+}
+.recipe {
+    background-color:white;
+    width: auto;
+    opacity: 0.3;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0px 0px 9px 2px #000000;
+    margin: 20px 20px 20px 20px;
+}
+.reactions {
+    border: none;
+    background: transparent;
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,7 +8,8 @@ namespace APS_Project.Models
 {
     public class Catergory
     {
-        public string Name { get; set; }
+        [Key]
         public int CategoryID { get; set; }
+        public string Name { get; set; }
     }
 }

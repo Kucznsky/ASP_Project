@@ -5,30 +5,45 @@
 }
 
 <div style="text-align:center; padding:20px">
-    <input style="border:none; border-radius:10px; opacity:0.5" type="text" name="search" placeholder="Search">
+    <form>
+        <input class="search" type="text" name="search" placeholder="Search">
+    </form>
 </div>
 <div>
-    @foreach(var recipe in Model.Recipes)
-            {
-               <div class="table" style="background-color:white; width:400px; height:400px; opacity:0.6;border-radius:15px; padding:25px">
-                    <div class="row" style="text-align:center">
-                        New Age Burger
-                    </div>
-                    <div class="row">
-                        <div class="col" style="float:left; width:50%;">
-                            <img src="~/Data/Logo.png">
-
+    @foreach (var recipe in Model.Recipes)
+    {
+               <div class="recipe">
+                    <a asp-page="/Recipe" asp-route-recipeId="@recipe.RecipeId" style="text-decoration: none">
+                        <div class="row" style="text-align:center">
+                            <div class="col">
+                                <h5>@recipe.Title</h5>
+                            </div>
                         </div>
-                        <div class="col" style="float:left; width:50%;">
-                            IbrumLicosjvkasdfkndsljdwqbfkodisrbn
+                        <div class="row">
+                            <div class="col" style="float:left; width:50%;">
+                                @{string val = "data:image/jpg;base64, " + recipe.Image;}
+                                <img src="@val">
+                            </div>
+                            <div class="col" style="float:left; width:50%;">
+                                 <p>@recipe.Description</p>
+                            </div>
                         </div>
-                   </div>
-                   <div class="row" style="float:right">
-                       <span>&#129121;</span>
-                       <span>&#129123;</span>
-                       <span>&#9825;</span>
-                       <span>&#9829;</span>
-                   </div>             
+                    </a>
+                    <div class="row" style="float:right">
+                        <span>123</span>
+                        <form>
+                            <input class="reactions" type="submit" value="&#129121;">
+                        </form>
+                        <form>
+                            <input class="reactions" type="submit" value="&#129123;">
+                        </form>
+                        <form>
+                            <input class="reactions" type="submit" value="&#9825;">
+                        </form>
+                        <form>
+                            <input class="reactions" type="submit" value="&#9829;">
+                        </form>
+                    </div>             
                </div>
             }
 </div>
