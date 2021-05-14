@@ -5,29 +5,30 @@
 }
 
 <div style="text-align:center; padding:20px">
-    <input class="search" type="text" name="search" placeholder="Search">
+    <form>
+        <input class="search" type="text" name="search" placeholder="Search">
+    </form>
 </div>
 <div>
     @foreach (var recipe in Model.Recipes)
     {
                <div class="recipe">
-                    <div class="row" style="text-align:center">
-                        <div class="col">
-                            <h5>@recipe.Title</h5>
+                    <a asp-page="/Recipe" asp-route-recipeId="@recipe.RecipeId" style="text-decoration: none">
+                        <div class="row" style="text-align:center">
+                            <div class="col">
+                                <h5>@recipe.Title</h5>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col" style="float:left; width:50%;">
-                            <a asp-page="/Recipe" asp-route-recipeId="@recipe.RecipeId">
+                        <div class="row">
+                            <div class="col" style="float:left; width:50%;">
                                 @{string val = "data:image/jpg;base64, " + recipe.Image;}
                                 <img src="@val">
-                            </a>
-
+                            </div>
+                            <div class="col" style="float:left; width:50%;">
+                                 <p>@recipe.Description</p>
+                            </div>
                         </div>
-                        <div class="col" style="float:left; width:50%;">
-                            
-                        </div>
-                    </div>
+                    </a>
                     <div class="row" style="float:right">
                         <span>123</span>
                         <form>

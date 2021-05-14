@@ -127,11 +127,11 @@ t {
     font-size: 36px;
     margin-left: 50px;
 }
+
 .line {
-    height: 2px;
+    height: 1px;
     border-width: 0;
     background-color: #ffc7c7;
-    margin-top: 0px
 }
 .menu-button {
     color: #ffc7c7;
