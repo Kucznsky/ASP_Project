@@ -5,30 +5,44 @@
 }
 
 <div style="text-align:center; padding:20px">
-    <input style="border:none; border-radius:10px; opacity:0.5" type="text" name="search" placeholder="Search">
+    <input class="search" type="text" name="search" placeholder="Search">
 </div>
 <div>
-    @foreach(var recipe in Model.Recipes)
-            {
-               <div class="table" style="background-color:white; width:400px; height:400px; opacity:0.6;border-radius:15px; padding:25px">
+    @foreach (var recipe in Model.Recipes)
+    {
+               <div class="recipe">
                     <div class="row" style="text-align:center">
-                        New Age Burger
+                        <div class="col">
+                            <h5>@recipe.Title</h5>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col" style="float:left; width:50%;">
-                            <img src="~/Data/Logo.png">
+                            <a asp-page="/Recipe" asp-route-recipeId="@recipe.RecipeId">
+                                @{string val = "data:image/jpg;base64, " + recipe.Image;}
+                                <img src="@val">
+                            </a>
 
                         </div>
                         <div class="col" style="float:left; width:50%;">
-                            IbrumLicosjvkasdfkndsljdwqbfkodisrbn
+                            
                         </div>
-                   </div>
-                   <div class="row" style="float:right">
-                       <span>&#129121;</span>
-                       <span>&#129123;</span>
-                       <span>&#9825;</span>
-                       <span>&#9829;</span>
-                   </div>             
+                    </div>
+                    <div class="row" style="float:right">
+                        <span>123</span>
+                        <form>
+                            <input class="reactions" type="submit" value="&#129121;">
+                        </form>
+                        <form>
+                            <input class="reactions" type="submit" value="&#129123;">
+                        </form>
+                        <form>
+                            <input class="reactions" type="submit" value="&#9825;">
+                        </form>
+                        <form>
+                            <input class="reactions" type="submit" value="&#9829;">
+                        </form>
+                    </div>             
                </div>
             }
 </div>

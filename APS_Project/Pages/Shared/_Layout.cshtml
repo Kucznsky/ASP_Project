@@ -10,26 +10,57 @@
 <body class="background">
     <header>
         <div>
-            <span style="color:#ffc7c7; font-size: 30px; cursor: pointer; margin: 15px;" onclick="openNav()">&#9776;</span>
+            <span class="menu-button" onclick="openNav()">&#9776;</span>
             <img src="/Data/Logo.png" alt="Logo" style="float:right;">
         </div>
-        <hr style="height:2px; border-width:0; background-color:#ffc7c7;margin-top:0px">
+        <hr class="line">
     </header>
-        <div id="mySidenav" class="sidenav">
-            <div style="margin-top: 30px">
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                <a href="#">Publish</a>
-                <a href="#">My favourites</a>
-                <a href="#">Recepies</a>
-            </div>
-            <a href="#" style="margin-top:400px">Log out</a>
+    <div id="mySidenav" class="sidenav">
+        <div style="margin-top: 30px">
+            <a href="javascript:void(0)" class="closebtn menu-button" onclick="closeNav()" >&times;</a>
+            <ul class="navbar-nav flex-grow-1">
+                @if (User.Identity.IsAuthenticated) 
+                {
+                    <li>
+                        <img href=""/> 
+                    </li>
+                }
+                <li class="nav-item">
+                    <a class="menu-button" asp-area="" asp-page="/Index">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="menu-button" asp-area="" asp-page="/Publish">Publish</a>
+                </li>
+                <li class="nav-item">
+                    <a class="menu-button" asp-area="" asp-page="/Myfavourites">My favourites</a>
+                </li>
+                <li class="nav-item">
+                    <a class="menu-button" asp-area="" asp-page="/MyRecipes">My Recipes</a>
+                </li>
+                    @{
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            <li>
+                                <a class="menu-button" asp-area="" asp-page="LogOut">Log out</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a class="menu-button" asp-area="" asp-page="SignUp">Sign up</a>
+                            </li>
+                            <li>
+                                <a class="menu-button" asp-area="" asp-page="SignIn">Sign in</a>
+                            </li>
+
+                        }
+                    }
+            </ul>
         </div>
-        <span style="color:#ffc7c7; width:100%; font-size:30px; cursor:pointer; margin-left:10px; margin-top: 10px" onclick="openNav()">&#9776;</span>
-            <img src="/Data/Logo.png" alt="Logo" style="float:right; width:128px; height: 128px; margin-right: 20px; margin-bottom: 50px">
-            <hr style="height:2px; border-width:0; color:#ffc7c7; background-color:#ffc7c7; margin-top:50px">
+    </div>
            
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3" style="text-align:center">
             @RenderBody()
         </main>
     </div>
