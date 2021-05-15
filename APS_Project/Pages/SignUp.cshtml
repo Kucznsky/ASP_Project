@@ -2,7 +2,33 @@
 @model APS_Project.Pages.SignUpModel
 @{
 }
+<style>
+    body {
+        color: #ffc7c7;
+    }
+</style>
 <div class="signup" style="padding:20px">
-    <h4>Sign In</h4> 
-    <p>Login</p>
+    <div class="container">
+        <h3>Sign Up</h3>
+        <hr class="line">
+        <div style="padding-right:50px">
+            <label for="name" style="padding-right:130px">Name</label>
+            <input class="login" type="text" name="name" placeholder="Name">
+
+            <label for="last_name" style="padding-right:100px">Last Name</label>
+            <input class="login" type="text" name="last_name" placeholder="Last Name">
+
+            <label for="email" style="padding-right:130px">E-mail</label>
+            <input class="login" type="text" name="email" placeholder="E-mail">
+
+            <label for="passowrd" style="padding-right:130px">Passowrd</label>
+            <input class="login" type="text" name="password" placeholder="Password">
+        </div>
+        <hr class="line">
+
+        <label for="agreement" style="float:right">I agree with the privacy policy</label>
+        <input type="checkbox" name="agreement" style="margin-bottom:15px;">
+
+        <button class="login-button log-button">Let's go!</button>
+    </div>
 </div>

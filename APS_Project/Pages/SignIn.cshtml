@@ -2,3 +2,29 @@
 @model APS_Project.Pages.SignInModel
 @{
 }
+<style>
+    body {
+        color: #ffc7c7;
+    }
+</style>
+<div class="signin" style="padding:20px">
+    <div class="container">
+        <h3>Sign In</h3>
+        <hr class="line">
+        <div style="padding-right:50px">
+            <label for="email" style="padding-right:130px">E-mail</label>
+            <input class="login" type="text" name="email" placeholder="E-mail">
+
+            <label for="passowrd" style="padding-right:130px">Passowrd</label>
+            <input class="login" type="text" name="password" placeholder="Password">
+        </div>
+        <hr class="line">
+
+        <div style="padding-right:110px">
+            <label for="agreement">
+                <input type="checkbox" name="agreement" style="margin-bottom:15px;">Remember me
+            </label>
+        </div>
+        <button class="login-button log-button">Let's go!</button>
+    </div>
+</div>
