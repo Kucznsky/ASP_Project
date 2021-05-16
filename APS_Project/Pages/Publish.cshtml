@@ -1,0 +1,43 @@
+﻿@page
+@model APS_Project.Pages.PublishModel
+@{
+}
+<!--!!!WORK IN PROGRESS!!!-->
+<style>
+    body {
+        color: #ffc7c7;
+    }
+</style>
+<!--<div class="publish" style="padding:20px">
+    <div class="container">
+        <h3>Publish</h3>
+        <hr class="line">
+        <div>
+            <div>
+                <div class="col"><label for="title" style="padding-right:150px">Title</label></div>
+                <div class="col"><input class="login" name="title" type="text" placeholder="Title"></div>
+                <hr class="line">
+                <button class="login-button log-button">Next</button>
+            </div>
+        </div>
+    </div>
+</div>-->
+<div class="publish" style="padding:20px">
+    <div class="container">
+        <h3>Publish</h3>
+        <hr class="line">
+        <div style="padding-right:50px">
+            <label for="title" style="float:left">Add a title</label>
+            <input class="search" type="text" name="title" placeholder="Title" style="padding-right:50px">
+        </div>
+        <form action="/action_page.php" style="margin-top:100px">
+            <div class=" row">
+                <label for="img">Select image:</label>
+                <input type="file" id="img" name="img" accept="image/*">
+                <input type="submit">
+            </div>
+        </form>
+        <hr class="line">
+        <button class="next" style="vertical-align:middle"><span>Next</span></button>
+    </div>
+</div>
