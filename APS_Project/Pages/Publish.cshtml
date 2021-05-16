@@ -51,22 +51,27 @@
     <div class="container" id="2" style="display:none">
         <h3>Publish</h3>
         <hr class="line">
-            <p>Ingredience</p>
+        <p>Ingredience</p>
         <hr class="line">
-        <button class="next" style="vertical-align:middle" onclick="NextPage()"><span>Next</span></button>
+        <div class="row">
+            <div class="col"><button class="back" style="vertical-align:middle" onclick="NextPage()"><span>Go Back</span></button></div>
+            <div class="col"><button class="next" style="vertical-align:middle" onclick="NextPage()"><span>Next</span></button></div>
+        </div>
     </div>
 </div>
 <script>
-    function GetDivId() {
-        var x
-    }
     function NextPage() {
-        var x = document.getElementById("1")
+        var x = document.getElementById("1");
+        var y = document.getElementById("2");
         if (x.style.display === "none") {
             x.style.display = "block";
+            y.style.display = "none";
         } else {
             x.style.display = "none";
+            y.style.display = "block";
         }
     }
 </script>
+
+
 

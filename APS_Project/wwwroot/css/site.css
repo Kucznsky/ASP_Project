@@ -255,3 +255,45 @@ padding-right: 25px;
 opacity: 1;
 right: 0;
 }
+
+.back {
+display: inline-block;
+border: none;
+color: #ffc7c7;
+text-align: center;
+transition: all 0.5s;
+cursor: pointer;
+margin: 5px;
+font-size: 15px;
+width: 130px;
+padding: 10px 24px;
+border-radius: 8px;
+background-color: #884DFF;
+box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+float: left;
+}
+
+.back span {
+cursor: pointer;
+display: inline-block;
+position: relative;
+transition: 0.5s;
+}
+
+.back span:after {
+content: '\00ab';
+position: absolute;
+opacity: 0;
+top: 0;
+left: -20px;
+transition: 0.5s;
+}
+
+.back:hover span {
+padding-left: 25px;
+}
+
+.back:hover span:after {
+opacity: 1;
+left: 0;
+}

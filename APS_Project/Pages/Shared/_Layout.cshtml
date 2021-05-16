@@ -18,13 +18,14 @@
         <div id="mySidenav" class="sidenav">
             <ul class="navbar-nav flex-grow-1">
                 <li class="nav-item">
-                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                 </li>
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li>
-                        <a asp-page="Account">&#8285;
-                        <img href="" />
+                        <a asp-page="Account">
+                            &#8285;
+                            <img href="" />
                         </a>
                     </li>
                     <li>
@@ -63,7 +64,7 @@
                 }
             </ul>
         </div>
-    </header> 
+    </header>
     <div class="container">
         <main role="main" class="pb-3" style="text-align:center">
             @RenderBody()
