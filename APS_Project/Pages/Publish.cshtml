@@ -23,21 +23,50 @@
     </div>
 </div>-->
 <div class="publish" style="padding:20px">
-    <div class="container">
+    <div class="container" id="1">
         <h3>Publish</h3>
         <hr class="line">
-        <div style="padding-right:50px">
-            <label for="title" style="float:left">Add a title</label>
-            <input class="search" type="text" name="title" placeholder="Title" style="padding-right:50px">
-        </div>
-        <form action="/action_page.php" style="margin-top:100px">
-            <div class=" row">
-                <label for="img">Select image:</label>
-                <input type="file" id="img" name="img" accept="image/*">
-                <input type="submit">
+        <div class="row">
+            <div class="col" style="text-align:left">
+                <form>
+                    <label for="title">Add a title of your recipe</label>
+                </form>
+                <form>
+                    <input class="search" type="text" name="title" placeholder="Title">
+                </form>
             </div>
-        </form>
+            <div class="col">
+                <form action="/action_page.php" style="margin-top:100px">
+                    <div class=" row">
+                        <label for="img">Select image of your recipe: </label>
+                        <input type="file" id="img" name="img" accept="image/*" style="margin-left:10px">
+                        <!--<input type="submit">-->
+                    </div>
+                </form>
+            </div>
+        </div>
         <hr class="line">
-        <button class="next" style="vertical-align:middle"><span>Next</span></button>
+        <button class="next" style="vertical-align:middle" onclick="NextPage()"><span>Next</span></button>
+    </div>
+    <div class="container" id="2" style="display:none">
+        <h3>Publish</h3>
+        <hr class="line">
+            <p>Ingredience</p>
+        <hr class="line">
+        <button class="next" style="vertical-align:middle" onclick="NextPage()"><span>Next</span></button>
     </div>
 </div>
+<script>
+    function GetDivId() {
+        var x
+    }
+    function NextPage() {
+        var x = document.getElementById("1")
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+</script>
+
