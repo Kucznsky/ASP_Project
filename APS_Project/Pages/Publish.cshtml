@@ -54,8 +54,18 @@
         <p>Ingredience</p>
         <hr class="line">
         <div class="row">
-            <div class="col"><button class="back" style="vertical-align:middle" onclick="NextPage()"><span>Go Back</span></button></div>
+            <div class="col"><button class="back" style="vertical-align:middle" onclick="PreviousPage()"><span>Go Back</span></button></div>
             <div class="col"><button class="next" style="vertical-align:middle" onclick="NextPage()"><span>Next</span></button></div>
+        </div>
+    </div>
+    <div class="container" id="3" style="display:none">
+        <h3>Publish</h3>
+        <hr class="line">
+        <p>Recipe</p>
+        <hr class="line">
+        <div class="row">
+            <div class="col"><button class="back" style="vertical-align:middle" onclick="PreviousPage()"><span>Go Back</span></button></div>
+            <div class="col"><button class="login" style="vertical-align:middle">Publish!</button></div>
         </div>
     </div>
 </div>
@@ -63,12 +73,26 @@
     function NextPage() {
         var x = document.getElementById("1");
         var y = document.getElementById("2");
+        var z = document.getElementById("3");
         if (x.style.display === "none") {
+            z.style.display = "block";
+            y.style.display = "none";
+        } else {
+            y.style.display = "block";
+            x.style.display = "none";
+        }
+    }
+    function PreviousPage()
+    {
+        var x = document.getElementById("1");
+        var y = document.getElementById("2");
+        var z = document.getElementById("3");
+        if (y.style.display==="block") {
             x.style.display = "block";
             y.style.display = "none";
         } else {
-            x.style.display = "none";
             y.style.display = "block";
+            z.style.display = "none";  
         }
     }
 </script>
