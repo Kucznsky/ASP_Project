@@ -12,8 +12,6 @@ namespace APS_Project.Models
     {
         [Key]
         public int UserId { get; set; }
-        [NotMapped]
-        public List<int> ListOfFavs { get; set; }
         public string UserPicture { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }

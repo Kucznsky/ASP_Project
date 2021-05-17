@@ -13,18 +13,11 @@ namespace APS_Project.Models
         public int RecipeId { get; set; }
         public string Title { get; set; }
         public string Image { get; set; }
-        [NotMapped]
-        public Dictionary<string, string> IngredientsWithQuantity { get; set; }
         public string Description { get; set; }
-        [NotMapped]
-        public List<int> Upvoters { get; private set; }
-        [NotMapped]
-        public List<int> Downvoters { get; private set; }
         public DateTime PublicationDate { get;set; }
         public DateTime LastEditDate { get;set; }
         public int OwnerId { get; set; }
-        [NotMapped]
-        public List<string> GaleryLinks { get; set; }
+        
 
         public void UpvoteClick(int UserId)
         {

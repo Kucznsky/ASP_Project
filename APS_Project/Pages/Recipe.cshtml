@@ -5,14 +5,16 @@
 <div>
     <div style="width: 70%;height: 100%; margin-right: auto; float: left; ">
         <p style="float:left">@Model.Recipe.OwnerId</p>
-        <img style="float: left; min-width:30px; min-height: 30px;">
+        <img style="float: left; min-width:30px; min-height: 30px;" src="">
         <div style="float: inline-start">
-            <h5 style="text-align:left;">@Model.Recipe.Title<h5>
-            <p style="text-align:left">@Model.Recipe.Description<p>
-        </div>
+            <h5 style="text-align:left;">
+                @Model.Recipe.Title<h5>
+                <p style="text-align:left">@Model.Recipe.Description<p>
+    </div>
     </div>
     <div style="width: 30%; height: 100%; margin-left: auto; float: left;">
-        <img class="shadow" style="width:200px;height:200px;">
+        @{string val = "data:image/jpg;base64, " + Model.Recipe.Image;}
+        <img class="shadow" style="width:200px;height:200px;" src="@val">
         <p>Ingredients<p>
     </div>
 </div>
