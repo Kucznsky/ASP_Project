@@ -11,51 +11,21 @@ namespace APS_Project.Models
     {
         [Key]
         public int RecipeId { get; set; }
+        [Required]
         public string Title { get; set; }
+        [Required]
         public string Image { get; set; }
+        [Required]
         public string Description { get; set; }
         public DateTime PublicationDate { get;set; }
         public DateTime LastEditDate { get;set; }
         public int OwnerId { get; set; }
-        
 
-        public void UpvoteClick(int UserId)
+        public Recipe(int ownerId)
         {
-            if (Upvoters.Contains(UserId))
-            {
-                Upvoters.Remove(UserId);
-            }
-            else if (Downvoters.Contains(UserId))
-            {
-                Downvoters.Remove(UserId);
-                Upvoters.Add(UserId);
-            }
-            else 
-            {
-                Upvoters.Add(UserId);
-            }
-        }
-        public void DownvoteClick(int UserId)
-        {
-            if (Downvoters.Contains(UserId))
-            {  
-                Downvoters.Remove(UserId);
-            }
-            else if (Upvoters.Contains(UserId))
-            {
-                Upvoters.Remove(UserId);
-                Downvoters.Add(UserId);
-            }
-            else
-            {
-                Downvoters.Add(UserId);
-            }
-        }
-        public Recipe() 
-        {
-            
-        
-        
+            PublicationDate = DateTime.Now;
+            LastEditDate = PublicationDate;
+            OwnerId = ownerId;
         }
     }
 }

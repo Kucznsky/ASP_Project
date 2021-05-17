@@ -7,5 +7,7 @@ namespace APS_Project.Models
 {
     public class UserFavourite
     {
+        public int UserId { get; set; }
+        public int RecipeId { get; set; }
     }
 }
