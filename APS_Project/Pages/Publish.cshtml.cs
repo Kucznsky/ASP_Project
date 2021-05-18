@@ -13,14 +13,28 @@ namespace APS_Project.Pages
     public class PublishModel : PageModel
     {
         private readonly ILogger<PublishModel> _logger;
-        private readonly ApplicationDbContext _dbContext;
+        private readonly ApplicationDbContext _context;
         public Recipe Recipe { get; set; }
         public Catergory Category { get; set; }
         public RecipeIngredient RecipeIngredient { get; set; }
-        public PublishModel(ILogger<PublishModel> logger, ApplicationDbContext dbContext)
+        public PublishModel(ILogger<PublishModel> logger, ApplicationDbContext context)
         {
             _logger = logger;
-            _dbContext = dbContext;
+            _context = context;
+        }
+        public IActionResult OnPost()
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Catergories.Add(Category);
+                _context.SaveChanges();
+                _context.Recipes.Add(Recipe);
+                _context.SaveChanges();
+                _context.RecipeIngredients.Add(RecipeIngredient);
+                _context.SaveChanges();
+            }
+
+            return RedirectToPage("./Index");
         }
         public void OnGet()
         {

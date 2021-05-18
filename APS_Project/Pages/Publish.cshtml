@@ -29,29 +29,19 @@
             <hr class="line">
             <div class="row">
                 <div class="col" style="text-align:left">
-                    <form>
-                        <label for="title" asp-for="Recipe.Title">Add a title of your recipe</label>
-                    </form>
-                    <form>
-                        <input asp-for="Recipe.Title" class="search" type="text" name="title" placeholder="Title">
-                        <b><span asp-validation-for="Recipe.Title" class="text-danger"></span></b><br />
-                    </form>
-                    <br />
-                    <form>
-                        <label for="category" asp-for="Category.Name">Add a category</label>
-                    </form>
-                    <form>
-                        <input asp-for="Category.Name" class="search" type="text" name="category" placeholder="Category">
-                        <b><span asp-validation-for="Category.Name" class="text-danger"></span></b><br />
-                    </form>
+                    <label asp-for="Recipe.Title">Add a title of your recipe</label>
+                    <input asp-for="Recipe.Title" class="search">
+                    <b><span asp-validation-for="Recipe.Title" class="text-danger"></span></b><br />
+                <br />
+                    <label asp-for="Category.Name">Add a category</label>
+                    <input asp-for="Category.Name" class="search">
+                    <b><span asp-validation-for="Category.Name" class="text-danger"></span></b><br />
                 </div>
                 <div class="col">
-                    <form action="/action_page.php" style="margin-top:100px">
-                        <div class=" row">
-                            <label for="img"><i class="fa fa-camera"></i></label>
-                            <input type="file" id="img" name="img" accept="image/*" style="display: none">
-                        </div>
-                    </form>
+                    <div class=" row">
+                        <label for="img"><i class="fa fa-camera"></i></label>
+                        <input type="file" id="img" name="img" accept="image/*" style="display: none">
+                    </div>
                 </div>
             </div>
             <hr class="line">
@@ -62,25 +52,15 @@
             <hr class="line">
             <div class="row">
                 <div class="col" style="text-align:left">
-                    <form method="post">
-                        <form>
-                            <label for="ingr" asp-for="RecipeIngredient.Ingredient">Ingredient</label>
-                        </form>
-                        <form>
-                            <input asp-for="RecipeIngredient.Ingredient" type="text" name="ingr" placeholder="Your ingredients">
-                            <b><span asp-validation-for="RecipeIngredient.Ingredient" class="text-danger"></span></b><br />
-                        </form>
-                        <form>
-                            <label for="ingr" asp-for="RecipeIngredient.Quantity">Quantity</label>
-                        </form>
-                        <form>
-                            <input asp-for="RecipeIngredient.Quantity" type="text" name="ingr" placeholder="Amount of things">
-                            <b><span asp-validation-for="RecipeIngredient.Quantity" class="text-danger"></span></b><br />
-                        </form>
-                        <!--<form>
-                            <button type="submit">zapisz</button>   
-                        </form>-->
-                    </form>
+                    <label asp-for="RecipeIngredient.Ingredient">Ingredient</label>
+                    <input asp-for="RecipeIngredient.Ingredient">
+                    <b><span asp-validation-for="RecipeIngredient.Ingredient" class="text-danger"></span></b><br />
+                    <label asp-for="RecipeIngredient.Quantity">Quantity</label>
+                    <input asp-for="RecipeIngredient.Quantity">
+                    <b><span asp-validation-for="RecipeIngredient.Quantity" class="text-danger"></span></b><br />
+                    <!--<form>
+                        <button type="submit">zapisz</button>   
+                    </form>-->
                 </div>
             </div>
             <!--<div class="row">
@@ -95,22 +75,18 @@
         </div>-->
             <hr class="line">
             <div class="row">
-                <div type="button" class="col"><button class="back" onclick="PreviousPage()"><span>Go Back</span></button></div>
-                <div type="button" class="col"><button class="next" onclick="NextPage()"><span>Next</span></button></div>
+                <div class="col"><button type="button" class="back" onclick="PreviousPage()"><span>Go Back</span></button></div>
+                <div class="col"><button type="button" class="next" onclick="NextPage()"><span>Next</span></button></div>
             </div>
         </div>
-        <div class="container" id="3" style="display:none">
+        <div class="container" id="3" style="display: none" >
             <h3>Publish</h3>
             <hr class="line">
             <div class="row">
                 <div class="col" style="text-align:left">
-                    <form>
-                        <label for="recipe" asp-for="Recipe.Description">Recipe</label>
-                    </form>
-                    <form>
-                        <textarea asp-for="Recipe.Description" style="box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);" name="recipe" cols="50" rows="7" class="recipe-textarea" placeholder="Here write your recipe and optional description of your dish"></textarea>
-                        <b><span asp-validation-for="Recipe.Description" class="text-danger"></span></b><br />
-                    </form>
+                    <label asp-for="Recipe.Description">Recipe</label>
+                    <textarea asp-for="Recipe.Description"  class="recipe-textarea" cols="50" rows="7"></textarea>
+                    <b><span asp-validation-for="Recipe.Description" class="text-danger"></span></b><br />
                 </div>
             </div>
             <hr class="line">
