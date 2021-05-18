@@ -13,8 +13,7 @@
     </div>
     </div>
     <div style="width: 30%; height: 100%; margin-left: auto; float: left;">
-        @{string val = "data:image/jpg;base64, " + Model.Recipe.Image;}
-        <img class="shadow" style="width:200px;height:200px;" src="@val">
+        <img class="shadow" style="width:200px;height:200px;" src="~/Data/Images/@Model.Recipe.ImageName">
         <p>Ingredients<p>
     </div>
 </div>

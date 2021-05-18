@@ -144,12 +144,11 @@ t {
     box-shadow: 0px 0px 9px 2px #000000;
 }
 .recipe {
-    background-color:white;
+    background-color: rgba(255,255,255,0.3);
     width: auto;
-    opacity: 0.3;
     border-radius: 15px;
     padding: 25px;
-    box-shadow: 0px 0px 9px 2px #000000;
+    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.3);
     margin: 20px 20px 20px 20px;
 }
 .reactions {
@@ -215,89 +214,90 @@ nie wiem jeszcze czy to będzie przydatne, narazie zostawiam*/
 }
 /*===============================================================*/
 .next {
-display: inline-block;
-border: none;
-color: #ffc7c7;
-text-align: center;
-transition: all 0.5s;
-cursor: pointer;
-margin: 5px;
-font-size: 15px;
-width: 130px;
-padding: 10px 24px;
-border-radius: 8px;
-background-color: #FF4D4D;
-box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-float: right;
+    display: inline-block;
+    border: none;
+    color: #ffc7c7;
+    text-align: center;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+    font-size: 15px;
+    width: 130px;
+    padding: 10px 24px;
+    border-radius: 8px;
+    background-color: #FF4D4D;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    float: right;
 }
 
 .next span {
-cursor: pointer;
-display: inline-block;
-position: relative;
-transition: 0.5s;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
 }
 
 .next span:after {
-content: '\00bb';
-position: absolute;
-opacity: 0;
-top: 0;
-right: -20px;
-transition: 0.5s;
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
 }
 
 .next:hover span {
-padding-right: 25px;
+    padding-right: 25px;
 }
 
 .next:hover span:after {
-opacity: 1;
-right: 0;
+    opacity: 1;
+    right: 0;
 }
 
 .back {
-display: inline-block;
-border: none;
-color: #ffc7c7;
-text-align: center;
-transition: all 0.5s;
-cursor: pointer;
-margin: 5px;
-font-size: 15px;
-width: 130px;
-padding: 10px 24px;
-border-radius: 8px;
-background-color: #884DFF;
-box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-float: left;
+    display: inline-block;
+    border: none;
+    color: #ffc7c7;
+    text-align: center;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+    font-size: 15px;
+    width: 130px;
+    padding: 10px 24px;
+    border-radius: 8px;
+    background-color: #884DFF;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    float: left;
 }
 
 .back span {
-cursor: pointer;
-display: inline-block;
-position: relative;
-transition: 0.5s;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
 }
 
 .back span:after {
-content: '\00ab';
-position: absolute;
-opacity: 0;
-top: 0;
-left: -20px;
-transition: 0.5s;
+    content: '\00ab';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: -20px;
+    transition: 0.5s;
 }
 
 .back:hover span {
-padding-left: 25px;
+    padding-left: 25px;
 }
 
 .back:hover span:after {
-opacity: 1;
-left: 0;
+    opacity: 1;
+    left: 0;
 }
 
+<<<<<<< HEAD
 .recipe-textarea {
     border: none;
     border-radius: 6px;
@@ -309,3 +309,11 @@ left: 0;
 }
 /*#A12E2E*/
 
+=======
+.main-page-img {
+    height: 300px;
+    width: 300px;
+    opacity: 1;
+    border-radius: 25px;
+}
+>>>>>>> b7c21b8f962cea9a6a734c5161dbcece6a9748d8

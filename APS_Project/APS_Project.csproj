@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
-    <Folder Include="wwwroot\Data\" />
+    <Folder Include="wwwroot\Data\UserPictures\" />
   </ItemGroup>
 
 </Project>
