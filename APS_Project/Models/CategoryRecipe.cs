@@ -7,11 +7,9 @@ using System.Threading.Tasks;
 
 namespace APS_Project.Models
 {
-    public class CategoryRelation
+    public class CategoryRecipe
     {
-        [Key, Column(Order = 0)]
         public int CategoryId { get; set; }
-        
         public int RecipeId { get; set; }
     }
 }

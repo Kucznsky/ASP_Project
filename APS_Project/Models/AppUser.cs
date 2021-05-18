@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace APS_Project.Models
 {
-    public class User
+    public class AppUser
     {
         [Key]
-        public int UserId { get; set; }
+        public int Id { get; set; }
         public string UserPicture { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }

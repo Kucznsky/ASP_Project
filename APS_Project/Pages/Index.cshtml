@@ -30,19 +30,24 @@
                         </div>
                     </a>
                     <div class="row" style="float:right">
-                        <span>123</span>
+                        <span>@recipe.RecipeLikes</span>
                         <form>
                             <input class="reactions" type="submit" value="&#129121;">
                         </form>
                         <form>
                             <input class="reactions" type="submit" value="&#129123;">
                         </form>
-                        <form>
+                        @if (recipe.IsUserFavourite) {
+                         <form>
                             <input class="reactions" type="submit" value="&#9825;">
-                        </form>
-                        <form>
+                         </form>
+                        }
+                        @if (!recipe.IsUserFavourite) 
+                        {
+                         <form>
                             <input class="reactions" type="submit" value="&#9829;">
-                        </form>
+                         </form>
+                        }
                     </div>             
                </div>
             }

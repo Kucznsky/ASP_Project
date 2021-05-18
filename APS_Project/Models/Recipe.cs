@@ -20,12 +20,16 @@ namespace APS_Project.Models
         public DateTime PublicationDate { get;set; }
         public DateTime LastEditDate { get;set; }
         public int OwnerId { get; set; }
+        public int RecipeLikes { get; set; }
+        [NotMapped]
+        public bool IsUserFavourite { get; set; }
 
         public Recipe(int ownerId)
         {
             PublicationDate = DateTime.Now;
             LastEditDate = PublicationDate;
             OwnerId = ownerId;
+            RecipeLikes = 0;
         }
     }
 }
