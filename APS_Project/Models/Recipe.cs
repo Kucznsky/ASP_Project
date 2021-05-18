@@ -14,7 +14,7 @@ namespace APS_Project.Models
         [Required]
         public string Title { get; set; }
         [Required]
-        public string Image { get; set; }
+        public string ImageName { get; set; }
         [Required]
         public string Description { get; set; }
         public DateTime PublicationDate { get;set; }

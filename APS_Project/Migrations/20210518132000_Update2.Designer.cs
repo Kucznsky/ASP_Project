@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APS_Project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210518122800_NewDb")]
-    partial class NewDb
+    [Migration("20210518132000_Update2")]
+    partial class Update2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -88,7 +88,7 @@ namespace APS_Project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Image")
+                    b.Property<string>("ImageName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
