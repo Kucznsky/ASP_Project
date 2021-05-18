@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace APS_Project.Models
 {
-    public class AppUser
+    public class AppUser : IdentityUser
     {
         [Key]
         public int Id { get; set; }
