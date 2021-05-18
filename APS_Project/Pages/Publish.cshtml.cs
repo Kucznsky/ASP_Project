@@ -14,26 +14,27 @@ namespace APS_Project.Pages
     {
         private readonly ILogger<PublishModel> _logger;
         private readonly ApplicationDbContext _context;
+        [BindProperty] 
         public Recipe Recipe { get; set; }
-        public Catergory Category { get; set; }
+        [BindProperty] 
+        public Category Category { get; set; }
+        [BindProperty] 
         public RecipeIngredient RecipeIngredient { get; set; }
         public PublishModel(ILogger<PublishModel> logger, ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;
         }
-        public IActionResult OnPost()
+        public async Task <IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)
             {
-                _context.Catergories.Add(Category);
-                _context.SaveChanges();
-                _context.Recipes.Add(Recipe);
-                _context.SaveChanges();
-                _context.RecipeIngredients.Add(RecipeIngredient);
-                _context.SaveChanges();
+                //var log=img;
+                await _context.Catergories.AddAsync(Category);
+                await _context.Recipes.AddAsync(Recipe);
+                await _context.RecipeIngredients.AddAsync(RecipeIngredient);
+                await _context.SaveChangesAsync();
             }
-
             return RedirectToPage("./Index");
         }
         public void OnGet()

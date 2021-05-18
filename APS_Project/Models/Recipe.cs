@@ -13,8 +13,8 @@ namespace APS_Project.Models
         public int RecipeId { get; set; }
         [Required]
         public string Title { get; set; }
-        [Required]
-        public string ImageName { get; set; }
+        //[Required]
+        public string? ImageName { get; set; }
         [Required]
         public string Description { get; set; }
         public DateTime PublicationDate { get;set; }
@@ -24,11 +24,10 @@ namespace APS_Project.Models
         [NotMapped]
         public bool IsUserFavourite { get; set; }
 
-        public Recipe(int ownerId)
+        public Recipe()
         {
             PublicationDate = DateTime.Now;
             LastEditDate = PublicationDate;
-            OwnerId = ownerId;
             RecipeLikes = 0;
         }
     }

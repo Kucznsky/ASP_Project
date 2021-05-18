@@ -9,7 +9,7 @@ namespace APS_Project.Data
     public class ApplicationDbContext : IdentityDbContext
     {
         public DbSet<CategoryRecipe> CategoryRelations { get; set; }
-        public DbSet<Catergory> Catergories { get; set; }
+        public DbSet<Category> Catergories { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<RecipeLink> RecipeLinks { get; set; }

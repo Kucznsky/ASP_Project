@@ -30,7 +30,7 @@ namespace APS_Project
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("ASP_ProjectDB")));
+                    Configuration.GetConnectionString("ASP_Project1")));
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();

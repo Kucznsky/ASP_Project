@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace APS_Project.Models
 {
-    public class Catergory
+    public class Category
     {
         [Key]
         public int CategoryID { get; set; }

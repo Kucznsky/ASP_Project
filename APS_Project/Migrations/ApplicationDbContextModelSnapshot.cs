@@ -19,20 +19,7 @@ namespace APS_Project.Migrations
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("APS_Project.Models.CategoryRecipe", b =>
-                {
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoryId", "RecipeId");
-
-                    b.ToTable("CategoryRelations");
-                });
-
-            modelBuilder.Entity("APS_Project.Models.Catergory", b =>
+            modelBuilder.Entity("APS_Project.Models.Category", b =>
                 {
                     b.Property<int>("CategoryID")
                         .ValueGeneratedOnAdd()
@@ -48,6 +35,19 @@ namespace APS_Project.Migrations
                     b.ToTable("Catergories");
                 });
 
+            modelBuilder.Entity("APS_Project.Models.CategoryRecipe", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoryId", "RecipeId");
+
+                    b.ToTable("CategoryRelations");
+                });
+
             modelBuilder.Entity("APS_Project.Models.Recipe", b =>
                 {
                     b.Property<int>("RecipeId")
@@ -60,7 +60,6 @@ namespace APS_Project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastEditDate")
