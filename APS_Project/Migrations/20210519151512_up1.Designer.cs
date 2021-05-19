@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APS_Project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210518200229_Update")]
-    partial class Update
+    [Migration("20210519151512_up1")]
+    partial class up1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -72,9 +72,6 @@ namespace APS_Project.Migrations
 
                     b.Property<DateTime>("PublicationDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("RecipeLikes")
-                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()

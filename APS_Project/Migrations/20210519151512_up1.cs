@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace APS_Project.Migrations
 {
-    public partial class Update : Migration
+    public partial class up1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -115,8 +115,7 @@ namespace APS_Project.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PublicationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastEditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OwnerId = table.Column<int>(type: "int", nullable: false),
-                    RecipeLikes = table.Column<int>(type: "int", nullable: false)
+                    OwnerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

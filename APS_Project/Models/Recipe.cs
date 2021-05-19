@@ -20,7 +20,8 @@ namespace APS_Project.Models
         public DateTime PublicationDate { get;set; }
         public DateTime LastEditDate { get;set; }
         public int OwnerId { get; set; }
-        public int RecipeLikes { get; set; }
+        [NotMapped]
+        public int Likes { get; set; }
         [NotMapped]
         public bool IsUserFavourite { get; set; }
 
@@ -28,7 +29,6 @@ namespace APS_Project.Models
         {
             PublicationDate = DateTime.Now;
             LastEditDate = PublicationDate;
-            RecipeLikes = 0;
         }
     }
 }

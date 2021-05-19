@@ -9,6 +9,10 @@ namespace APS_Project.Pages
 {
     public class SignUpModel : PageModel
     {
+        public SignUpModel() 
+        {
+        
+        }
         public void OnGet()
         {
         }
