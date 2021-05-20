@@ -1,4 +1,5 @@
 ﻿using APS_Project.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace APS_Project.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<AppUser, IdentityRole<int>, int>
     {
         public DbSet<CategoryRecipe> CategoryRelations { get; set; }
         public DbSet<Category> Catergories { get; set; }
