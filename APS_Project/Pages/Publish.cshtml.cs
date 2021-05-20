@@ -26,7 +26,7 @@ namespace APS_Project.Pages
             _logger = logger;
             _context = context;
         }
-        public async Task <IActionResult> OnPostAsync(byte[] image)
+        public async Task <IActionResult> OnPostAsync()
         {
             var files = Request.Form.Files;
             if (ModelState.IsValid)
