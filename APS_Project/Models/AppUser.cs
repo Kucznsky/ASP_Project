@@ -10,6 +10,7 @@ namespace APS_Project.Models
 {
     public class AppUser : IdentityUser<int>
     {
+        public override int Id { get; set; }
         public string UserPicture { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }

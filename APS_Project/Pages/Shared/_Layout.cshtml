@@ -49,7 +49,7 @@
                     if (User.Identity.IsAuthenticated)
                     {
                         <li>
-                            <a class="menu-button shadow" asp-area="" asp-page="LogOut">Log out</a>
+                            <a class="menu-button shadow" asp-area="Identity" asp-page="/Account/Logout">Log out</a>
                         </li>
                     }
                     else

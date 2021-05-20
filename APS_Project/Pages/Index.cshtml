@@ -31,7 +31,7 @@
                     <div class="row" style="float:right">
                         <span>@recipe.Likes</span>
                         <form id="Like" method="post">
-                            <input type="hidden" name="userId" value="@User.Identity.Name">
+                            <input type="hidden" name="userId" value="@Model.userId">
                             <input type="hidden" name="recipeId" value="@recipe.RecipeId">
                             <input type="hidden" name="like" value="true">
                             <input class="reactions" id="like" type="submit" value="&#129121;">
