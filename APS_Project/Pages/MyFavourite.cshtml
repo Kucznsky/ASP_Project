@@ -2,25 +2,19 @@
 @model APS_Project.Pages.MyFavouriteModel
 @{
 }
-<div style="float:left">
-    <ul>
-        <li>
-            <label>Filters</label>
-            <input type="search">
-        </li>
-        <li>
-            <label>From</label>
-            <input type="date">
-        </li>
-        <li>
-            <label>To</label>
-            <input type="date">
-        </li>
-        <li>
-        </li>
-    </ul>
+<div style="float: left; text-align: center; background-color: rgba(255, 255, 255, 0.3);
+        list-style-type: none; display: table; width:20%; border-radius:15px;padding:20px;">
+    <form method="post" asp-page-handler="Search">
+        <span>Filters</span>
+        <input type="search" name="category" placeholder="katergory">
+        <span>From</span>
+        <input type="date" name="startTime">
+        <span>To</span>
+        <input type="date" name="endTime">
+        <input type="submit" value="Search">
+    </form>
 </div>
-<div style="float:left">
+<div style="float:left; width:80%;">
 @foreach (var recipe in Model.Recipes)
 {
     <div class="recipe">

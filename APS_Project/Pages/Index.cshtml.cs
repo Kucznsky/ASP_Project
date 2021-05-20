@@ -22,11 +22,8 @@ namespace APS_Project.Pages
         public readonly int userId;
         public List<Recipe> Recipes { get; set; }
         private readonly IHttpContextAccessor _httpContextAccessor;
-
-
         public IndexModel(ILogger<IndexModel> logger, ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
-            
             // _logger = logger;
             _dbContext = dbContext;
             _httpContextAccessor = httpContextAccessor;
@@ -53,26 +50,19 @@ namespace APS_Project.Pages
                 return Redirect("~/Identity/Account/Login");
             }
         }
-
         public async Task OnGetAsync()
         {
-            
             Recipes = await _dbContext.Recipes.Take(Quantity).ToListAsync();
             foreach (var recipe in Recipes)
             {
-                recipe.Likes = _dbContext.RecipeVoters
-                    .Where(p => p.RecipeId == recipe.RecipeId && p.Vote == true).Count()
-                    - _dbContext.RecipeVoters
-                    .Where(p => p.RecipeId == recipe.RecipeId && p.Vote == false).Count();
-                recipe.IsUserFavourite = _dbContext.UserFavourites.Find(recipe.RecipeId, userId) is not null;
+                recipe.IsUserFavourite = await _dbContext.UserFavourites.FindAsync(recipe.RecipeId, userId) is not null;
             }
-
         }
         public async Task<IActionResult> OnPostAsync(int recipeId, bool like)
         {
             if (User.Identity.IsAuthenticated)
             {
-                var vote = _dbContext.RecipeVoters.Find(recipeId, userId);
+                var vote = await _dbContext.RecipeVoters.FindAsync(recipeId, userId);
                 if (vote is not null)
                 {
                     if (vote.Vote == like)
@@ -84,6 +74,13 @@ namespace APS_Project.Pages
                 }
                 else
                     await _dbContext.RecipeVoters.AddAsync(new RecipeVoter() { RecipeId = recipeId, VoterId = userId, Vote = like });
+
+                var recipe = await _dbContext.Recipes.FindAsync(recipeId);
+                recipe.Likes = _dbContext.RecipeVoters
+                    .Where(p => p.RecipeId == recipe.RecipeId && p.Vote == true).Count()
+                    - _dbContext.RecipeVoters
+                    .Where(p => p.RecipeId == recipe.RecipeId && p.Vote == false).Count();
+
                 await _dbContext.SaveChangesAsync();
                 return RedirectToPage();
             }

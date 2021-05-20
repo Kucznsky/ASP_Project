@@ -12,7 +12,6 @@ namespace APS_Project.Models
         public int RecipeId { get; set; }
         [Required]
         public string Ingredient { get; set; }
-        [Required]
-        public string Quantity { get; set; }
+        
     }
 }

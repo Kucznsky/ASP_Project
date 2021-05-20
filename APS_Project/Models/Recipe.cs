@@ -29,6 +29,7 @@ namespace APS_Project.Models
         {
             PublicationDate = DateTime.Now;
             LastEditDate = PublicationDate;
+            Likes = 0;
         }
     }
 }
