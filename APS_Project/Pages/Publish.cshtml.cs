@@ -11,7 +11,6 @@ using Microsoft.Extensions.Logging;
 
 namespace APS_Project.Pages
 {
-    [Authorize]
     public class PublishModel : PageModel
     {
         private readonly ILogger<PublishModel> _logger;
@@ -27,8 +26,9 @@ namespace APS_Project.Pages
             _logger = logger;
             _context = context;
         }
-        public async Task <IActionResult> OnPostAsync()
+        public async Task <IActionResult> OnPostAsync(byte[] image)
         {
+            var files = Request.Form.Files;
             if (ModelState.IsValid)
             {
                 //var log=img;

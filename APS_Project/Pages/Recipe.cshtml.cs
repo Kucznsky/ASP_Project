@@ -17,9 +17,9 @@ namespace APS_Project.Pages
         {
             _dbContext = dbContext;
         }
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int recipeId)
         {
-            Recipe =  await _dbContext.Recipes.FindAsync(int.Parse(Request.Query["recipeId"]));
+            Recipe =  await _dbContext.Recipes.FindAsync(recipeId);
         }
     }
 }

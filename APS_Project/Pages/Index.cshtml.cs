@@ -70,34 +70,48 @@ namespace APS_Project.Pages
         }
         public async Task<IActionResult> OnPostAsync(int recipeId, bool like)
         {
-            var vote = _dbContext.RecipeVoters.Find(recipeId, userId);
-            if (vote is not null)
+            if (User.Identity.IsAuthenticated)
             {
-                if (vote.Vote == like)
+                var vote = _dbContext.RecipeVoters.Find(recipeId, userId);
+                if (vote is not null)
                 {
-                    _dbContext.RecipeVoters.Remove(vote);
+                    if (vote.Vote == like)
+                    {
+                        _dbContext.RecipeVoters.Remove(vote);
+                    }
+                    else
+                        vote.Vote = like;
                 }
                 else
-                    vote.Vote = like;
+                    await _dbContext.RecipeVoters.AddAsync(new RecipeVoter() { RecipeId = recipeId, VoterId = userId, Vote = like });
+                await _dbContext.SaveChangesAsync();
+                return RedirectToPage();
             }
             else
-                await _dbContext.RecipeVoters.AddAsync(new RecipeVoter() { RecipeId = recipeId, VoterId = userId, Vote = like });
-            await _dbContext.SaveChangesAsync();
-            return RedirectToPage();
+            {
+                return Redirect("~/Identity/Account/Login");
+            }
         }
         public async Task<IActionResult> OnPostFavouritesAsync(int recipeId)
         {
-            var follows = _dbContext.UserFavourites.Find(recipeId, userId);
-            if (follows is not null)
+            if (User.Identity.IsAuthenticated)
             {
-                _dbContext.UserFavourites.Remove(follows);
+                var follows = _dbContext.UserFavourites.Find(recipeId, userId);
+                if (follows is not null)
+                {
+                    _dbContext.UserFavourites.Remove(follows);
+                }
+                else
+                {
+                    await _dbContext.UserFavourites.AddAsync(new UserFavourite() { RecipeId = recipeId, UserId = userId });
+                }
+                await _dbContext.SaveChangesAsync();
+                return RedirectToPage();
             }
             else
             {
-                await _dbContext.UserFavourites.AddAsync(new UserFavourite() { RecipeId = recipeId, UserId = userId });
+                return Redirect("~/Identity/Account/Login");
             }
-            await _dbContext.SaveChangesAsync();
-            return RedirectToPage();
         }
     }
 }
