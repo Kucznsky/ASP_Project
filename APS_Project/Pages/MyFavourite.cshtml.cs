@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace APS_Project.Pages
 {
-    [Authorize]
     public class MyFavouriteModel : PageModel
     {
         private readonly ApplicationDbContext _dbContext;
@@ -21,6 +20,7 @@ namespace APS_Project.Pages
         public MyFavouriteModel(ApplicationDbContext dbContext) 
         {
             _dbContext = dbContext;
+            Recipes = new List<Recipe>();
         }
         public async Task OnGetAsync(int userId)
         {

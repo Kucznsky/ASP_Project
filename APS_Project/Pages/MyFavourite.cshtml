@@ -2,8 +2,25 @@
 @model APS_Project.Pages.MyFavouriteModel
 @{
 }
-<div>
+<div style="float:left">
+    <ul>
+        <li>
+            <label>Filters</label>
+            <input type="search">
+        </li>
+        <li>
+            <label>From</label>
+            <input type="date">
+        </li>
+        <li>
+            <label>To</label>
+            <input type="date">
+        </li>
+        <li>
+        </li>
+    </ul>
 </div>
+<div style="float:left">
 @foreach (var recipe in Model.Recipes)
 {
     <div class="recipe">
@@ -51,3 +68,4 @@
         </div>
     </div>
 }
+</div>
