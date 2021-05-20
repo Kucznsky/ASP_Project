@@ -43,7 +43,7 @@ namespace APS_Project.Pages
                     .Where(p => p.RecipeId == recipe.RecipeId && p.Vote == true).Count()
                     - _dbContext.RecipeVoters
                     .Where(p => p.RecipeId == recipe.RecipeId && p.Vote == false).Count();
-                recipe.IsUserFavourite = _dbContext.UserFavourites.Find(recipe.RecipeId, 0) is not null ? true : false;
+                recipe.IsUserFavourite = _dbContext.UserFavourites.Find(recipe.RecipeId, 0) is not null;
             }
         }
         public async Task<IActionResult> OnPostAsync(int recipeId, int userId, bool like)
@@ -63,7 +63,7 @@ namespace APS_Project.Pages
             await _dbContext.SaveChangesAsync();
             return RedirectToPage();
         }
-        public async Task<IActionResult> OnPostFavouritesAsync(int recipeId, int userId, bool follow)
+        public async Task<IActionResult> OnPostFavouritesAsync(int recipeId, int userId)
         {
             var follows = _dbContext.UserFavourites.Find(recipeId, userId);
             if (follows is not null)

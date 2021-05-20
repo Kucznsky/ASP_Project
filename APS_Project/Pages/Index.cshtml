@@ -45,7 +45,6 @@
                         <form id="Follow" asp-page-handler="Favourites">
                             <input type="hidden" name="userId" value="@User.Identity.Name">
                             <input type="hidden" name="recipeId" value="@recipe.RecipeId">
-                            <input type="hidden" name="fav" value="true">
                             @if (!recipe.IsUserFavourite)
                             {
                             <input class="reactions" type="submit" value="&#9825;">

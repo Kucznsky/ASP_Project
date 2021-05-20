@@ -8,14 +8,12 @@ using System.Threading.Tasks;
 
 namespace APS_Project.Models
 {
-    public class AppUser : IdentityUser
+    public class AppUser : IdentityUser<int>
     {
-        [Key]
-        public int Id { get; set; }
         public string UserPicture { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
-        public string RegistrationDate { get; set; }
+        public DateTime RegistrationDate { get; set; }
         public string Description { get; set; }
     }
 }
