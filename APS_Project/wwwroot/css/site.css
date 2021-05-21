@@ -135,6 +135,8 @@ t {
     margin: 15px;
     text-shadow: 0px 0px 2px #000000;
     opacity:0.8;
+    border-radius:20px;
+    padding:10px;
 }
 .search {
     border: none;

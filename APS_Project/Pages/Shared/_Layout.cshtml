@@ -24,13 +24,10 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li>
-                        <a asp-page="Account">
-                            &#8285;
-                            <img href="" />
-                        </a>
-                    </li>
-                    <li>
                         <h3>@User.Identity.Name</h3>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="menu-button shadow" asp-area="" asp-page="/MyAccount">My account</a>
                     </li>
                 }
                 <li class="nav-item ">
