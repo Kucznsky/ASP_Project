@@ -160,7 +160,7 @@ t {
 */
 .signup {
     width: 300px;
-    height: 480px;
+    height:600px;
     box-shadow: initial;
     text-align: center;
     background-image: linear-gradient(#fb6c56, #5570df );
@@ -303,10 +303,7 @@ nie wiem jeszcze czy to będzie przydatne, narazie zostawiam*/
     background-color: white;
     opacity: 0.3;
     resize: none;
-    
-    /*color: #8C2828;*/
 }
-/*#A12E2E*/
 
 .main-page-img {
     height: 300px;
@@ -314,3 +311,25 @@ nie wiem jeszcze czy to będzie przydatne, narazie zostawiam*/
     opacity: 1;
     border-radius: 25px;
 }
+
+.camera-label {
+    border-style: solid;
+    border-color: #ffc7c7;
+    padding: 12px 24px;
+    opacity: 0.7;
+    color: #ffc7c7;
+    font-size: 36px;
+    position: static;
+}
+
+    .camera-label span {
+        text-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+
+    .camera-label:hover {
+        cursor: pointer;
+        border-color: #FFF3F2;
+        color: #FFF3F2;
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);    
+    }
+

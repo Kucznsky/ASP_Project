@@ -8,20 +8,6 @@
         color: #ffc7c7;
     }
 </style>
-<!--<div class="publish" style="padding:20px">
-    <div class="container">
-        <h3>Publish</h3>
-        <hr class="line">
-        <div>
-            <div>
-                <div class="col"><label for="title" style="padding-right:150px">Title</label></div>
-                <div class="col"><input class="login" name="title" type="text" placeholder="Title"></div>
-                <hr class="line">
-                <button class="login-button log-button">Next</button>
-            </div>
-        </div>
-    </div>
-</div>-->
 <div class="publish" style="padding:20px">
     <form method="post" enctype="multipart/form-data">
         <div class="container" id="1">
@@ -37,39 +23,29 @@
                     <input asp-for="Category.Name" class="search">
                     <b><span asp-validation-for="Category.Name" class="text-danger"></span></b><br />
                 </div>
-                <div class="col">
-                    <div class=" row">
-                        <label for="img"><i class="fa fa-camera"></i></label>
-                        <input type="file" id="img" name="image" style="display: none">
-                    </div>
+                <div class="col" style="text-align:right">
+                    <label class="camera-label" for="img"><span><i class="fa fa-camera camera"></i></span></label>
+                    <input type="file" id="img" name="image" style="display: none">
                 </div>
             </div>
-            <hr class="line">
-            <button type="button" class="next" style="vertical-align:middle" onclick="NextPage()"><span>Next</span></button>
+            <div class="col" style="margin-top:45px">
+                <hr class="line">
+                <a class="back" asp-page="./Index"><span>Cancel</span></a>
+                <button type="button" class="next" style="vertical-align:middle" onclick="NextPage()"><span>Next</span></button>
+            </div>
         </div>
         <div class="container" id="2" style="display:none">
             <h3>Publish</h3>
             <hr class="line">
-            <div class="row">
-                <div class="col" style="text-align:left">
+            <div class="container">
+                <div class="row">
                     <label asp-for="RecipeIngredient.Ingredient">Ingredient</label>
-                    <input asp-for="RecipeIngredient.Ingredient">
+                </div>
+                <div class="row">
+                    <textarea asp-for="RecipeIngredient.Ingredient" style="box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)" cols="50" rows="7" class="recipe-textarea" placeholder="Here write all the necessery ingredients for your dish"></textarea>
                     <b><span asp-validation-for="RecipeIngredient.Ingredient" class="text-danger"></span></b><br />
-                    <!--<form>
-                        <button type="submit">zapisz</button>   
-                    </form>-->
                 </div>
             </div>
-            <!--<div class="row">
-            <div class="col" style="text-align:left">
-                <form>
-                    <label for="recipe">Ingredients</label>
-                </form>
-                <form>
-                    <textarea style="box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);" name="recipe" cols="50" rows="7" class="recipe-textarea" placeholder="Here write all the necessery ingredients for your dish"></textarea>
-                </form>
-            </div>
-        </div>-->
             <hr class="line">
             <div class="row">
                 <div class="col"><button type="button" class="back" onclick="PreviousPage()"><span>Go Back</span></button></div>
@@ -79,9 +55,11 @@
         <div class="container" id="3" style="display: none" >
             <h3>Publish</h3>
             <hr class="line">
-            <div class="row">
-                <div class="col" style="text-align:left">
+            <div class="container">
+                <div class="row">
                     <label asp-for="Recipe.Description">Recipe</label>
+                </div>
+                <div class="row">
                     <textarea asp-for="Recipe.Description"  class="recipe-textarea" cols="50" rows="7"></textarea>
                     <b><span asp-validation-for="Recipe.Description" class="text-danger"></span></b><br />
                 </div>
