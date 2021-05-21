@@ -1,41 +1,49 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using APS_Project.Data;
 using APS_Project.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace APS_Project.Pages
 {
     public class PublishModel : PageModel
     {
         private readonly ILogger<PublishModel> _logger;
-        private readonly ApplicationDbContext _context;
-        [BindProperty] 
+        public string ERROR { get; set; }
+        private readonly ApplicationDbContext _dbContext;
+        [BindProperty]
         public Recipe Recipe { get; set; }
-        [BindProperty] 
+        [BindProperty]
         public Category Category { get; set; }
-        [BindProperty] 
+        [BindProperty]
         public RecipeIngredient RecipeIngredient { get; set; }
         public PublishModel(ILogger<PublishModel> logger, ApplicationDbContext context)
         {
+            ERROR = "";
             _logger = logger;
-            _context = context;
+            _dbContext = context;
         }
-        public async Task <IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync()
         {
             var files = Request.Form.Files;
             if (ModelState.IsValid)
             {
-                //var log=img;
-                await _context.Catergories.AddAsync(Category);
-                await _context.Recipes.AddAsync(Recipe);
-                await _context.RecipeIngredients.AddAsync(RecipeIngredient);
-                await _context.SaveChangesAsync();
+                if (_dbContext.Categories.Where(p => p.Name == Category.Name) is null)
+                    await _dbContext.Categories.AddAsync(Category);
+
+                if (_dbContext.Recipes.Where(p => p.Title == Recipe.Title) is null)
+                {
+                    await _dbContext.RecipeIngredients.AddAsync(RecipeIngredient);
+                    await _dbContext.Recipes.AddAsync(Recipe);
+                    await _dbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    ERROR += "We have recipe with the same title.";
+                    return Page();
+                }
             }
             return RedirectToPage("./Index");
         }
