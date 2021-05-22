@@ -2,20 +2,30 @@
 @model APS_Project.Pages.RecipeModel
 @{
 }
+<!--!!!WORK IN PROGRESS!!!-->
+<style>
+    body {
+        color: #ffc7c7;
+    }
+</style>
 <div>
-    <div style="width: 60%;height: 100%; margin-right: auto; float: left; ">
+    <div style="width: 60%;height: 100%; margin-right: auto; float: left">
         <p style="float:left">@Model.Recipe.OwnerId</p>
-        <img style="float: left; min-width:30px; min-height: 40px;" src="">
+        <img style="float: left; min-width:30px; min-height: 40px" src="">
         <div style="float: inline-start">
-            <h5 style="text-align:left;">
-                @Model.Recipe.Title</h5>
+            <h2 style="text-align:left">
+                @Model.Recipe.Title
+            </h2>
+            <h4><i>Description and recipe:</i></h4>
+            <div style="border-style:double; border-color: #ffc7c7; padding: 50px 30px; box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.4)">
                 <p style="text-align:left">@Model.Recipe.Description<p>
+            </div>
+        </div>
     </div>
-    </div>
-    <div style="width: 30%; height: 100%; margin-left: auto; float: left;">
-        <img class="shadow" style="width:200px;height:200px;" src="~/Data/Images/@Model.Recipe.ImageName">
-        <p>Ingredients<p>
+    <div style="width: 30%; height: 100%; margin-left: auto; float: left">
+        <img class="shadow" style="width:200px;height:200px" src="~/Data/Images/@Model.Recipe.ImageName">
+        <h5><i>Ingredients:</i></h5>
+        <p>@Model.RecipeIngredient.Ingredient</p>
     </div>
 </div>
- 
- 
+
