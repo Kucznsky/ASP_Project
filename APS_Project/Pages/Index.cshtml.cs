@@ -21,6 +21,7 @@ namespace APS_Project.Pages
         private readonly ApplicationDbContext _dbContext;
         public readonly int userId;
         public List<Recipe> Recipes { get; set; }
+        public List<Recipe> Searched { get; set; }
         private readonly IHttpContextAccessor _httpContextAccessor;
         public IndexModel(ILogger<IndexModel> logger, ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
@@ -28,6 +29,8 @@ namespace APS_Project.Pages
             _dbContext = dbContext;
             _httpContextAccessor = httpContextAccessor;
             int.TryParse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier), out userId);
+            Recipes = new List<Recipe>();
+            Searched = new List<Recipe>();
 
         }
         public async Task<IActionResult> OnPostAddRecipeAsync() 
@@ -109,6 +112,27 @@ namespace APS_Project.Pages
             {
                 return Redirect("~/Identity/Account/Login");
             }
+        }
+
+        public async Task<IActionResult> OnPostSearchAsync(string search)
+        {
+            if (!string.IsNullOrEmpty(search))
+            {
+                Searched = await _dbContext.Recipes.Where(p => p.Title == search).ToListAsync();
+                var Category = await _dbContext.Catergories
+                   .Where(p => p.Name == search)
+                   .ToListAsync();
+                var CategoryRecipe = await _dbContext.CategoryRecipe
+                    .Where(p => Category.Any(c => c.CategoryID == p.CategoryId))
+                    .ToListAsync();
+                Searched = await _dbContext.Recipes.Where(p => CategoryRecipe.Any(c => c.RecipeId == p.RecipeId))
+                    .ToListAsync();
+                var Author = await _dbContext.AppUsers.Where(p => p.Name == search).ToListAsync();
+                Searched = await _dbContext.Recipes.Where(p => Author.Any(c => c.Id == p.OwnerId)).ToListAsync();
+                Searched = Searched.Distinct().ToList();
+            }
+            return RedirectToPage();
+
         }
     }
 }
