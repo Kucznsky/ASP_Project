@@ -6,11 +6,11 @@
 
 <div style="text-align:center; padding:20px">
     <form method="post" asp-page-handler="Search">
-        <span>Filters</span>
-        <input type="search" name="title" placeholder="title">
-        <input type="search" name="author" placeholder="author">
-        <input type="search" name="category" placeholder="category">
-        <input type="submit" value="Search">
+        <span style="color:#ffc7c7; font-size:25px"><b>Filters</b></span>
+        <input class="search" type="search" name="title" placeholder="title">
+        <input class="search" type="search" name="author" placeholder="author">
+        <input class="search" type="search" name="category" placeholder="category">
+        <input type="submit" value="Search" style="font-size: 15px; width: 130px; padding: 12px 24px; display: inline-block; border-radius: 5px; background-color: #884DFF; color: #ffc7c7; opacity: 0.5; box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); text-align: left;"><!--&#xFE0E szkło powiększające-->
     </form>
 </div>
 <div>
@@ -63,8 +63,8 @@
         }
 </div>
 <div>
-    <form method="post" asp-page-handler="AddRecipe">
+    <!--<form method="post" asp-page-handler="AddRecipe">
         <input type="submit" value="AddRecipe">
-    </form>
+    </form>-->
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

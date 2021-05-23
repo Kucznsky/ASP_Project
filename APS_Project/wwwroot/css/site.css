@@ -335,3 +335,30 @@ color: #FFF3F2;
 box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);    
 }
 
+.searchbtn {
+    font-size: 15px;
+    width: 130px;
+    padding: 12px 24px;
+    display: inline-block;
+    border-radius: 5px;
+    background-color: #884DFF;
+    color: #ffc7c7;
+    opacity: 0.5;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    text-align: left
+}
+
+.searchbtn-button {
+    font-size: 15px;
+    width: 130px;
+    padding: 10px 24px;
+    border-radius: 8px;
+    background-color: #FF4D4D;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    color: #ffc7c7;
+    float: left;
+}
+
+.sbtn-button:hover {
+    background-color: #FF3333;
+}
