@@ -50,7 +50,7 @@ namespace APS_Project.Pages
             }
             if (!string.IsNullOrEmpty(category))
             {
-                var Category = await _dbContext.Catergories
+                var Category = await _dbContext.Categories
                     .Where(p => p.Name == category)
                     .ToListAsync();
                 var CategoryRecipe = await _dbContext.CategoryRecipe

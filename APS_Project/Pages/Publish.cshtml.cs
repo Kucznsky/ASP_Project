@@ -30,8 +30,8 @@ namespace APS_Project.Pages
             var files = Request.Form.Files;
             if (ModelState.IsValid)
             {
-                if (_dbContext.Catergories.Where(p => p.Name == Category.Name) is null)
-                    await _dbContext.Catergories.AddAsync(Category);
+                if (_dbContext.Categories.Where(p => p.Name == Category.Name) is null)
+                    await _dbContext.Categories.AddAsync(Category);
 
                 if (_dbContext.Recipes.Where(p => p.Title == Recipe.Title) is null)
                 {

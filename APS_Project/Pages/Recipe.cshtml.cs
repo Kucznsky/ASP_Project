@@ -23,7 +23,7 @@ namespace APS_Project.Pages
         {
             Recipe =  await _dbContext.Recipes.FindAsync(recipeId);
             RecipeIngredient = await _dbContext.RecipeIngredients.FindAsync(recipeId);
-            Category = await _dbContext.Catergories.FindAsync(recipeId);
+            Category = await _dbContext.Categories.FindAsync(recipeId);
         }
     }
 }
