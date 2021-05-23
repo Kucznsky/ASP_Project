@@ -30,10 +30,15 @@ namespace APS_Project.Pages
             var files = Request.Form.Files;
             if (ModelState.IsValid)
             {
-                if (_dbContext.Categories.Where(p => p.Name == Category.Name) is null)
+                if (!_dbContext.Categories.Where(p => p.Name == Category.Name).ToList().Any())
                     await _dbContext.Categories.AddAsync(Category);
+                await _dbContext.CategoryRecipe.AddAsync(new CategoryRecipe()
+                {
+                    CategoryId = Category.CategoryID,
+                    RecipeId = Recipe.RecipeId
+                });
 
-                if (_dbContext.Recipes.Where(p => p.Title == Recipe.Title) is null)
+                if (!_dbContext.Recipes.Where(p => p.Title == Recipe.Title).ToList().Any())
                 {
                     await _dbContext.RecipeIngredients.AddAsync(RecipeIngredient);
                     await _dbContext.Recipes.AddAsync(Recipe);
