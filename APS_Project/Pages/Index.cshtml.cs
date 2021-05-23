@@ -114,22 +114,29 @@ namespace APS_Project.Pages
             }
         }
 
-        public async Task<IActionResult> OnPostSearchAsync(string search)
+        public async Task<IActionResult> OnPostSearchAsync(string title, string author, string category)
         {
-            if (!string.IsNullOrEmpty(search))
+            Searched = await _dbContext.Recipes.ToListAsync();
+            if (!string.IsNullOrEmpty(title))
             {
-                Searched = await _dbContext.Recipes.Where(p => p.Title == search).ToListAsync();
+                Searched = Searched.Where(p => p.Title == title).ToList();
+            }
+            if (!string.IsNullOrEmpty(author))
+            {
+                var Author = await _dbContext.AppUsers.Where(p => p.Name == author).ToListAsync();
+                Searched = Searched.Where(p => Author.Any(c => c.Id == p.OwnerId)).ToList();
+            }
+            if (!string.IsNullOrEmpty(category))
+            {
                 var Category = await _dbContext.Catergories
-                   .Where(p => p.Name == search)
-                   .ToListAsync();
+                    .Where(p => p.Name == category)
+                    .ToListAsync();
                 var CategoryRecipe = await _dbContext.CategoryRecipe
                     .Where(p => Category.Any(c => c.CategoryID == p.CategoryId))
                     .ToListAsync();
-                Searched = await _dbContext.Recipes.Where(p => CategoryRecipe.Any(c => c.RecipeId == p.RecipeId))
-                    .ToListAsync();
-                var Author = await _dbContext.AppUsers.Where(p => p.Name == search).ToListAsync();
-                Searched = await _dbContext.Recipes.Where(p => Author.Any(c => c.Id == p.OwnerId)).ToListAsync();
-                Searched = Searched.Distinct().ToList();
+                Searched = Searched
+                    .Where(p => CategoryRecipe.Any(c => c.RecipeId == p.RecipeId))
+                    .ToList();
             }
             return RedirectToPage();
 
