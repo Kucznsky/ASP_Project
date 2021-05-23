@@ -21,6 +21,7 @@ namespace APS_Project.Pages
         private readonly ApplicationDbContext _dbContext;
         public readonly int userId;
         public List<Recipe> Recipes { get; set; }
+        public List<Recipe> Searched { get; set; }
         private readonly IHttpContextAccessor _httpContextAccessor;
         public IndexModel(ILogger<IndexModel> logger, ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
@@ -28,6 +29,8 @@ namespace APS_Project.Pages
             _dbContext = dbContext;
             _httpContextAccessor = httpContextAccessor;
             int.TryParse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier), out userId);
+            Recipes = new List<Recipe>();
+            Searched = new List<Recipe>();
 
         }
         public async Task<IActionResult> OnPostAddRecipeAsync() 
@@ -109,6 +112,34 @@ namespace APS_Project.Pages
             {
                 return Redirect("~/Identity/Account/Login");
             }
+        }
+
+        public async Task<IActionResult> OnPostSearchAsync(string title, string author, string category)
+        {
+            Searched = await _dbContext.Recipes.ToListAsync();
+            if (!string.IsNullOrEmpty(title))
+            {
+                Searched = Searched.Where(p => p.Title == title).ToList();
+            }
+            if (!string.IsNullOrEmpty(author))
+            {
+                var Author = await _dbContext.AppUsers.Where(p => p.Name == author).ToListAsync();
+                Searched = Searched.Where(p => Author.Any(c => c.Id == p.OwnerId)).ToList();
+            }
+            if (!string.IsNullOrEmpty(category))
+            {
+                var Category = await _dbContext.Catergories
+                    .Where(p => p.Name == category)
+                    .ToListAsync();
+                var CategoryRecipe = await _dbContext.CategoryRecipe
+                    .Where(p => Category.Any(c => c.CategoryID == p.CategoryId))
+                    .ToListAsync();
+                Searched = Searched
+                    .Where(p => CategoryRecipe.Any(c => c.RecipeId == p.RecipeId))
+                    .ToList();
+            }
+            return RedirectToPage();
+
         }
     }
 }
