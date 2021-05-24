@@ -17,8 +17,10 @@ namespace APS_Project.Models
         public string LastName { get; set; }
         public DateTime RegistrationDate { get; set; }
         public string Description { get; set; }
-        public List<Recipe> UserRecipes { get; set; }
+        [ForeignKey("UserFavourites")]
         public List<Recipe> UserFavourites { get; set; }
+        [ForeignKey("UserRecipes")]
+        public List<Recipe> UserRecipes { get; set; }
 
         public AppUser() : base()
         {

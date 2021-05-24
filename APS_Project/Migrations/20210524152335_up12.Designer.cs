@@ -4,14 +4,16 @@ using APS_Project.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace APS_Project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210524152335_up12")]
+    partial class up12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,13 +174,10 @@ namespace APS_Project.Migrations
                     b.Property<DateTime>("LastEditDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("Owner")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("PublicationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("RecipeOwnerId")
+                    b.Property<int?>("RecipeOwnerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -192,7 +191,7 @@ namespace APS_Project.Migrations
 
                     b.HasKey("RecipeId");
 
-                    b.HasIndex("Owner");
+                    b.HasIndex("RecipeOwnerId");
 
                     b.HasIndex("UserFavourites");
 
@@ -364,7 +363,7 @@ namespace APS_Project.Migrations
                 {
                     b.HasOne("APS_Project.Models.AppUser", "RecipeOwner")
                         .WithMany()
-                        .HasForeignKey("Owner");
+                        .HasForeignKey("RecipeOwnerId");
 
                     b.HasOne("APS_Project.Models.AppUser", null)
                         .WithMany("UserFavourites")
