@@ -60,8 +60,8 @@ namespace APS_Project.Pages
                         Title = inputModel.Title,
                         ImageName = AppUser.Name + "_" + AppUser.LastName + "_" + inputModel.Title + ".jpg",
                         RecipeOwner = AppUser,
+                        RecipeOwnerId = AppUser.Id,
                         Indigrients = inputModel.Ingredient
-
                     });
                     var stream = file.OpenReadStream();
                     await stream.ReadAsync(filebuffer);

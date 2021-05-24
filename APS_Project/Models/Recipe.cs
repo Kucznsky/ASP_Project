@@ -16,13 +16,16 @@ namespace APS_Project.Models
         public string Description { get; set; }
         public DateTime PublicationDate { get;set; }
         public DateTime LastEditDate { get;set; }
+        [ForeignKey("Owner")]
         public AppUser RecipeOwner { get; set; }
+        public int RecipeOwnerId { get; set; }
         public List<Category> Categories { get; set; } 
         public string Indigrients { get; set; }
         [ForeignKey("Upvoters")]
         public List<AppUser> Upvoters { get; set; }
         [ForeignKey("Downvoters")]
         public List<AppUser> Downvoters { get; set; }
+        [ForeignKey("GaleryLinks")]
         public List<Link> Links { get; set; }
 
         public Recipe()
