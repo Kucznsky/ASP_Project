@@ -11,6 +11,7 @@ namespace APS_Project.Pages
 {
     public class RecipeModel : PageModel
     {
+        public AppUser RecipeOwner { get; set; }
         public Recipe Recipe { get; set; }
         public Category Category { get; set; }
         private readonly ApplicationDbContext _dbContext;
@@ -21,6 +22,7 @@ namespace APS_Project.Pages
         public async Task OnGetAsync(int recipeId)
         {
             Recipe =  await _dbContext.Recipes.FindAsync(recipeId);
+            RecipeOwner = await _dbContext.AppUsers.FindAsync(Recipe.RecipeOwner);
         }
     }
 }

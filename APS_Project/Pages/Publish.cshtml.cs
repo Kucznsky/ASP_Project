@@ -58,11 +58,14 @@ namespace APS_Project.Pages
                     {
                         Description = inputModel.Description,
                         Title = inputModel.Title,
-                        ImageName = file.FileName,
+                        ImageName = AppUser.Name + "_" + AppUser.LastName + "_" + inputModel.Title + ".jpg",
+                        RecipeOwner = AppUser,
+                        Indigrients = inputModel.Ingredient
+
                     });
                     var stream = file.OpenReadStream();
                     await stream.ReadAsync(filebuffer);
-                    System.IO.File.WriteAllBytes("wwwroot/Data/Images/" + AppUser.Name + "_" + AppUser.LastName + "_" + inputModel.Title, filebuffer);
+                    System.IO.File.WriteAllBytes("wwwroot/Data/Images/" + AppUser.Name + "_" + AppUser.LastName + "_" + inputModel.Title + ".jpg", filebuffer);
                     await _dbContext.SaveChangesAsync();
                 }
                 else
