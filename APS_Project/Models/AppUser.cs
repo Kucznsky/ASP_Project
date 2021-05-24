@@ -17,15 +17,18 @@ namespace APS_Project.Models
         public string LastName { get; set; }
         public DateTime RegistrationDate { get; set; }
         public string Description { get; set; }
-        [ForeignKey("UserFavourites")]
-        public List<Recipe> UserFavourites { get; set; }
-        [ForeignKey("UserRecipes")]
-        public List<Recipe> UserRecipes { get; set; }
+        public ICollection<UserFollowRecipe> UserFollows { get; set; }
+        public ICollection<Recipe> UserRecipes { get; set; }
+        public ICollection<UserLikeRecipe> UserLikes { get; set; }
+        public ICollection<UserDislikeRecipe> UserDislikes { get; set; }
 
         public AppUser() : base()
         {
-            UserRecipes = new List<Recipe>();
-            UserFavourites = new List<Recipe>();
+            UserLikes = new List<UserLikeRecipe>();
+            UserDislikes = new List<UserDislikeRecipe>();
+            UserFollows = new List<UserFollowRecipe>();
+            UserDislikes = new List<UserDislikeRecipe>();
+        
         }
     }
 }

@@ -34,41 +34,47 @@ namespace APS_Project.Pages
         }
         public async Task OnGetAsync()
         {
-            Recipes = await _dbContext.Recipes.OrderBy(p => p.Upvoters.Count - p.Downvoters.Count).Take(Quantity).ToListAsync();
+            Recipes = await _dbContext.Recipes.OrderBy(p => p.RecipeLiker.Count - p.RecipeDisliker.Count).Take(Quantity).ToListAsync();
         }
         public async Task<IActionResult> OnPostAsync(int recipeId, bool like)
         {
             if (User.Identity.IsAuthenticated)
             {
-            Recipe recipe = await _dbContext.Recipes.FindAsync(recipeId);
-            if (like)
-            {
-                if (recipe.Downvoters.Contains(AppUser))
+                Recipe recipe = await _dbContext.Recipes.FindAsync(recipeId);
+                if (like)
                 {
-                    recipe.Downvoters.Remove(AppUser);
-                    recipe.Upvoters.Add(AppUser);
-                }
-                else if(recipe.Upvoters.Contains(AppUser))
-                {
-                    recipe.Upvoters.Remove(AppUser);
-                }
-                else
-                    recipe.Upvoters.Add(AppUser);
-            }
-            else 
-            {
-                if (recipe.Upvoters.Contains(AppUser)) 
-                {
-                    recipe.Upvoters.Remove(AppUser);
-                    recipe.Downvoters.Add(AppUser);
-                }
-                else if (recipe.Downvoters.Contains(AppUser))
-                {
-                    recipe.Downvoters.Remove(AppUser);
+                    if (AppUser.UserLikes.Any(p=>p.AppUser == AppUser))
+                    {
+                        var recipeliker = _dbContext.UserLikeRecipes.First(p => p.AppUserId == AppUser.Id);
+                        recipe.RecipeLiker.Remove(recipeliker);
+                    }
+                    else if (recipe.RecipeDisliker.Any(p => p.AppUserId == AppUser.Id))
+                    {
+                        var recipedisliker = _dbContext.UserDislikeRecipes.First(p => p.AppUserId == AppUser.Id);
+                        recipe.RecipeDisliker.Remove(recipedisliker);
+                        recipe.RecipeLiker.Add(new UserLikeRecipe() { Recipe = recipe, AppUser = AppUser });
+
+                    }
+                    else
+                        recipe.RecipeLiker.Add(new UserLikeRecipe() { Recipe = recipe, AppUser = AppUser });
+
                 }
                 else
-                    recipe.Downvoters.Add(AppUser);
-            }
+                {
+                    if (recipe.RecipeDisliker.Any(p => p.AppUserId == AppUser.Id))
+                    {
+                        var recipedisliker = _dbContext.UserDislikeRecipes.First(p => p.AppUserId == AppUser.Id);
+                        recipe.RecipeDisliker.Remove(recipedisliker);
+                    }
+                    else if (recipe.RecipeLiker.Any(p => p.AppUserId == AppUser.Id))
+                    {
+                        var recipeliker = _dbContext.UserLikeRecipes.First(p => p.AppUserId == AppUser.Id);
+                        recipe.RecipeLiker.Remove(recipeliker);
+                        recipe.RecipeDisliker.Add(new UserDislikeRecipe() { Recipe = recipe, AppUser = AppUser });
+                    }
+                    else
+                        recipe.RecipeDisliker.Add(new UserDislikeRecipe() { Recipe = recipe, AppUser = AppUser });
+                }
                 await _dbContext.SaveChangesAsync();
                 return RedirectToPage();
             }
@@ -82,14 +88,8 @@ namespace APS_Project.Pages
             if (User.Identity.IsAuthenticated)
             {
                 Recipe recipe = await _dbContext.Recipes.FindAsync(recipeId);
-                if (AppUser.UserFavourites.Contains(recipe))
-                {
-                    AppUser.UserFavourites.Remove(recipe);
-                }
-                else 
-                {
-                    AppUser.UserFavourites.Add(recipe);
-                }
+                if(User)
+
                 return RedirectToPage();
             }
             else

@@ -32,7 +32,7 @@ namespace APS_Project.Pages
         }
         public void OnGet()
         {
-            Recipes = AppUser.UserFavourites;
+
         }
         public IActionResult OnPostSearch(string category, DateTime startTime, DateTime endTime)
         {

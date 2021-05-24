@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APS_Project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210522190323_up3")]
-    partial class up3
+    [Migration("20210524193024_OverUP666")]
+    partial class OverUP666
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -105,31 +105,42 @@ namespace APS_Project.Migrations
 
             modelBuilder.Entity("APS_Project.Models.Category", b =>
                 {
-                    b.Property<int>("CategoryID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CategoryID");
+                    b.Property<int?>("RecipeId")
+                        .HasColumnType("int");
 
-                    b.ToTable("Catergories");
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("APS_Project.Models.CategoryRecipe", b =>
+            modelBuilder.Entity("APS_Project.Models.Link", b =>
                 {
-                    b.Property<int>("CategoryId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("LinkToImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RecipeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
+                    b.HasKey("Id");
 
-                    b.HasKey("CategoryId", "RecipeId");
+                    b.HasIndex("RecipeId");
 
-                    b.ToTable("CategoryRecipe");
+                    b.ToTable("Links");
                 });
 
             modelBuilder.Entity("APS_Project.Models.Recipe", b =>
@@ -140,89 +151,76 @@ namespace APS_Project.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Indigrients")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("LastEditDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("OwnerId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("PublicationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("RecipeOwnerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("RecipeId");
+
+                    b.HasIndex("RecipeOwnerId");
 
                     b.ToTable("Recipes");
                 });
 
-            modelBuilder.Entity("APS_Project.Models.RecipeIngredient", b =>
+            modelBuilder.Entity("APS_Project.Models.UserDislikeRecipe", b =>
                 {
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RecipeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
-                    b.Property<string>("Ingredient")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("AppUserId", "RecipeId");
 
-                    b.HasKey("RecipeId");
+                    b.HasIndex("RecipeId");
 
-                    b.ToTable("RecipeIngredients");
+                    b.ToTable("UserDislikeRecipes");
                 });
 
-            modelBuilder.Entity("APS_Project.Models.RecipeLink", b =>
+            modelBuilder.Entity("APS_Project.Models.UserFollowRecipe", b =>
                 {
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RecipeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
-                    b.Property<string>("Link")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("AppUserId", "RecipeId");
 
-                    b.HasKey("RecipeId");
+                    b.HasIndex("RecipeId");
 
-                    b.ToTable("RecipeLinks");
+                    b.ToTable("UserFollowRecipes");
                 });
 
-            modelBuilder.Entity("APS_Project.Models.RecipeVoter", b =>
+            modelBuilder.Entity("APS_Project.Models.UserLikeRecipe", b =>
                 {
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RecipeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("VoterId")
-                        .HasColumnType("int");
+                    b.HasKey("AppUserId", "RecipeId");
 
-                    b.Property<bool>("Vote")
-                        .HasColumnType("bit");
+                    b.HasIndex("RecipeId");
 
-                    b.HasKey("RecipeId", "VoterId");
-
-                    b.ToTable("RecipeVoters");
-                });
-
-            modelBuilder.Entity("APS_Project.Models.UserFavourite", b =>
-                {
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RecipeId", "UserId");
-
-                    b.ToTable("UserFavourites");
+                    b.ToTable("UserLikeRecipes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
@@ -359,6 +357,88 @@ namespace APS_Project.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("APS_Project.Models.Category", b =>
+                {
+                    b.HasOne("APS_Project.Models.Recipe", null)
+                        .WithMany("Categories")
+                        .HasForeignKey("RecipeId");
+                });
+
+            modelBuilder.Entity("APS_Project.Models.Link", b =>
+                {
+                    b.HasOne("APS_Project.Models.Recipe", null)
+                        .WithMany("Links")
+                        .HasForeignKey("RecipeId");
+                });
+
+            modelBuilder.Entity("APS_Project.Models.Recipe", b =>
+                {
+                    b.HasOne("APS_Project.Models.AppUser", "RecipeOwner")
+                        .WithMany("UserRecipes")
+                        .HasForeignKey("RecipeOwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RecipeOwner");
+                });
+
+            modelBuilder.Entity("APS_Project.Models.UserDislikeRecipe", b =>
+                {
+                    b.HasOne("APS_Project.Models.AppUser", "AppUser")
+                        .WithMany("UserDislikes")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("APS_Project.Models.Recipe", "Recipe")
+                        .WithMany("RecipeDisliker")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Recipe");
+                });
+
+            modelBuilder.Entity("APS_Project.Models.UserFollowRecipe", b =>
+                {
+                    b.HasOne("APS_Project.Models.AppUser", "AppUser")
+                        .WithMany("UserFollows")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("APS_Project.Models.Recipe", "Recipe")
+                        .WithMany("RecipeFollower")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Recipe");
+                });
+
+            modelBuilder.Entity("APS_Project.Models.UserLikeRecipe", b =>
+                {
+                    b.HasOne("APS_Project.Models.AppUser", "AppUser")
+                        .WithMany("UserLikes")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("APS_Project.Models.Recipe", "Recipe")
+                        .WithMany("RecipeLiker")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Recipe");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
@@ -408,6 +488,30 @@ namespace APS_Project.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("APS_Project.Models.AppUser", b =>
+                {
+                    b.Navigation("UserDislikes");
+
+                    b.Navigation("UserFollows");
+
+                    b.Navigation("UserLikes");
+
+                    b.Navigation("UserRecipes");
+                });
+
+            modelBuilder.Entity("APS_Project.Models.Recipe", b =>
+                {
+                    b.Navigation("Categories");
+
+                    b.Navigation("Links");
+
+                    b.Navigation("RecipeDisliker");
+
+                    b.Navigation("RecipeFollower");
+
+                    b.Navigation("RecipeLiker");
                 });
 #pragma warning restore 612, 618
         }

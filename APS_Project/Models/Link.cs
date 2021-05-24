@@ -8,9 +8,7 @@ namespace APS_Project.Models
 {
     public class Link
     {
-        [Key]
         public int Id { get; set; }
-        [Required]
         public string LinkToImage { get; set; }
     }
 }
