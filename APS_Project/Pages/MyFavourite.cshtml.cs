@@ -1,41 +1,41 @@
 using APS_Project.Data;
 using APS_Project.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace APS_Project.Pages
 {
+    [Authorize]
     public class MyFavouriteModel : PageModel
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public AppUser AppUser { get; set; }
         public List<Recipe> Recipes { get; set; }
-        public List<UserFavourite> UserFavourites { get; set; }
 
-        public MyFavouriteModel(ApplicationDbContext dbContext)
+        public MyFavouriteModel(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
             _dbContext = dbContext;
-            Recipes = new List<Recipe>();
-        }
-        public async Task OnGetAsync(int userId)
-        {
-            UserFavourites = await _dbContext.UserFavourites
-                .Where(p => p.UserId == userId)
-                .ToListAsync();
-            foreach (var userFav in UserFavourites)
+            _httpContextAccessor = httpContextAccessor;
+            if (int.TryParse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier), out int userId))
             {
-                Recipes.Add(_dbContext.Recipes
-                    .Single(p => p.RecipeId == userFav.RecipeId));
+                AppUser = _dbContext.AppUsers.Find(userId);
             }
         }
-        public async Task<IActionResult> OnPostSearchAsync(string category, DateTime startTime, DateTime endTime)
+        public void OnGet()
         {
-
-            Recipes = await _dbContext.Recipes.ToListAsync();
+            Recipes = AppUser.UserFavourites;
+        }
+        public IActionResult OnPostSearch(string category, DateTime startTime, DateTime endTime)
+        {
             if (startTime != DateTime.MinValue)
             {
                 Recipes = Recipes
@@ -50,17 +50,12 @@ namespace APS_Project.Pages
             }
             if (!string.IsNullOrEmpty(category))
             {
-                var Category = await _dbContext.Categories
-                    .Where(p => p.Name == category)
-                    .ToListAsync();
-                var CategoryRecipe = await _dbContext.CategoryRecipe
-                    .Where(p => Category.Any(c => c.CategoryID == p.CategoryId))
-                    .ToListAsync();
                 Recipes = Recipes
-                    .Where(p => CategoryRecipe.Any(c => c.RecipeId == p.RecipeId))
+                    .Where(p => p.Categories.Any(p=> p.Name == category))
                     .ToList();
+                
             }
-            return RedirectToPage();
+            return Page();
         }
     }
 }

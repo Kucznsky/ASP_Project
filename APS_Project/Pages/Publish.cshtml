@@ -14,13 +14,13 @@
             <hr class="line">
             <div class="row">
                 <div class="col" style="text-align:left">
-                    <b><label asp-for="Recipe.Title">Add a title of your recipe</label></b>
-                    <input asp-for="Recipe.Title" class="search" placeholder="your title">
-                    <b><span asp-validation-for="Recipe.Title" class="text-danger"></span></b><br />
+                    <b><label asp-for="inputModel.Title">Add a title of your recipe</label></b>
+                    <input asp-for="inputModel.Title" class="search" placeholder="your title">
+                    <b><span asp-validation-for="inputModel.Title" class="text-danger"></span></b><br />
                 <br />
-                    <b><label asp-for="Category.Name">Add a category</label></b>
-                    <input asp-for="Category.Name" class="search" placeholder="category name">
-                    <b><span asp-validation-for="Category.Name" class="text-danger"></span></b><br />
+                    <b><label asp-for="inputModel.CategoryName">Add a category</label></b>
+                    <input asp-for="inputModel.CategoryName" class="search" placeholder="category name">
+                    <b><span asp-validation-for="inputModel.CategoryName" class="text-danger"></span></b><br />
                 </div>
                 <div class="col" style="text-align:right">
                     <label class="camera-label" for="img"><span><i class="fa fa-camera camera"></i></span></label>
@@ -38,11 +38,11 @@
             <hr class="line">
             <div class="container">
                 <div class="row">
-                    <b><label asp-for="RecipeIngredient.Ingredient">Ingredient</label></b>
+                    <b><label asp-for="inputModel.Ingredient">Ingredient</label></b>
                 </div>
                 <div class="row">
-                    <textarea asp-for="RecipeIngredient.Ingredient" style="box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)" cols="50" rows="7" class="recipe-textarea" placeholder="Here write all the necessery ingredients for your dish!"></textarea>
-                    <b><span asp-validation-for="RecipeIngredient.Ingredient" class="text-danger"></span></b><br />
+                    <textarea asp-for="inputModel.Ingredient" style="box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)" cols="50" rows="7" class="recipe-textarea" placeholder="Here write all the necessery ingredients for your dish!"></textarea>
+                    <b><span asp-validation-for="inputModel.Ingredient" class="text-danger"></span></b><br />
                 </div>
             </div>
             <hr class="line">
@@ -56,11 +56,11 @@
             <hr class="line">
             <div class="container">
                 <div class="row">
-                    <b><label asp-for="Recipe.Description">Recipe</label></b>
+                    <b><label asp-for="inputModel.Description">Recipe</label></b>
                 </div>
                 <div class="row">
-                    <textarea asp-for="Recipe.Description"  class="recipe-textarea" cols="50" rows="7" placeholder="Describe how to prepare your meal!"></textarea>
-                    <b><span asp-validation-for="Recipe.Description" class="text-danger"></span></b><br />
+                    <textarea asp-for="inputModel.Description"  class="recipe-textarea" cols="50" rows="7" placeholder="Describe how to prepare your meal!"></textarea>
+                    <b><span asp-validation-for="inputModel.Description" class="text-danger"></span></b><br />
                 </div>
             </div>
             <hr class="line">

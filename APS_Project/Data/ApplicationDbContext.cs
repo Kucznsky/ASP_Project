@@ -9,28 +9,20 @@ namespace APS_Project.Data
 {
     public class ApplicationDbContext : IdentityDbContext<AppUser, IdentityRole<int>, int>
     {
-        public DbSet<CategoryRecipe> CategoryRecipe { get; set; }
-        public DbSet<Category> Categories { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
-        public DbSet<RecipeLink> RecipeLinks { get; set; }
-        public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
-        public DbSet<RecipeVoter> RecipeVoters { get; set; }
-        public DbSet<UserFavourite> UserFavourites { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<CategoryRecipe>()
-                .HasKey(o => new { o.CategoryId, o.RecipeId });
-            modelBuilder.Entity<RecipeVoter>()
-                .HasKey(o => new { o.RecipeId, o.VoterId });
-            modelBuilder.Entity<UserFavourite>()
-                .HasKey(o => new { o.RecipeId, o.UserId });
+            base.OnModelCreating(builder);
+            builder.Entity<AppUser>().HasMany(user => user.UserFavourites);
+            builder.Entity<AppUser>().HasMany(user => user.UserRecipes);
+            builder.Entity<Recipe>().HasMany(recipe => recipe.Upvoters);
+            builder.Entity<Recipe>().HasMany(recipe => recipe.Downvoters);
+            builder.Entity<Recipe>().HasOne(recipe => recipe.RecipeOwner);
         }
-
     }
 }

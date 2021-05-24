@@ -11,25 +11,28 @@ namespace APS_Project.Models
     {
         [Key]
         public int RecipeId { get; set; }
-        [Required]
         public string Title { get; set; }
-        //[Required]
-        public string? ImageName { get; set; }
-        [Required]
+        public string ImageName { get; set; }
         public string Description { get; set; }
         public DateTime PublicationDate { get;set; }
         public DateTime LastEditDate { get;set; }
-        public int OwnerId { get; set; }
-        [NotMapped]
-        public int Likes { get; set; }
-        [NotMapped]
-        public bool IsUserFavourite { get; set; }
+        public AppUser RecipeOwner { get; set; }
+        public List<Category> Categories { get; set; } 
+        public string Indigrients { get; set; }
+        [ForeignKey("Upvoters")]
+        public List<AppUser> Upvoters { get; set; }
+        [ForeignKey("Downvoters")]
+        public List<AppUser> Downvoters { get; set; }
+        public List<Link> Links { get; set; }
 
         public Recipe()
         {
             PublicationDate = DateTime.Now;
             LastEditDate = PublicationDate;
-            Likes = 0;
+            Categories = new List<Category>();
+            Upvoters = new List<AppUser>();
+            Downvoters = new List<AppUser>();
+            Links = new List<Link>();
         }
     }
 }

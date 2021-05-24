@@ -1,47 +1,68 @@
 using APS_Project.Data;
 using APS_Project.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace APS_Project.Pages
 {
+    [Authorize]
     public class PublishModel : PageModel
     {
         private readonly ILogger<PublishModel> _logger;
         public string ERROR { get; set; }
         private readonly ApplicationDbContext _dbContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public AppUser AppUser { get; set; }
         [BindProperty]
-        public Recipe Recipe { get; set; }
-        [BindProperty]
-        public Category Category { get; set; }
-        [BindProperty]
-        public RecipeIngredient RecipeIngredient { get; set; }
-        public PublishModel(ILogger<PublishModel> logger, ApplicationDbContext context)
+        public InputModel inputModel { get; set; }
+        public class InputModel
         {
+            [Required]
+            public string Title { get; set; }
+            [Required]
+            public string Description { get; set; }
+            [Required]
+            public string CategoryName { get; set; }
+            [Required]
+            public string Ingredient { get; set; }
+        }
+        public PublishModel(ILogger<PublishModel> logger, ApplicationDbContext context, IHttpContextAccessor httpContextAccessor,ApplicationDbContext dbContext)
+        {
+            _dbContext = dbContext;
+            _httpContextAccessor = httpContextAccessor;
+            if (int.TryParse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier), out int userId))
+            {
+                AppUser = _dbContext.AppUsers.Find(userId);
+            }
             ERROR = "";
             _logger = logger;
             _dbContext = context;
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            var files = Request.Form.Files;
             if (ModelState.IsValid)
             {
-                if (!_dbContext.Categories.Where(p => p.Name == Category.Name).ToList().Any())
-                    await _dbContext.Categories.AddAsync(Category);
-                await _dbContext.CategoryRecipe.AddAsync(new CategoryRecipe()
+                if (!_dbContext.Recipes.Where(p => p.Title == inputModel.Title).Any())
                 {
-                    CategoryId = Category.CategoryID,
-                    RecipeId = Recipe.RecipeId
-                });
-
-                if (!_dbContext.Recipes.Where(p => p.Title == Recipe.Title).ToList().Any())
-                {
-                    await _dbContext.RecipeIngredients.AddAsync(RecipeIngredient);
-                    await _dbContext.Recipes.AddAsync(Recipe);
+                    var file = Request.Form.Files[0];
+                    byte[] filebuffer = new byte[file.Length];
+                    await _dbContext.Recipes.AddAsync(new Recipe()
+                    {
+                        Description = inputModel.Description,
+                        Title = inputModel.Title,
+                        ImageName = file.FileName,
+                    });
+                    var stream = file.OpenReadStream();
+                    await stream.ReadAsync(filebuffer);
+                    System.IO.File.WriteAllBytes("wwwroot/Data/Images/" + AppUser.Name + "_" + AppUser.LastName + "_" + inputModel.Title, filebuffer);
                     await _dbContext.SaveChangesAsync();
                 }
                 else

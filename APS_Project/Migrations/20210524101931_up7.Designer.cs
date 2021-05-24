@@ -4,14 +4,16 @@ using APS_Project.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace APS_Project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210524101931_up7")]
+    partial class up7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,9 +37,6 @@ namespace APS_Project.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Downvoters")
-                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -75,6 +74,12 @@ namespace APS_Project.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RecipeId1")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("datetime2");
 
@@ -83,9 +88,6 @@ namespace APS_Project.Migrations
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
-
-                    b.Property<int?>("Upvoters")
-                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -96,8 +98,6 @@ namespace APS_Project.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Downvoters");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -106,7 +106,9 @@ namespace APS_Project.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("Upvoters");
+                    b.HasIndex("RecipeId");
+
+                    b.HasIndex("RecipeId1");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -129,7 +131,7 @@ namespace APS_Project.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("APS_Project.Models.Link", b =>
@@ -150,7 +152,7 @@ namespace APS_Project.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Link");
+                    b.ToTable("Links");
                 });
 
             modelBuilder.Entity("APS_Project.Models.Recipe", b =>
@@ -178,11 +180,11 @@ namespace APS_Project.Migrations
                     b.Property<DateTime>("LastEditDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("PublicationDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("RecipeOwnerId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -192,8 +194,6 @@ namespace APS_Project.Migrations
                     b.HasIndex("AppUserId");
 
                     b.HasIndex("AppUserId1");
-
-                    b.HasIndex("RecipeOwnerId");
 
                     b.ToTable("Recipes");
                 });
@@ -335,12 +335,12 @@ namespace APS_Project.Migrations
             modelBuilder.Entity("APS_Project.Models.AppUser", b =>
                 {
                     b.HasOne("APS_Project.Models.Recipe", null)
-                        .WithMany("Downvoters")
-                        .HasForeignKey("Downvoters");
+                        .WithMany("Upvoters")
+                        .HasForeignKey("RecipeId");
 
                     b.HasOne("APS_Project.Models.Recipe", null)
-                        .WithMany("Upvoters")
-                        .HasForeignKey("Upvoters");
+                        .WithMany("Downvoters")
+                        .HasForeignKey("RecipeId1");
                 });
 
             modelBuilder.Entity("APS_Project.Models.Category", b =>
@@ -366,12 +366,6 @@ namespace APS_Project.Migrations
                     b.HasOne("APS_Project.Models.AppUser", null)
                         .WithMany("UserRecipes")
                         .HasForeignKey("AppUserId1");
-
-                    b.HasOne("APS_Project.Models.AppUser", "RecipeOwner")
-                        .WithMany()
-                        .HasForeignKey("RecipeOwnerId");
-
-                    b.Navigation("RecipeOwner");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

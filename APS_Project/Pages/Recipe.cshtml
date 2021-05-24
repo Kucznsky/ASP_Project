@@ -10,7 +10,7 @@
 </style>
 <div>
     <div style="width: 60%;height: 100%; margin-right: auto; float: left">
-        <p style="float:left">@Model.Recipe.OwnerId</p>
+        <p style="float:left">@Model.Recipe.RecipeOwner.Id</p>
         <img style="float: left; min-width:30px; min-height: 40px" src="">
         <div style="float: inline-start">
             <h2 style="text-align:left">
@@ -21,11 +21,15 @@
                 <p style="text-align:left">@Model.Recipe.Description<p>
             </div>
         </div>
+        @foreach (var cat in Model.Recipe.Categories)
+        {
+            <p>@cat.Name</p>
+        }
     </div>
     <div style="width: 30%; height: 100%; margin-left: auto; float: left">
         <img class="shadow" style="width:200px;height:200px" src="~/Data/Images/@Model.Recipe.ImageName">
         <h5><i>Ingredients:</i></h5>
-        <p>@Model.RecipeIngredient.Ingredient</p>
+        <p>@Model.Recipe.Indigrients</p>
     </div>
 </div>
 

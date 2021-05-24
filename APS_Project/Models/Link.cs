@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace APS_Project.Models
 {
-    public class UserFavourite
+    public class Link
     {
-        public int UserId { get; set; }
-        public int RecipeId { get; set; }
+        [Key]
+        public int Id { get; set; }
+        [Required]
+        public string LinkToImage { get; set; }
     }
 }

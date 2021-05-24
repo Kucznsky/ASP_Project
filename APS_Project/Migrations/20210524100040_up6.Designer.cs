@@ -4,14 +4,16 @@ using APS_Project.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace APS_Project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210524100040_up6")]
+    partial class up6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,9 +37,6 @@ namespace APS_Project.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Downvoters")
-                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -84,9 +83,6 @@ namespace APS_Project.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("Upvoters")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -96,8 +92,6 @@ namespace APS_Project.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Downvoters");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -106,14 +100,12 @@ namespace APS_Project.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("Upvoters");
-
                     b.ToTable("AspNetUsers");
                 });
 
             modelBuilder.Entity("APS_Project.Models.Category", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CategoryID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -125,32 +117,24 @@ namespace APS_Project.Migrations
                     b.Property<int?>("RecipeId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("CategoryID");
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("APS_Project.Models.Link", b =>
+            modelBuilder.Entity("APS_Project.Models.CategoryRecipe", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("LinkToImage")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("RecipeId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("RecipeId");
+                    b.HasKey("CategoryId", "RecipeId");
 
-                    b.ToTable("Link");
+                    b.ToTable("CategoryRecipe");
                 });
 
             modelBuilder.Entity("APS_Project.Models.Recipe", b =>
@@ -163,26 +147,20 @@ namespace APS_Project.Migrations
                     b.Property<int?>("AppUserId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("AppUserId1")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Indigrients")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("LastEditDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("PublicationDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("RecipeOwnerId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -191,11 +169,68 @@ namespace APS_Project.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.HasIndex("AppUserId1");
-
-                    b.HasIndex("RecipeOwnerId");
-
                     b.ToTable("Recipes");
+                });
+
+            modelBuilder.Entity("APS_Project.Models.RecipeIngredient", b =>
+                {
+                    b.Property<int>("RecipeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Ingredient")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RecipeId");
+
+                    b.ToTable("RecipeIngredients");
+                });
+
+            modelBuilder.Entity("APS_Project.Models.RecipeLink", b =>
+                {
+                    b.Property<int>("RecipeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Link")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RecipeId");
+
+                    b.ToTable("RecipeLinks");
+                });
+
+            modelBuilder.Entity("APS_Project.Models.RecipeVoter", b =>
+                {
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VoterId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Vote")
+                        .HasColumnType("bit");
+
+                    b.HasKey("RecipeId", "VoterId");
+
+                    b.ToTable("RecipeVoters");
+                });
+
+            modelBuilder.Entity("APS_Project.Models.UserFavourite", b =>
+                {
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RecipeId", "UserId");
+
+                    b.ToTable("UserFavourites");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
@@ -332,17 +367,6 @@ namespace APS_Project.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("APS_Project.Models.AppUser", b =>
-                {
-                    b.HasOne("APS_Project.Models.Recipe", null)
-                        .WithMany("Downvoters")
-                        .HasForeignKey("Downvoters");
-
-                    b.HasOne("APS_Project.Models.Recipe", null)
-                        .WithMany("Upvoters")
-                        .HasForeignKey("Upvoters");
-                });
-
             modelBuilder.Entity("APS_Project.Models.Category", b =>
                 {
                     b.HasOne("APS_Project.Models.Recipe", null)
@@ -350,28 +374,11 @@ namespace APS_Project.Migrations
                         .HasForeignKey("RecipeId");
                 });
 
-            modelBuilder.Entity("APS_Project.Models.Link", b =>
-                {
-                    b.HasOne("APS_Project.Models.Recipe", null)
-                        .WithMany("Links")
-                        .HasForeignKey("RecipeId");
-                });
-
             modelBuilder.Entity("APS_Project.Models.Recipe", b =>
                 {
                     b.HasOne("APS_Project.Models.AppUser", null)
-                        .WithMany("UserFavourites")
-                        .HasForeignKey("AppUserId");
-
-                    b.HasOne("APS_Project.Models.AppUser", null)
                         .WithMany("UserRecipes")
-                        .HasForeignKey("AppUserId1");
-
-                    b.HasOne("APS_Project.Models.AppUser", "RecipeOwner")
-                        .WithMany()
-                        .HasForeignKey("RecipeOwnerId");
-
-                    b.Navigation("RecipeOwner");
+                        .HasForeignKey("AppUserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -427,20 +434,12 @@ namespace APS_Project.Migrations
 
             modelBuilder.Entity("APS_Project.Models.AppUser", b =>
                 {
-                    b.Navigation("UserFavourites");
-
                     b.Navigation("UserRecipes");
                 });
 
             modelBuilder.Entity("APS_Project.Models.Recipe", b =>
                 {
                     b.Navigation("Categories");
-
-                    b.Navigation("Downvoters");
-
-                    b.Navigation("Links");
-
-                    b.Navigation("Upvoters");
                 });
 #pragma warning restore 612, 618
         }

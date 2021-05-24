@@ -9,7 +9,7 @@ namespace APS_Project.Models
     public class Category
     {
         [Key]
-        public int CategoryID { get; set; }
+        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
     }

@@ -5,7 +5,7 @@
 }
 
 <div style="text-align:center; padding:20px">
-    <form method="post" asp-page-handler="Search">
+    <form method="get" asp-page-handler="Search">
         <span style="color:#ffc7c7; font-size:25px"><b>Filters</b></span>
         <input class="search" type="search" name="title" placeholder="title">
         <input class="search" type="search" name="author" placeholder="author">
@@ -15,7 +15,7 @@
 </div>
 <div>
     @foreach (var recipe in Model.Recipes)
-        {
+    {
             <div class="recipe">
                 <a asp-page="/Recipe" asp-route-recipeId="@recipe.RecipeId" style="text-decoration: none">
                     <div class="row" style="text-align:center">
@@ -33,7 +33,7 @@
                     </div>
                 </a>
                 <div class="row" style="float:right">
-                    <span>@recipe.Likes</span>
+                    <span>@{var value = recipe.Upvoters.Count - recipe.Downvoters.Count();} @value</span>
                     <form id="Like" method="post">
                         <input type="hidden" name="userId" value="@Model.userId">
                         <input type="hidden" name="recipeId" value="@recipe.RecipeId">
@@ -49,7 +49,7 @@
                     <form id="Follow" asp-page-handler="Favourites">
                         <input type="hidden" name="userId" value="@User.Identity.Name">
                         <input type="hidden" name="recipeId" value="@recipe.RecipeId">
-                        @if (!recipe.IsUserFavourite)
+                        @if (!recipe.Downvoters.Contains(Model.AppUser))
                         {
                             <input class="reactions" type="submit" value="&#9825;">
                         }

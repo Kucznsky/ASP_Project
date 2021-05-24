@@ -12,9 +12,18 @@ namespace APS_Project.Models
     {
         public override int Id { get; set; }
         public string UserPicture { get; set; }
+
         public string Name { get; set; }
         public string LastName { get; set; }
         public DateTime RegistrationDate { get; set; }
         public string Description { get; set; }
+        public List<Recipe> UserRecipes { get; set; }
+        public List<Recipe> UserFavourites { get; set; }
+
+        public AppUser() : base()
+        {
+            UserRecipes = new List<Recipe>();
+            UserFavourites = new List<Recipe>();
+        }
     }
 }

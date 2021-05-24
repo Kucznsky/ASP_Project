@@ -12,7 +12,6 @@ namespace APS_Project.Pages
     public class RecipeModel : PageModel
     {
         public Recipe Recipe { get; set; }
-        public RecipeIngredient RecipeIngredient { get; set; }
         public Category Category { get; set; }
         private readonly ApplicationDbContext _dbContext;
         public RecipeModel(ApplicationDbContext dbContext)
@@ -22,8 +21,6 @@ namespace APS_Project.Pages
         public async Task OnGetAsync(int recipeId)
         {
             Recipe =  await _dbContext.Recipes.FindAsync(recipeId);
-            RecipeIngredient = await _dbContext.RecipeIngredients.FindAsync(recipeId);
-            Category = await _dbContext.Categories.FindAsync(recipeId);
         }
     }
 }
