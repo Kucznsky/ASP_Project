@@ -24,40 +24,39 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li>
-                        <h3>@User.Identity.Name</h3>
+                        <h5 style="padding-left:25px;word-wrap:break-word;color:#ffc7c7">@User.Identity.Name</h5>
                     </li>
                     <li class="nav-item ">
-                        <a class="menu-button shadow" asp-area="Identity" asp-page="/Account/Manage/PersonalData">My account</a>
+                        <a class="menu-button shadow" asp-area="Identity" asp-page="/Account/Manage/PersonalData" style="font-size:24px">My account<i class="fa fa-cog" style="padding-left:10px"></i></a>
                     </li>
                 }
                 <li class="nav-item ">
-                    <a class="menu-button shadow" asp-area="" asp-page="/Index">Home</a>
+                    <a class="menu-button shadow" asp-area="" asp-page="/Index" style="font-size:24px">Home<i class="fa fa-home" style="padding-left:10px"></i></a>
                 </li>
                 <li class="nav-item ">
-                    <a class="menu-button shadow" asp-area="" asp-page="/Publish">Publish</a>
+                    <a class="menu-button shadow" asp-area="" asp-page="/Publish" style="font-size:24px">Publish<i class="fa fa-upload" style="padding-left:10px"></i></a>
                 </li>
                 <li class="nav-item ">
-                    <a class="menu-button shadow" asp-area="" asp-page="/Myfavourite">My favourites</a>
+                    <a class="menu-button shadow" asp-area="" asp-page="/Myfavourite" style="font-size:24px">My favourites<i class="fa fa-heart" style="padding-left:10px"></i></a>
                 </li>
                 <li class="nav-item ">
-                    <a class="menu-button shadow" asp-area="" asp-page="/MyRecipes">My Recipes</a>
+                    <a class="menu-button shadow" asp-area="" asp-page="/MyRecipes" style="font-size:24px">My Recipes<i class="fa fa-book" style="padding-left:10px"></i></a>
                 </li>
                 @{
                     if (User.Identity.IsAuthenticated)
                     {
                         <li>
-                            <a class="menu-button shadow" asp-area="Identity" asp-page="/Account/Logout">Log out</a>
+                            <a class="menu-button shadow" asp-area="Identity" asp-page="/Account/Logout" style="font-size:24px">Log out<i class="fa fa-sign-out" style="padding-left:10px"></i></a>
                         </li>
                     }
                     else
                     {
                         <li>
-                            <a class="menu-button shadow" id="register" asp-area="Identity" asp-page="/Account/Register">Sign up</a>
+                            <a class="menu-button shadow" id="register" asp-area="Identity" asp-page="/Account/Register" style="font-size:24px">Sign up<i class="fa fa-user-plus" style="padding-left:10px"></i></a>
                         </li>
                         <li>
-                            <a class="menu-button shadow" id="login" asp-area="Identity" asp-page="/Account/Login">Sign in</a>
+                            <a class="menu-button shadow" id="login" asp-area="Identity" asp-page="/Account/Login" style="font-size:24px">Sign in<i class="fa fa-sign-in" style="padding-left:10px"></i></a>
                         </li>
-
                     }
                 }
             </ul>
