@@ -30,7 +30,7 @@ namespace APS_Project.Pages
             [Required]
             public string Description { get; set; }
             [Required]
-            public string CategoryName { get; set; }
+            public string Categories { get; set; }
             [Required]
             public string Ingredient { get; set; }
         }
@@ -63,7 +63,8 @@ namespace APS_Project.Pages
                         RecipeOwnerId = AppUser.Id,
                         Indigrients = inputModel.Ingredient
                     };
-                    recipe.Categories.Add(new Category() { Name = inputModel.CategoryName });
+                    recipe.CategoryRecipes.Add(new CategoryRecipe() { Name = inputModel.CategoryName });
+
                     await _dbContext.Recipes.AddAsync(recipe);
                     var stream = file.OpenReadStream();
                     await stream.ReadAsync(filebuffer);

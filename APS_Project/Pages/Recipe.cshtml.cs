@@ -14,7 +14,7 @@ namespace APS_Project.Pages
     {
         public Recipe Recipe { get; set; }
         public AppUser RecipeOwner { get; set; }
-        public Category Category { get; set; }
+        public CategoryRecipe Category { get; set; }
         private readonly ApplicationDbContext _dbContext;
         public RecipeModel(ApplicationDbContext dbContext)
         {

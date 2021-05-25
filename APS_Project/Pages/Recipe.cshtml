@@ -11,29 +11,33 @@
     <div style="width: 60%;height: 100%; margin-right: auto; float: left">
         <p style="float:left">@Model.RecipeOwner.Name</p>
         <p style="float:left">@Model.RecipeOwner.LastName</p>
-<div class="container">
-    <div style="width: 60%;height: 100%; margin-right: auto; float: left"> 
-        <img style="float: left; min-width:30px; min-height: 40px" src="">
-        <div style="float: inline-start">
-            <div class="row" style="float:left"><p style="font-size:25px">@Model.Recipe.RecipeOwner.Name @Model.Recipe.RecipeOwner.LastName</p><i class="fa fa-user-circle" style="padding-left:10px; padding-top:6px ;font-size:30px"></i></div>
-            <br />
-            <div class="row" style="padding-top:30px"><h2 style="text-align:left">@Model.Recipe.Title</h2></div>
-            <fieldset class="scheduler-border" style="float:left">
-                <legend class="scheduler-border"><i class="fa fa-pencil-square-o" style="padding-right:10px"></i><i>Description and recipe:</i></legend>
-                <p style="text-align:left">@Model.Recipe.Description<p>
+        <div class="container">
+            <div style="width: 60%;height: 100%; margin-right: auto; float: left"> 
+                <img style="float: left; min-width:30px; min-height: 40px" src="">
+                <div style="float: inline-start">
+                    <div class="row" style="float:left"><p style="font-size:25px">@Model.Recipe.RecipeOwner.Name @Model.Recipe.RecipeOwner.LastName</p><i class="fa fa-user-circle" style="padding-left:10px; padding-top:6px ;font-size:30px"></i></div>
+                    <br />
+                    <div class="row" style="padding-top:30px"><h2 style="text-align:left">@Model.Recipe.Title</h2></div>
+                    <fieldset class="scheduler-border" style="float:left">
+                        <legend class="scheduler-border"><i class="fa fa-pencil-square-o" style="padding-right:10px"></i><i>Description and recipe:</i></legend>
+                        <p style="text-align:left">@Model.Recipe.Description<p>
+                    </fieldset>
+                </div>
+                <div>
+                    @foreach (var cat in Model.Recipe.Categories)
+                    {
+                        <p>@cat.Name</p>
+                    }
+                </div>
+            </div>
+        </div>
+        <div style="width: 30%; height: 100%; margin-left: auto; float: right">
+            <img class="shadow" style="width:200px;height:200px" src="~/Data/Images/@Model.Recipe.ImageName">
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border"><i class="fa fa-shopping-basket" style="padding-right:10px"></i><i>Ingredients:</i></legend>
+                <p style="text-align:left">@Model.Recipe.Indigrients<p>
             </fieldset>
         </div>
-        @foreach (var cat in Model.Recipe.Categories)
-        {
-            <p>@cat.Name</p>
-        }
-    </div>
-    <div style="width: 30%; height: 100%; margin-left: auto; float: right">
-        <img class="shadow" style="width:200px;height:200px" src="~/Data/Images/@Model.Recipe.ImageName">
-        <fieldset class="scheduler-border">
-            <legend class="scheduler-border"><i class="fa fa-shopping-basket" style="padding-right:10px"></i><i>Ingredients:</i></legend>
-            <p style="text-align:left">@Model.Recipe.Indigrients<p>
-        </fieldset>
     </div>
 </div>
 

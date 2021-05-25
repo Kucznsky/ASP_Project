@@ -10,7 +10,8 @@ namespace APS_Project.Data
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Link> Links { get; set; }
-        public DbSet<Category> Categories {get;set;}
+        public DbSet<CategoryRecipe> CategoryRecipe {get;set;}
+        public DbSet<Category> Category { get; set; }
         public DbSet<UserDislikeRecipe> UserDislikeRecipes { get; set; }
         public DbSet<UserFollowRecipe> UserFollowRecipes { get; set; }
         public DbSet<UserLikeRecipe> UserLikeRecipes { get; set;}
@@ -24,8 +25,9 @@ namespace APS_Project.Data
 
             builder.Entity<Recipe>().HasKey(r => r.RecipeId);
             builder.Entity<AppUser>().HasKey(au => au.Id);
-            builder.Entity<Category>().HasKey(c => c.Id);
             builder.Entity<Link>().HasKey(l => l.Id);
+            builder.Entity<Category>().HasKey(c => c.Id);
+            builder.Entity<CategoryRecipe>().HasKey(cr => new {cr.CategoryId, cr.RecipeId });
             builder.Entity<UserDislikeRecipe>().HasKey(udr => new { udr.AppUserId, udr.RecipeId });
             builder.Entity<UserLikeRecipe>().HasKey(udr => new { udr.AppUserId, udr.RecipeId });
             builder.Entity<UserFollowRecipe>().HasKey(ufr => new { ufr.AppUserId, ufr.RecipeId });
@@ -67,6 +69,15 @@ namespace APS_Project.Data
                 .HasMany<Link>(r => r.Links)
                 .WithOne(l => l.Recpie)
                 .HasForeignKey(r=>r.RecipeId);
+
+            builder.Entity<CategoryRecipe>()
+                .HasOne<Recipe>(cr => cr.Recipe)
+                .WithMany(r => r.CategoryRecipe)
+                .HasForeignKey(cr=>cr.CategoryId);
+            builder.Entity<CategoryRecipe>()
+                .HasOne<Category>(cr => cr.Category)
+                .WithMany(c => c.CategoryRecipes)
+                .HasForeignKey(cr => cr.CategoryId);
 
         }
     }

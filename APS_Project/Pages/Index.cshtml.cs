@@ -97,7 +97,12 @@ namespace APS_Project.Pages
 
         public async Task<IActionResult> OnPostSearchAsync(string title, string author, string category)
         {
+            _ = _dbContext.CategoryRecipe.ToList();
+            _ = _dbContext.UserLikeRecipes.ToList();
+            _ = _dbContext.UserDislikeRecipes.ToList();
+            _ = _dbContext.UserFollowRecipes.ToList();
             List<Recipe> recipes = await _dbContext.Recipes.ToListAsync();
+
             if (!string.IsNullOrEmpty(title))
                 recipes = recipes.Where(p => p.Title == title).ToList();
 
@@ -105,12 +110,14 @@ namespace APS_Project.Pages
                 recipes = recipes.Where(p => p.RecipeOwner.Name == author).ToList();
 
             if (!string.IsNullOrEmpty(category))
-                recipes = recipes.Where(p => p.Categories.Any(c => c.Name == category)).ToList();
-
-            Recipes = recipes;
-            _ = _dbContext.UserLikeRecipes.ToList();
-            _ = _dbContext.UserDislikeRecipes.ToList();
-            _ = _dbContext.UserFollowRecipes.ToList();
+            {
+                var catRec = _dbContext.CategoryRecipe.FirstOrDefault(c => c.Category.Name == category);
+                recipes = recipes.Where(p=>p.RecipeId == catRec.RecipeId).ToList();
+            }
+            if (recipes is null)
+                Recipes = new List<Recipe>();
+            else
+                Recipes = recipes;
             return Page();
         }
     }

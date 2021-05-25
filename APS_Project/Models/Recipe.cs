@@ -18,7 +18,7 @@ namespace APS_Project.Models
         public int RecipeOwnerId { get; set; }
         public AppUser RecipeOwner { get; set; }
         public string Indigrients { get; set; }
-        public List<Category> Categories { get; set; } 
+        public List<CategoryRecipe> CategoryRecipe { get; set; } 
         public List<UserLikeRecipe> RecipeLiker { get; set; }
         public List<UserDislikeRecipe> RecipeDisliker { get; set; }
         public List<UserFollowRecipe> RecipeFollower { get; set; }
@@ -28,7 +28,7 @@ namespace APS_Project.Models
         {
             PublicationDate = DateTime.Now;
             LastEditDate = PublicationDate;
-            Categories = new List<Category>();
+            CategoryRecipe = new List<CategoryRecipe>();
             RecipeDisliker = new List<UserDislikeRecipe>();
             RecipeFollower = new List<UserFollowRecipe>();
             RecipeLiker = new List<UserLikeRecipe>();
