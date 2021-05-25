@@ -50,13 +50,13 @@
                     <form id="Follow" asp-page-handler="Favourites">
                         <input type="hidden" name="userId" value="@User.Identity.Name">
                         <input type="hidden" name="recipeId" value="@recipe.RecipeId">
-                        @if (!recipe.RecipeFollower.Any(p => p.AppUserId == Model.AppUser.Id))
+                        @if (User.Identity.IsAuthenticated && recipe.RecipeFollower.Any(p => p.AppUserId == Model.AppUser.Id))
                         {
-                            <input class="reactions" type="submit" value="&#9825;">
+                            <input class="reactions" type="submit" value="&#9829;">
                         }
                         else
                         {
-                            <input class="reactions" type="submit" value="&#9829;">
+                            <input class="reactions" type="submit" value="&#9825;">
                         }
                     </form>
                 </div>
