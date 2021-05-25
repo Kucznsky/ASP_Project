@@ -14,14 +14,15 @@ using System.Threading.Tasks;
 namespace APS_Project.Pages
 {
     [Authorize]
-    public class MyFavouriteModel : PageModel
+    public class MyRecipesModel : PageModel
     {
+
         private readonly ApplicationDbContext _dbContext;
         private readonly IHttpContextAccessor _httpContextAccessor;
         public AppUser AppUser { get; set; }
         public List<Recipe> Recipes { get; set; }
 
-        public MyFavouriteModel(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor)
+        public MyRecipesModel(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
             _dbContext = dbContext;
             _httpContextAccessor = httpContextAccessor;
@@ -32,13 +33,11 @@ namespace APS_Project.Pages
         }
         public async Task OnGetAsync()
         {
-            Recipes = await _dbContext.Recipes
-                .Where(p => _dbContext.UserFollowRecipes
-                    .Any(c=> p.RecipeId == c.RecipeId && c.AppUserId == AppUser.Id))
-                .ToListAsync();
-            List<UserLikeRecipe> ulr = _dbContext.UserLikeRecipes.ToList();
-            List<UserDislikeRecipe> udr = _dbContext.UserDislikeRecipes.ToList();
-            List<UserFollowRecipe> ufr = _dbContext.UserFollowRecipes.ToList();
+            _ = await _dbContext.UserLikeRecipes.ToListAsync();
+            _ = await _dbContext.UserDislikeRecipes.ToListAsync();
+            _ = await _dbContext.UserFollowRecipes.ToListAsync();
+            _ = await _dbContext.Recipes.ToListAsync();
+            Recipes = AppUser.UserRecipes;
         }
         public IActionResult OnPostSearch(string category, DateTime startTime, DateTime endTime)
         {
@@ -57,9 +56,9 @@ namespace APS_Project.Pages
             if (!string.IsNullOrEmpty(category))
             {
                 Recipes = Recipes
-                    .Where(p => p.Categories.Any(p=> p.Name == category))
+                    .Where(p => p.Categories.Any(p => p.Name == category))
                     .ToList();
-                
+
             }
             return Page();
         }

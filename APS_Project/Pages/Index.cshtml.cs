@@ -34,9 +34,9 @@ namespace APS_Project.Pages
         public async Task OnGetAsync()
         {
             Recipes = await _dbContext.Recipes.OrderByDescending(p => p.RecipeLiker.Count - p.RecipeDisliker.Count).Take(Quantity).ToListAsync();
-            List<UserLikeRecipe> ulr = _dbContext.UserLikeRecipes.ToList();
-            List<UserDislikeRecipe> udr = _dbContext.UserDislikeRecipes.ToList();
-            List<UserFollowRecipe> ufr = _dbContext.UserFollowRecipes.ToList();
+            _ = _dbContext.UserLikeRecipes.ToList();
+            _ = _dbContext.UserDislikeRecipes.ToList();
+            _ = _dbContext.UserFollowRecipes.ToList();
 
         }
         public async Task<IActionResult> OnPostLikeAsync(int recipeId, bool like)
@@ -108,9 +108,9 @@ namespace APS_Project.Pages
                 recipes = recipes.Where(p => p.Categories.Any(c => c.Name == category)).ToList();
 
             Recipes = recipes;
-            List<UserLikeRecipe> ulr = _dbContext.UserLikeRecipes.ToList();
-            List<UserDislikeRecipe> udr = _dbContext.UserDislikeRecipes.ToList();
-            List<UserFollowRecipe> ufr = _dbContext.UserFollowRecipes.ToList();
+            _ = _dbContext.UserLikeRecipes.ToList();
+            _ = _dbContext.UserDislikeRecipes.ToList();
+            _ = _dbContext.UserFollowRecipes.ToList();
             return Page();
         }
     }
