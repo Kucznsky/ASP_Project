@@ -97,6 +97,7 @@ namespace APS_Project.Pages
 
         public async Task<IActionResult> OnPostSearchAsync(string title, string author, string category)
         {
+            _ = _dbContext.Categories.ToList();
             List<Recipe> recipes = await _dbContext.Recipes.ToListAsync();
             if (!string.IsNullOrEmpty(title))
                 recipes = recipes.Where(p => p.Title == title).ToList();
