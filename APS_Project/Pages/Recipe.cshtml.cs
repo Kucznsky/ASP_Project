@@ -6,6 +6,7 @@ using APS_Project.Data;
 using APS_Project.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace APS_Project.Pages
 {
@@ -23,6 +24,7 @@ namespace APS_Project.Pages
         {
             Recipe =  await _dbContext.Recipes.FindAsync(recipeId);
             RecipeOwner = await _dbContext.AppUsers.FindAsync(Recipe.RecipeOwnerId);
+            _ = await _dbContext.Categories.ToListAsync();
         }
     }
 }
