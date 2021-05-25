@@ -54,7 +54,7 @@ namespace APS_Project.Pages
                 {
                     var file = Request.Form.Files[0];
                     byte[] filebuffer = new byte[file.Length];
-                    await _dbContext.Recipes.AddAsync(new Recipe()
+                    Recipe recipe = new()
                     {
                         Description = inputModel.Description,
                         Title = inputModel.Title,
@@ -62,7 +62,9 @@ namespace APS_Project.Pages
                         RecipeOwner = AppUser,
                         RecipeOwnerId = AppUser.Id,
                         Indigrients = inputModel.Ingredient
-                    });
+                    };
+                    recipe.Categories.Add(new Category() { Name = inputModel.CategoryName });
+                    await _dbContext.Recipes.AddAsync(recipe);
                     var stream = file.OpenReadStream();
                     await stream.ReadAsync(filebuffer);
                     System.IO.File.WriteAllBytes("wwwroot/Data/Images/" + AppUser.Name + "_" + AppUser.LastName + "_" + inputModel.Title + ".jpg", filebuffer);
