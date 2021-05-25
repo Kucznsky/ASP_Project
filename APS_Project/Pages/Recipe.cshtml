@@ -19,10 +19,19 @@
                 <p style="text-align:left">@Model.Recipe.Description<p>
             </fieldset>
         </div>
-        @foreach (var cat in Model.Recipe.CategoryRecipe)
-        {
-            <p>@cat.Category.Name</p>
-        }
+        <div id="ctgr">
+            @foreach (var cat in Model.Recipe.CategoryRecipe)
+            {
+                <p>@cat.Category.Name</p>
+            }
+            <button class="edit" type="button" onclick="Edit()"><ins>Edit</ins></button>   
+        </div>
+        <form method="post">
+            <div class="form-row" id="edit" style="display:none">
+                <textarea class="recipe-textarea" cols="30" rows="1"></textarea>
+                <button type="submit" class="login-button log-button">Done</button>
+            </div>
+        </form>
     </div>
     <div style="width: 30%; height: 100%; margin-left: auto; float: right">
         <img class="shadow" style="width:200px;height:200px" src="~/Data/Images/@Model.Recipe.ImageName">
@@ -32,3 +41,12 @@
         </fieldset>
     </div>
 </div>
+
+<script>
+    function Edit() {
+        var c = document.getElementById("ctgr");
+        var e = document.getElementById("edit");
+        c.style.display = "none";
+        e.style.display = "block";
+    }
+</script>

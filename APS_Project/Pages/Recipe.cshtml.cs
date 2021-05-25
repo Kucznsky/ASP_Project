@@ -20,6 +20,14 @@ namespace APS_Project.Pages
         {
             _dbContext = dbContext;
         }
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+            return RedirectToPage();
+        }
         public async Task OnGetAsync(int recipeId)
         {
             _ = await _dbContext.Category.ToListAsync();
