@@ -19,7 +19,7 @@
                     <b><span asp-validation-for="inputModel.Title" class="text-danger"></span></b><br />
                 <br />
                     <b><label asp-for="inputModel.CategoryName">Add a category</label></b>
-                    <input asp-for="inputModel.CategoryName" class="search" placeholder="category name">
+                    <textarea asp-for="inputModel.CategoryName" class="recipe-textarea" placeholder="category name" cols="30" rows="1"></textarea>
                     <b><span asp-validation-for="inputModel.CategoryName" class="text-danger"></span></b><br />
                 </div>
                 <div class="col" style="text-align:right">

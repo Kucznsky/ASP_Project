@@ -42,6 +42,9 @@ namespace APS_Project.Pages
         }
         public IActionResult OnPostSearch(string category, DateTime startTime, DateTime endTime)
         {
+            _ = _dbContext.Recipes.ToList();
+            Recipes = AppUser.UserRecipes;
+            _ = _dbContext.Categories.ToList();
             if (startTime != DateTime.MinValue)
             {
                 Recipes = Recipes
@@ -61,6 +64,8 @@ namespace APS_Project.Pages
                     .ToList();
                 
             }
+            if (Recipes is null)
+                Recipes = new List<Recipe>();
             return Page();
         }
     }
