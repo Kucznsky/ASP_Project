@@ -17,10 +17,10 @@ namespace APS_Project.Models
         public string LastName { get; set; }
         public DateTime RegistrationDate { get; set; }
         public string Description { get; set; }
-        public ICollection<UserFollowRecipe> UserFollows { get; set; }
-        public ICollection<Recipe> UserRecipes { get; set; }
-        public ICollection<UserLikeRecipe> UserLikes { get; set; }
-        public ICollection<UserDislikeRecipe> UserDislikes { get; set; }
+        public List<UserFollowRecipe> UserFollows { get; set; }
+        public List<Recipe> UserRecipes { get; set; }
+        public List<UserLikeRecipe> UserLikes { get; set; }
+        public List<UserDislikeRecipe> UserDislikes { get; set; }
 
         public AppUser() : base()
         {

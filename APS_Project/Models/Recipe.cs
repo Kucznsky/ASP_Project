@@ -18,11 +18,11 @@ namespace APS_Project.Models
         public int RecipeOwnerId { get; set; }
         public AppUser RecipeOwner { get; set; }
         public string Indigrients { get; set; }
-        public ICollection<Category> Categories { get; set; } 
-        public ICollection<UserLikeRecipe> RecipeLiker { get; set; }
-        public ICollection<UserDislikeRecipe> RecipeDisliker { get; set; }
-        public ICollection<UserFollowRecipe> RecipeFollower { get; set; }
-        public ICollection<Link> Links { get; set; }
+        public List<Category> Categories { get; set; } 
+        public List<UserLikeRecipe> RecipeLiker { get; set; }
+        public List<UserDislikeRecipe> RecipeDisliker { get; set; }
+        public List<UserFollowRecipe> RecipeFollower { get; set; }
+        public List<Link> Links { get; set; }
 
         public Recipe()
         {

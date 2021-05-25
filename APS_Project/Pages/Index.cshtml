@@ -50,7 +50,7 @@
                     <form id="Follow" asp-page-handler="Favourites">
                         <input type="hidden" name="userId" value="@User.Identity.Name">
                         <input type="hidden" name="recipeId" value="@recipe.RecipeId">
-                        @if (!recipe.RecipeDisliker.Contains(null))
+                        @if (!recipe.RecipeDisliker.Any(p => p.AppUserId == Model.AppUser.Id))
                         {
                             <input class="reactions" type="submit" value="&#9825;">
                         }

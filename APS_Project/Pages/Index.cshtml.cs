@@ -35,6 +35,32 @@ namespace APS_Project.Pages
         public async Task OnGetAsync()
         {
             Recipes = await _dbContext.Recipes.OrderBy(p => p.RecipeLiker.Count - p.RecipeDisliker.Count).Take(Quantity).ToListAsync();
+            foreach (var recipe in Recipes)
+            {
+                if(_dbContext.UserLikeRecipes.Any(p => p.RecipeId == recipe.RecipeId))
+                    recipe.RecipeLiker
+                        .AddRange(_dbContext.UserLikeRecipes
+                        .Where(p => p.RecipeId == recipe.RecipeId));
+
+                if(_dbContext.UserDislikeRecipes.Any(p => p.RecipeId == recipe.RecipeId))
+                    recipe.RecipeDisliker
+                        .AddRange(_dbContext.UserDislikeRecipes
+                        .Where(p => p.RecipeId == recipe.RecipeId));
+
+                if(_dbContext.UserFollowRecipes.Any(p => p.RecipeId == recipe.RecipeId))
+                    recipe.RecipeFollower
+                        .AddRange(_dbContext.UserFollowRecipes
+                        .Where(p=>p.RecipeId == recipe.RecipeId));
+
+                if(_dbContext.Links.Any(p => p.RecipeId == recipe.RecipeId))
+                    recipe.Links
+                        .AddRange(_dbContext.Links
+                        .Where(p => p.RecipeId == recipe.RecipeId));
+
+                if(_dbContext.AppUsers.Any(p=>p.Id == recipe.RecipeOwnerId))
+                    recipe.RecipeOwner = _dbContext.AppUsers
+                        .Find(recipe.RecipeOwnerId);
+            }
         }
         public async Task<IActionResult> OnPostAsync(int recipeId, bool like)
         {
@@ -43,12 +69,12 @@ namespace APS_Project.Pages
                 Recipe recipe = await _dbContext.Recipes.FindAsync(recipeId);
                 if (like)
                 {
-                    if (AppUser.UserLikes.Any(p=>p.AppUser == AppUser))
+                    if (_dbContext.UserLikeRecipes.Any(p=>p.AppUser == AppUser))
                     {
                         var recipeliker = _dbContext.UserLikeRecipes.First(p => p.AppUserId == AppUser.Id);
                         recipe.RecipeLiker.Remove(recipeliker);
                     }
-                    else if (recipe.RecipeDisliker.Any(p => p.AppUserId == AppUser.Id))
+                    else if (_dbContext.UserDislikeRecipes.Any(p => p.AppUserId == AppUser.Id))
                     {
                         var recipedisliker = _dbContext.UserDislikeRecipes.First(p => p.AppUserId == AppUser.Id);
                         recipe.RecipeDisliker.Remove(recipedisliker);
@@ -61,12 +87,12 @@ namespace APS_Project.Pages
                 }
                 else
                 {
-                    if (recipe.RecipeDisliker.Any(p => p.AppUserId == AppUser.Id))
+                    if (_dbContext.UserDislikeRecipes.Any(p => p.AppUserId == AppUser.Id))
                     {
                         var recipedisliker = _dbContext.UserDislikeRecipes.First(p => p.AppUserId == AppUser.Id);
                         recipe.RecipeDisliker.Remove(recipedisliker);
                     }
-                    else if (recipe.RecipeLiker.Any(p => p.AppUserId == AppUser.Id))
+                    else if (_dbContext.UserLikeRecipes.Any(p => p.AppUserId == AppUser.Id))
                     {
                         var recipeliker = _dbContext.UserLikeRecipes.First(p => p.AppUserId == AppUser.Id);
                         recipe.RecipeLiker.Remove(recipeliker);
@@ -88,7 +114,6 @@ namespace APS_Project.Pages
             if (User.Identity.IsAuthenticated)
             {
                 Recipe recipe = await _dbContext.Recipes.FindAsync(recipeId);
-                if(User)
 
                 return RedirectToPage();
             }

@@ -63,6 +63,11 @@ namespace APS_Project.Data
                 .HasForeignKey(ufr => ufr.RecipeId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.Entity<Recipe>()
+                .HasMany<Link>(r => r.Links)
+                .WithOne(l => l.Recpie)
+                .HasForeignKey(r=>r.RecipeId);
+
         }
     }
 }

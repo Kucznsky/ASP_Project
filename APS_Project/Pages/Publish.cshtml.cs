@@ -50,7 +50,7 @@ namespace APS_Project.Pages
         {
             if (ModelState.IsValid)
             {
-                if (!_dbContext.Recipes.Where(p => p.Title == inputModel.Title).Any())
+                if (!_dbContext.Recipes.Any(p => p.Title == inputModel.Title))
                 {
                     var file = Request.Form.Files[0];
                     byte[] filebuffer = new byte[file.Length];
