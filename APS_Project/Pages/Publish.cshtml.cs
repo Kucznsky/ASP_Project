@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -16,7 +15,6 @@ namespace APS_Project.Pages
     [Authorize]
     public class PublishModel : PageModel
     {
-        private readonly ILogger<PublishModel> _logger;
         public string ERROR { get; set; }
         private readonly ApplicationDbContext _dbContext;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -34,7 +32,7 @@ namespace APS_Project.Pages
             [Required]
             public string Ingredient { get; set; }
         }
-        public PublishModel(ILogger<PublishModel> logger, ApplicationDbContext context, IHttpContextAccessor httpContextAccessor,ApplicationDbContext dbContext)
+        public PublishModel(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
             _httpContextAccessor = httpContextAccessor;
@@ -43,7 +41,6 @@ namespace APS_Project.Pages
                 AppUser = _dbContext.AppUsers.Find(userId);
             }
             ERROR = "";
-            _logger = logger;
             _dbContext = context;
         }
         public async Task<IActionResult> OnPostAsync()
@@ -63,9 +60,24 @@ namespace APS_Project.Pages
                         RecipeOwnerId = AppUser.Id,
                         Indigrients = inputModel.Ingredient
                     };
-                    recipe.CategoryRecipes.Add(new CategoryRecipe() { Name = inputModel.CategoryName });
-
                     await _dbContext.Recipes.AddAsync(recipe);
+                    await _dbContext.SaveChangesAsync();
+                    string[] categories = inputModel.Categories.Split();
+
+                    foreach (var cat in categories)
+                        if (!_dbContext.Category.Any(c => c.Name == cat))
+                            await _dbContext.Category.AddAsync(new Category() { Name = cat });
+                    await _dbContext.SaveChangesAsync();
+
+                    foreach (var cat in categories)
+                    {
+                        await _dbContext.CategoryRecipe.AddAsync(new CategoryRecipe()
+                        {
+                            CategoryId = _dbContext.Category.First(p => p.Name == cat).Id,
+                            RecipeId = _dbContext.Recipes.First(p => p.Title == inputModel.Title).RecipeId
+                        });
+                    }
+
                     var stream = file.OpenReadStream();
                     await stream.ReadAsync(filebuffer);
                     System.IO.File.WriteAllBytes("wwwroot/Data/Images/" + AppUser.Name + "_" + AppUser.LastName + "_" + inputModel.Title + ".jpg", filebuffer);

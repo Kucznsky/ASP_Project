@@ -22,9 +22,11 @@ namespace APS_Project.Pages
         }
         public async Task OnGetAsync(int recipeId)
         {
+            _ = await _dbContext.Category.ToListAsync();
+            _ = await _dbContext.CategoryRecipe.ToListAsync();
             Recipe =  await _dbContext.Recipes.FindAsync(recipeId);
+            Recipe.CategoryRecipe = await _dbContext.CategoryRecipe.Where(p => p.RecipeId == Recipe.RecipeId).ToListAsync();
             RecipeOwner = await _dbContext.AppUsers.FindAsync(Recipe.RecipeOwnerId);
-            _ = await _dbContext.Categories.ToListAsync();
         }
     }
 }

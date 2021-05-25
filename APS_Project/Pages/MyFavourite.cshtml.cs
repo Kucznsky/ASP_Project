@@ -34,17 +34,17 @@ namespace APS_Project.Pages
         {
             Recipes = await _dbContext.Recipes
                 .Where(p => _dbContext.UserFollowRecipes
-                    .Any(c=> p.RecipeId == c.RecipeId && c.AppUserId == AppUser.Id))
+                    .Any(c => p.RecipeId == c.RecipeId && c.AppUserId == AppUser.Id))
                 .ToListAsync();
             List<UserLikeRecipe> ulr = _dbContext.UserLikeRecipes.ToList();
             List<UserDislikeRecipe> udr = _dbContext.UserDislikeRecipes.ToList();
             List<UserFollowRecipe> ufr = _dbContext.UserFollowRecipes.ToList();
         }
-        public IActionResult OnPostSearch(string category, DateTime startTime, DateTime endTime)
+        public async Task<IActionResult> OnPostSearchAsync(string category, DateTime startTime, DateTime endTime)
         {
-            _ = _dbContext.Recipes.ToList();
+            _ = await _dbContext.Recipes.ToListAsync();
+            _ = await _dbContext.Category.ToListAsync();
             Recipes = AppUser.UserRecipes;
-            _ = _dbContext.Categories.ToList();
             if (startTime != DateTime.MinValue)
             {
                 Recipes = Recipes
@@ -59,10 +59,9 @@ namespace APS_Project.Pages
             }
             if (!string.IsNullOrEmpty(category))
             {
-                Recipes = Recipes
-                    .Where(p => p.Categories.Any(p=> p.Name == category))
-                    .ToList();
-                
+                var cat = _dbContext.Category.First(p => p.Name == category);
+                var catRec = _dbContext.CategoryRecipe.FirstOrDefault(c => c.CategoryId == cat.Id);
+                Recipes = Recipes.Where(p => p.RecipeId == catRec.RecipeId).ToList();
             }
             if (Recipes is null)
                 Recipes = new List<Recipe>();

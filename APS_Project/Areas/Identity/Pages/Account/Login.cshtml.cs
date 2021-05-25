@@ -18,15 +18,12 @@ namespace APS_Project.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
         public LoginModel(SignInManager<AppUser> signInManager, 
-            ILogger<LoginModel> logger,
-            UserManager<AppUser> userManager)
+            ILogger<LoginModel> logger)
         {
-            _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
         }

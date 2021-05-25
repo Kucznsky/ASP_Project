@@ -101,6 +101,7 @@ namespace APS_Project.Pages
             _ = _dbContext.UserLikeRecipes.ToList();
             _ = _dbContext.UserDislikeRecipes.ToList();
             _ = _dbContext.UserFollowRecipes.ToList();
+            _ = _dbContext.Category.ToList();
             List<Recipe> recipes = await _dbContext.Recipes.ToListAsync();
 
             if (!string.IsNullOrEmpty(title))
@@ -111,8 +112,9 @@ namespace APS_Project.Pages
 
             if (!string.IsNullOrEmpty(category))
             {
-                var catRec = _dbContext.CategoryRecipe.FirstOrDefault(c => c.Category.Name == category);
-                recipes = recipes.Where(p=>p.RecipeId == catRec.RecipeId).ToList();
+                var cat = _dbContext.Category.First(p => p.Name == category);
+                var catRec = _dbContext.CategoryRecipe.FirstOrDefault(c => c.CategoryId == cat.Id);
+                recipes = recipes.Where(p => p.RecipeId == catRec.RecipeId).ToList();
             }
             if (recipes is null)
                 Recipes = new List<Recipe>();

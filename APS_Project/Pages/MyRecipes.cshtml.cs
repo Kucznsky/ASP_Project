@@ -41,9 +41,6 @@ namespace APS_Project.Pages
         }
         public IActionResult OnPostSearch(string category, DateTime startTime, DateTime endTime)
         {
-            _ = _dbContext.Recipes.ToList();
-            Recipes = AppUser.UserRecipes;
-            _ = _dbContext.Categories.ToList();
             if (startTime != DateTime.MinValue)
             {
                 Recipes = Recipes
@@ -58,13 +55,9 @@ namespace APS_Project.Pages
             }
             if (!string.IsNullOrEmpty(category))
             {
-                Recipes = Recipes
-                    .Where(p => p.Categories.Any(p => p.Name == category))
-                    .ToList();
-
+                var catRec = _dbContext.CategoryRecipe.FirstOrDefault(c => c.Category.Name == category);
+                Recipes = Recipes.Where(p => p.RecipeId == catRec.RecipeId).ToList();
             }
-            if (Recipes is null)
-                Recipes = new List<Recipe>();
             return Page();
         }
     }
