@@ -19,10 +19,12 @@
                 <p style="text-align:left">@Model.Recipe.Description<p>
             </fieldset>
         </div>
-        @foreach (var cat in Model.Recipe.CategoryRecipe)
-        {
-            <p>@cat.Category.Name</p>
-        }
+        <div>
+            @foreach (var cat in Model.Recipe.CategoryRecipe)
+            {
+                <p>@cat.Category.Name</p>
+            }
+        </div>
     </div>
     <div style="width: 30%; height: 100%; margin-left: auto; float: right">
         <img class="shadow" style="width:200px;height:200px" src="~/Data/Images/@Model.Recipe.ImageName">
