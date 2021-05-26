@@ -14,36 +14,44 @@
             <div class="row" style="float:left"><p style="font-size:25px">@Model.Recipe.RecipeOwner.Name @Model.Recipe.RecipeOwner.LastName</p><i class="fa fa-user-circle" style="padding-left:10px; padding-top:6px ;font-size:30px"></i></div>
             <br />
             <div class="row" style="padding-top:30px"><h2 style="text-align:left">@Model.Recipe.Title</h2></div>
-            <fieldset class="scheduler-border" style="float:left">
-                <legend class="scheduler-border"><i class="fa fa-pencil-square-o" style="padding-right:10px"></i><i>Description and recipe:</i></legend>
-                <p style="text-align:left">@Model.Recipe.Description<p>
-            </fieldset>
-        </div>
-        <div id="ctgr">
+            <div class="form-row">
+                <fieldset class="scheduler-border" style="float:left">
+                    <legend class="scheduler-border"><i class="fa fa-pencil-square-o" style="padding-right:10px"></i><i>Description and recipe:</i></legend>
+                    <p style="text-align:left">@Model.Recipe.Description<p>
+                </fieldset>
+            </div>
+            <hr class="line"/>
+            <div id="ctgr">
                 @foreach (var cat in Model.Recipe.CategoryRecipe)
                 {
-                    <input type="checkbox" id="@cat.Category.Id"/>
+                    <input type="checkbox" id="@cat.Category.Id" />
                     <label for="@cat.Category.Id">@cat.Category.Name</label>
                 }
-            <div id="buttons">
-                <button class="edit" type="button" onclick="Add()"><ins>Add</ins></button>
-                <button class="edit" type="button" onclick="Edit()"><ins>Edit</ins></button>
-                <button class="edit" type="button" onclick="Delete()"><ins>Delete</ins></button>
+                <div id="buttons">
+                    <button class="edit" type="button" onclick="Add()"><ins>Add</ins></button>
+                    <button class="edit" type="button" onclick="Edit()"><ins>Edit</ins></button>
+                    <button class="edit" type="button" onclick="Delete()"><ins>Delete</ins></button>
+                </div>
             </div>
+            <form method="post">
+                <div class="col" id="back" style="display:none">
+                    <button class="edit" type="button" onclick="Back()"><ins>Cancel</ins></button>
+                </div>
+                <div class="col">
+                    <div class="form-row" id="add" style="display:none">
+                        <textarea asp-for="Category" class="recipe-textarea" cols="30" rows="1"></textarea>
+                        <button type="submit" class="btn btn-primary">Done</button>
+                    </div>
+                    <div class="form-row" id="edit" style="display:none">
+                        <textarea asp-for="Category" class="recipe-textarea" cols="30" rows="1"></textarea>
+                        <button type="submit" class="btn btn-primary">Done</button>
+                    </div>
+                    <div class="form-row" id="delete" style="display:none">
+                        <button type="submit" class="btn btn-primary">Done</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <form method="post">
-            <div class="form-row" id="add" style="display:none">
-                <textarea asp-for="Category" class="recipe-textarea" cols="30" rows="1"></textarea>
-                <button type="submit" class="btn btn-primary">Done</button>
-            </div>
-            <div class="form-row" id="edit" style="display:none">
-                <textarea asp-for="Category" class="recipe-textarea" cols="30" rows="1"></textarea>
-                <button type="submit" class="btn btn-primary">Done</button>
-            </div>
-            <div class="form-row" id="delete" style="display:none">
-                <button type="submit" class="btn btn-primary">Done</button>
-            </div>
-        </form>
     </div>
     <div style="width: 30%; height: 100%; margin-left: auto; float: right">
         <img class="shadow" style="width:200px;height:200px" src="~/Data/Images/@Model.Recipe.ImageName">
@@ -58,23 +66,44 @@
     function Add() {
         var c = document.getElementById("ctgr");
         var e = document.getElementById("add");
+        var b = document.getElementById("back");
         c.style.display = "none";
         e.style.display = "block";
+        b.style.display = "block";
     }
     function Edit() {
         var c = document.getElementById("cbox");
         var e = document.getElementById("edit");
         var x = document.getElementById("buttons");
-        c.style.display = "block";
+        var b = document.getElementById("back");
+        /*c.style.display = "block";*/
         e.style.display = "block";
         x.style.display = "none";
+        b.style.display = "block";
     }
     function Delete() {
         var c = document.getElementById("cbox");
         var e = document.getElementById("delete");
         var x = document.getElementById("buttons");
-        c.style.display = "block";
+        var b = document.getElementById("back");
+        /*c.style.display = "block";*/
         e.style.display = "block";
         x.style.display = "none";
+        b.style.display = "block";
+    }
+    function Back() {
+        var c = document.getElementById("ctgr");
+        var e = document.getElementById("edit");
+        var d = document.getElementById("delete");
+        var x = document.getElementById("buttons");
+        var a = document.getElementById("add");
+        var b = document.getElementById("back");
+        /*c.style.display = "block";*/
+        e.style.display = "none";
+        a.style.display = "none";
+        d.style.display = "none";
+        b.style.display = "none";
+        c.style.display = "block";
+        x.style.display = "block";
     }
 </script>
