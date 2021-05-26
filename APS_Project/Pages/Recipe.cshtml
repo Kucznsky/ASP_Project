@@ -19,8 +19,8 @@
                 <p style="text-align:left">@Model.Recipe.Description<p>
             </fieldset>
         </div>
-        <div>
-            <div id="ctgr">
+        <div id="ctgr">
+            <div>
                 @foreach (var cat in Model.Recipe.CategoryRecipe)
                 {
                     <p>@cat.Category.Name</p>
