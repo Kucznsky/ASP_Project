@@ -20,18 +20,28 @@
             </fieldset>
         </div>
         <div id="ctgr">
-            <div>
                 @foreach (var cat in Model.Recipe.CategoryRecipe)
                 {
-                    <p>@cat.Category.Name</p>
+                    <input type="checkbox" id="@cat.Category.Id"/>
+                    <label for="@cat.Category.Id">@cat.Category.Name</label>
                 }
+            <div id="buttons">
+                <button class="edit" type="button" onclick="Add()"><ins>Add</ins></button>
+                <button class="edit" type="button" onclick="Edit()"><ins>Edit</ins></button>
+                <button class="edit" type="button" onclick="Delete()"><ins>Delete</ins></button>
             </div>
-            <button class="edit" type="button" onclick="Edit()"><ins>Edit</ins></button>   
         </div>
         <form method="post">
+            <div class="form-row" id="add" style="display:none">
+                <textarea asp-for="Category" class="recipe-textarea" cols="30" rows="1"></textarea>
+                <button type="submit" class="btn btn-primary">Done</button>
+            </div>
             <div class="form-row" id="edit" style="display:none">
-                <textarea class="recipe-textarea" cols="30" rows="1"></textarea>
-                <button type="submit" class="login-button log-button">Done</button>
+                <textarea asp-for="Category" class="recipe-textarea" cols="30" rows="1"></textarea>
+                <button type="submit" class="btn btn-primary">Done</button>
+            </div>
+            <div class="form-row" id="delete" style="display:none">
+                <button type="submit" class="btn btn-primary">Done</button>
             </div>
         </form>
     </div>
@@ -45,10 +55,26 @@
 </div>
 
 <script>
-    function Edit() {
+    function Add() {
         var c = document.getElementById("ctgr");
-        var e = document.getElementById("edit");
+        var e = document.getElementById("add");
         c.style.display = "none";
         e.style.display = "block";
+    }
+    function Edit() {
+        var c = document.getElementById("cbox");
+        var e = document.getElementById("edit");
+        var x = document.getElementById("buttons");
+        c.style.display = "block";
+        e.style.display = "block";
+        x.style.display = "none";
+    }
+    function Delete() {
+        var c = document.getElementById("cbox");
+        var e = document.getElementById("delete");
+        var x = document.getElementById("buttons");
+        c.style.display = "block";
+        e.style.display = "block";
+        x.style.display = "none";
     }
 </script>
