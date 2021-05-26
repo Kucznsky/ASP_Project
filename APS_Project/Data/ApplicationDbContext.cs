@@ -73,7 +73,7 @@ namespace APS_Project.Data
             builder.Entity<CategoryRecipe>()
                 .HasOne<Recipe>(cr => cr.Recipe)
                 .WithMany(r => r.CategoryRecipe)
-                .HasForeignKey(cr=>cr.CategoryId);
+                .HasForeignKey(cr=>cr.RecipeId);
             builder.Entity<CategoryRecipe>()
                 .HasOne<Category>(cr => cr.Category)
                 .WithMany(c => c.CategoryRecipes)

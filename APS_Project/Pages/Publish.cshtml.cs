@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -49,39 +50,58 @@ namespace APS_Project.Pages
             {
                 if (!_dbContext.Recipes.Any(p => p.Title == inputModel.Title))
                 {
-                    var file = Request.Form.Files[0];
-                    byte[] filebuffer = new byte[file.Length];
-                    Recipe recipe = new()
+                    IFormFile file;
+                    if (Request.Form.Files.Count > 0)
                     {
-                        Description = inputModel.Description,
-                        Title = inputModel.Title,
-                        ImageName = AppUser.Name + "_" + AppUser.LastName + "_" + inputModel.Title + ".jpg",
-                        RecipeOwner = AppUser,
-                        RecipeOwnerId = AppUser.Id,
-                        Indigrients = inputModel.Ingredient
-                    };
-                    await _dbContext.Recipes.AddAsync(recipe);
-                    await _dbContext.SaveChangesAsync();
-                    string[] categories = inputModel.Categories.Split();
-
-                    foreach (var cat in categories)
-                        if (!_dbContext.Category.Any(c => c.Name == cat))
-                            await _dbContext.Category.AddAsync(new Category() { Name = cat });
-                    await _dbContext.SaveChangesAsync();
-
-                    foreach (var cat in categories)
-                    {
-                        await _dbContext.CategoryRecipe.AddAsync(new CategoryRecipe()
+                        file = Request.Form.Files[0];
+                        byte[] filebuffer = new byte[file.Length];
+                        Recipe recipe = new()
                         {
-                            CategoryId = _dbContext.Category.First(p => p.Name == cat).Id,
-                            RecipeId = _dbContext.Recipes.First(p => p.Title == inputModel.Title).RecipeId
-                        });
+                            Description = inputModel.Description,
+                            Title = inputModel.Title,
+                            ImageName = AppUser.Name + "_" + AppUser.LastName + "_" + inputModel.Title + ".jpg",
+                            RecipeOwner = AppUser,
+                            RecipeOwnerId = AppUser.Id,
+                            Indigrients = inputModel.Ingredient,
+                        };
+                        string[] categories = inputModel.Categories.Split();
+                        List<Category> Cat = new();
+                        foreach (var cat in categories)
+                        {
+                            Cat.Add(new Category() { Name = cat });
+                        }
+                        await _dbContext.Recipes.AddAsync(recipe);
+                        await _dbContext.Category.AddRangeAsync(Cat);
+                        await _dbContext.SaveChangesAsync();
+                        var recWithId = _dbContext.Recipes.FirstOrDefault(p => p.Title == inputModel.Title);
+                        if(recWithId is not null)
+                            foreach (var cat in Cat)
+                            {
+                                _dbContext.CategoryRecipe.Add(new CategoryRecipe()
+                                {
+                                    Category = _dbContext.Category.FirstOrDefault(p => p.Name == cat.Name),
+                                    Recipe = recWithId
+                                });
+                            }
+                        await _dbContext.SaveChangesAsync();
+                        var stream = file.OpenReadStream();
+                        await stream.ReadAsync(filebuffer);
+                        System.IO.File.WriteAllBytes("wwwroot/Data/Images/" + AppUser.Name + "_" + AppUser.LastName + "_" + inputModel.Title + ".jpg", filebuffer);
+                        try
+                        {
+                            await _dbContext.SaveChangesAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            ERROR += "Error while saving";
+                            Console.WriteLine(ex);
+                        }
                     }
-
-                    var stream = file.OpenReadStream();
-                    await stream.ReadAsync(filebuffer);
-                    System.IO.File.WriteAllBytes("wwwroot/Data/Images/" + AppUser.Name + "_" + AppUser.LastName + "_" + inputModel.Title + ".jpg", filebuffer);
-                    await _dbContext.SaveChangesAsync();
+                    else
+                    {
+                        ERROR += "You must add a file";
+                        return Page();
+                    }
                 }
                 else
                 {
