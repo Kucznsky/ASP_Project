@@ -56,11 +56,10 @@ namespace APS_Project.Pages
                 {
                     if (_dbContext.CategoryRecipe.Where(p => p.Category.Id == categoryId).Count() > 1)
                     {
-
-                        var cr = _dbContext.CategoryRecipe.Find(Recipe.RecipeId, categoryId);
+                        var cr = await _dbContext.CategoryRecipe.FindAsync(Recipe.RecipeId, categoryId);
                         _dbContext.CategoryRecipe.Remove(cr);
                         var cat = new Category() { Name = newCategory };
-                        _dbContext.Category.Add(cat);
+                        await _dbContext.Category.AddAsync(cat);
                         _dbContext.CategoryRecipe.Add(new CategoryRecipe() { Category = cat, Recipe = Recipe });
                     }
                     else
@@ -77,11 +76,11 @@ namespace APS_Project.Pages
             {
                 if (ModelState.IsValid)
                 {
-                    var c = _dbContext.Category.Find(categoryId);
-                    var cr = _dbContext.CategoryRecipe.Find(Recipe.RecipeId, categoryId);
+                    var c = await _dbContext.Category.FindAsync(categoryId);
+                    var cr = await _dbContext.CategoryRecipe.FindAsync(Recipe.RecipeId, categoryId);
                     _dbContext.CategoryRecipe.Remove(cr);
                     _dbContext.Category.Remove(c);
-                    _dbContext.SaveChangesAsync();
+                    await _dbContext.SaveChangesAsync();
                     return Page();
                 }
             }
