@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using APS_Project.Data;
 using APS_Project.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,41 +15,37 @@ namespace APS_Project.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-
+        private readonly ApplicationDbContext _dbContext;
         public IndexModel(
             UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager)
+            SignInManager<AppUser> signInManager,
+            ApplicationDbContext dbContext)
         {
+            _dbContext = dbContext;
             _userManager = userManager;
             _signInManager = signInManager;
         }
-
-        public string Username { get; set; }
+        [BindProperty]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+        [BindProperty]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
 
-        [BindProperty]
-        public InputModel Input { get; set; }
 
-        public class InputModel
-        {
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
-        }
 
         private async Task LoadAsync(AppUser user)
         {
-            var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var usr = await _dbContext.AppUsers.FindAsync(user.Id);
+            var userName = usr.Name;
+            var lastName = usr.LastName;
 
-            Username = userName;
-
-            Input = new InputModel
-            {
-                PhoneNumber = phoneNumber
-            };
+            Name = userName;
+            LastName = lastName;
+           
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -77,18 +74,19 @@ namespace APS_Project.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
+            var lastName = LastName;
+            if (LastName != user.LastName)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
-                {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
-                    return RedirectToPage();
-                }
+                var appUser = await _dbContext.AppUsers.FindAsync(user.Id);
+                appUser.LastName = lastName;
             }
-
-            await _signInManager.RefreshSignInAsync(user);
+            var name = Name;
+            if (Name != user.Name)
+            {
+                var appUser = await _dbContext.AppUsers.FindAsync(user.Id);
+                appUser.Name = Name;
+            }
+            await _dbContext.SaveChangesAsync();
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
