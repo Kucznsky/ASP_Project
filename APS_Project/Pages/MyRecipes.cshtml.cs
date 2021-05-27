@@ -39,8 +39,9 @@ namespace APS_Project.Pages
             _ = await _dbContext.Recipes.ToListAsync();
             Recipes = AppUser.UserRecipes;
         }
-        public IActionResult OnPostSearch(string category, DateTime startTime, DateTime endTime)
+        public async Task <IActionResult> OnPostSearchAsync(string category, DateTime startTime, DateTime endTime)
         {
+            Recipes = await _dbContext.Recipes.Where(p=>p.RecipeOwnerId==AppUser.Id).ToListAsync();
             if (startTime != DateTime.MinValue)
             {
                 Recipes = Recipes

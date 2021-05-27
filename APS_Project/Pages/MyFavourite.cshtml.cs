@@ -59,9 +59,16 @@ namespace APS_Project.Pages
             }
             if (!string.IsNullOrEmpty(category))
             {
-                var cat = _dbContext.Category.First(p => p.Name == category);
-                var catRec = _dbContext.CategoryRecipe.FirstOrDefault(c => c.CategoryId == cat.Id);
-                Recipes = Recipes.Where(p => p.RecipeId == catRec.RecipeId).ToList();
+                var cat = _dbContext.Category.FirstOrDefault(p => p.Name == category);
+                if (cat is not null)
+                {
+                    var catRec = _dbContext.CategoryRecipe.FirstOrDefault(c => c.CategoryId == cat.Id);
+                    Recipes = Recipes.Where(p => p.RecipeId == catRec.RecipeId).ToList();
+                }
+                else
+                {
+                    Recipes.Clear();
+                }
             }
             if (Recipes is null)
                 Recipes = new List<Recipe>();

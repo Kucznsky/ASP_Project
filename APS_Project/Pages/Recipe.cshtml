@@ -21,19 +21,20 @@
                 </fieldset>
             </div>
             <hr class="line"/>
-            <div id="ctgr">
-                @foreach (var cat in Model.Recipe.CategoryRecipe)
-                {
-                    <input type="checkbox" id="@cat.Category.Id" />
-                    <label for="@cat.Category.Id">@cat.Category.Name</label>
-                }
-                <div id="buttons">
-                    <button class="edit" type="button" onclick="Add()"><ins>Add</ins></button>
-                    <button class="edit" type="button" onclick="Edit()"><ins>Edit</ins></button>
-                    <button class="edit" type="button" onclick="Delete()"><ins>Delete</ins></button>
-                </div>
-            </div>
             <form method="post">
+                <div id="ctgr">
+                    @foreach (var cat in Model.Recipe.CategoryRecipe)
+                    {
+                        <input type="checkbox" />
+                        <input type="hidden" value="@cat.Category.Id" />
+                        <label>@cat.Category.Name</label>
+                    }
+                    <div id="buttons">
+                        <button class="edit" type="button" onclick="Add()"><ins>Add</ins></button>
+                        <button class="edit" type="button" onclick="Edit()"><ins>Edit</ins></button>
+                        <button class="edit" type="button" onclick="Delete()"><ins>Delete</ins></button>
+                    </div>
+                </div>
                 <div class="col" id="back" style="display:none">
                     <button class="edit" type="button" onclick="Back()"><ins>Cancel</ins></button>
                 </div>
