@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using APS_Project.Data;
 using APS_Project.Models;
+using APS_Project.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +19,13 @@ namespace APS_Project.Pages
         public Recipe Recipe { get; set; }
         public AppUser RecipeOwner { get; set; }
         private AppUser AppUser { get; set; }
+        public UserGetter _userGetter;
         public CategoryRecipe Category { get; set; }
         private readonly ApplicationDbContext _dbContext;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public RecipeModel(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor)
+        public RecipeModel(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor, UserGetter userGetter)
         {
+            _userGetter = userGetter;
             _dbContext = dbContext;
             _httpContextAccessor = httpContextAccessor;
             if (int.TryParse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier), out int userId))
@@ -91,6 +94,7 @@ namespace APS_Project.Pages
             _ = await _dbContext.CategoryRecipe.ToListAsync();
             Recipe =  await _dbContext.Recipes.FindAsync(recipeId);
             RecipeOwner = await _dbContext.AppUsers.FindAsync(Recipe.RecipeOwnerId);
+            _userGetter.GetUser = RecipeOwne
         }
     }
 }

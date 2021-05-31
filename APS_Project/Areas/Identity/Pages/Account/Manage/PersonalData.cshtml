@@ -8,20 +8,26 @@
 
 
 <div class="row">
-    <div class="col">
-        <h4>@ViewData["Title"]</h4>
-        <div class="form-group">
-            <p style="word-wrap:break-word">Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
-            <p style="word-wrap:break-word">
-                <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
-            </p>
-            <form id="download-data" asp-page="DownloadPersonalData" method="post" class="form-group">
-                <button class="btn btn-primary" type="submit">Download</button>
-            </form>
-            <p>
-                <a id="delete" asp-page="DeletePersonalData" class="btn btn-secondary">Delete</a>
-            </p>
+    <form method="post" enctype="multipart/form-data" asp-page-handler="Image">
+        <div class="col" style="text-align:right">
+            <label class="camera-label" for="img"><span><i class="fa fa-camera camera"></i></span></label>
+            <input type="file" id="img" name="image" style="display: none">
         </div>
+        <button type="submit" class="login-button log-button btn btn-primary">Let's go!</button>
+    </form>
+    <form method="post" enctype="multipart/form-data" asp-page-handler="Desc">
+        <div class="form-group">
+            <label asp-for="Description" style="padding-right:100px">Description</label>
+            <input asp-for="Description" class="login form-control" placeholder="Description">
+            <span asp-validation-for="Description" class="text-danger"></span>
+            <button type="submit" class="login-button log-button btn btn-primary">Let's go!</button>
+        </div>
+    </form>
+    <div class="col" style="float:left; width:50%;">
+        <img class="main-page-img" src="~/Data/Images/@Model.Userr.UserPicture">
+    </div>
+    <div class="col" style="float:left; width:50%;">
+        <p>@Model.Userr.Description</p>
     </div>
 </div>
 
