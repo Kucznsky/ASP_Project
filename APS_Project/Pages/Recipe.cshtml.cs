@@ -22,6 +22,10 @@ namespace APS_Project.Pages
         public CategoryRecipe Category { get; set; }
         private readonly ApplicationDbContext _dbContext;
         private readonly IHttpContextAccessor _httpContextAccessor;
+
+        [BindProperty]
+        public List<Category> Checked { get; set; }
+
         public RecipeModel(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
             _dbContext = dbContext;
