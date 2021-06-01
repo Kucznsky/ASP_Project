@@ -19,15 +19,12 @@ namespace APS_Project.Pages
     {
 
         private int id { get; set; }
-        public CategoryRecipe Category { get; set; }
         private readonly ApplicationDbContext _dbContext;
         private readonly IHttpContextAccessor _httpContextAccessor;
         public UserProfileModel(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
             _dbContext = dbContext;
             _httpContextAccessor = httpContextAccessor;
-
-
         }
         public void OnGet()
         {

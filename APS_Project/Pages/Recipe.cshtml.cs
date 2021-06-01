@@ -19,13 +19,11 @@ namespace APS_Project.Pages
         public Recipe Recipe { get; set; }
         public AppUser RecipeOwner { get; set; }
         private AppUser AppUser { get; set; }
-        public UserGetter _userGetter;
         public CategoryRecipe Category { get; set; }
         private readonly ApplicationDbContext _dbContext;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public RecipeModel(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor, UserGetter userGetter)
+        public RecipeModel(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
-            _userGetter = userGetter;
             _dbContext = dbContext;
             _httpContextAccessor = httpContextAccessor;
             if (int.TryParse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier), out int userId))
@@ -94,7 +92,6 @@ namespace APS_Project.Pages
             _ = await _dbContext.CategoryRecipe.ToListAsync();
             Recipe =  await _dbContext.Recipes.FindAsync(recipeId);
             RecipeOwner = await _dbContext.AppUsers.FindAsync(Recipe.RecipeOwnerId);
-            _userGetter.GetUser = RecipeOwne
         }
     }
 }
