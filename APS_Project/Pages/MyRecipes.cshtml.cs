@@ -38,6 +38,8 @@ namespace APS_Project.Pages
             _ = await _dbContext.UserFollowRecipes.ToListAsync();
             _ = await _dbContext.Recipes.ToListAsync();
             Recipes = AppUser.UserRecipes;
+            if (Recipes is null)
+                Recipes = new List<Recipe>();
         }
         public async Task <IActionResult> OnPostSearchAsync(string category, DateTime startTime, DateTime endTime)
         {
