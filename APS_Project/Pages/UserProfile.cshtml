@@ -2,3 +2,31 @@
 @model APS_Project.Pages.UserProfileModel
 @{
 }
+
+
+
+
+
+@foreach (var recipe in Model.Recipes)
+{
+    <div class="recipe">
+        <a asp-page="/Recipe" asp-route-recipeId="@recipe.RecipeId" style="text-decoration: none">
+            <div class="row" style="text-align:center">
+                <div class="col">
+                    <h5>@recipe.Title</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" style="float:left; width:50%;">
+                    <img class="main-page-img" src="~/Data/Images/@recipe.ImageName">
+                </div>
+                <div class="col" style="float:left; width:50%;">
+                    <p>@recipe.Description</p>
+                </div>
+            </div>
+        </a>
+        <div class="row" style="float:right">
+            <span>@{var value = recipe.RecipeDisliker.Count - recipe.RecipeLiker.Count();} @value</span>
+        </div>
+    </div>
+}

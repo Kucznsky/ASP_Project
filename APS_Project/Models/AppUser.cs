@@ -12,7 +12,6 @@ namespace APS_Project.Models
     {
         public override int Id { get; set; }
         public string UserPicture { get; set; }
-
         public string Name { get; set; }
         public string LastName { get; set; }
         public DateTime RegistrationDate { get; set; }

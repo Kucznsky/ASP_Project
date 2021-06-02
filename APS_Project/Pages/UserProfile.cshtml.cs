@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace APS_Project.Pages
@@ -18,16 +19,28 @@ namespace APS_Project.Pages
     public class UserProfileModel : PageModel
     {
 
-        private int id { get; set; }
         private readonly ApplicationDbContext _dbContext;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        public AppUser AppUser { get; set; }
+        public List<Recipe> Recipes { get; set; }
         public UserProfileModel(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
             _dbContext = dbContext;
             _httpContextAccessor = httpContextAccessor;
         }
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
+            if(id == 0)
+            {
+                return NotFound();
+            }
+            else
+            {
+              AppUser = await _dbContext.AppUsers.FindAsync(id);
+                Recipes = await _dbContext.Recipes
+                   .Where(p => p.RecipeOwnerId == id).ToListAsync();
+            }
+            return Page();
         }
         public AppUser UserProfile;
     }
