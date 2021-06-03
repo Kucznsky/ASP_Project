@@ -3,30 +3,81 @@
 @{
 }
 
+<style>
+    body {
+        color: #ffc7c7;
+    }
+</style>
 
-
-
-
-@foreach (var recipe in Model.Recipes)
-{
-    <div class="recipe">
-        <a asp-page="/Recipe" asp-route-recipeId="@recipe.RecipeId" style="text-decoration: none">
-            <div class="row" style="text-align:center">
-                <div class="col">
-                    <h5>@recipe.Title</h5>
+<div class="container">
+    <div class="row" style="padding:1em">
+        <div class="col-sm-3">
+            <div class="container">
+                <div class="row" style="text-align:center"><img class="profile-img" src="~/Data/Images/@Model.AppUser.UserPicture" alt="profile" /></div>
+                <div class="row"><h1>@Model.AppUser.Name @Model.AppUser.LastName</h1></div>
+                <div class="row">
+                    <fieldset class="scheduler-border" style="float:left">
+                        <legend class="scheduler-border"><i class="fa fa-calendar" style="padding-right:10px"></i><i>Joined:</i></legend>
+                        <p style="text-align:left">@Model.AppUser.RegistrationDate<p>
+                    </fieldset>
+                </div>
+                <div class="row">
+                    <div class="col" id="1"><button class="nav-link menu-button shadow" onclick="Switch()">About</button></div>
+                    <div class="col" id="2" style="display:none"><button class="menu-button" onclick="Switch()">Recipes</button></div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col" style="float:left; width:50%;">
-                    <img class="main-page-img" src="~/Data/Images/@recipe.ImageName">
+        </div>       
+        <div class="col-sm" id="descr" style="display:none">
+            <fieldset class="scheduler-border" style="float:left">
+                <legend class="scheduler-border"><i>About me:</i></legend>
+                @Model.AppUser.Description
+            </fieldset>
+        </div>
+        <div class="col-sm" id="content">
+            @foreach (var recipe in Model.Recipes)
+            {
+                <div class="recipe">
+                    <a asp-page="/Recipe" asp-route-recipeId="@recipe.RecipeId" style="text-decoration: none">
+                        <div class="row" style="text-align:center">
+                            <div class="col">
+                                <h5>@recipe.Title</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col" style="float:left; width:50%;">
+                                <img class="main-page-img" src="~/Data/Images/@recipe.ImageName">
+                            </div>
+                            <div class="col" style="float:left; width:50%;">
+                                <p>@recipe.Description</p>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="row" style="float:right">
+                        <span>@{var value = recipe.RecipeDisliker.Count - recipe.RecipeLiker.Count();} @value</span>
+                    </div>
                 </div>
-                <div class="col" style="float:left; width:50%;">
-                    <p>@recipe.Description</p>
-                </div>
-            </div>
-        </a>
-        <div class="row" style="float:right">
-            <span>@{var value = recipe.RecipeDisliker.Count - recipe.RecipeLiker.Count();} @value</span>
+            }
         </div>
     </div>
-}
+</div>
+
+<script>
+    function Switch() {
+        var d = document.getElementById("descr");
+        var c = document.getElementById("content");
+        var s1 = document.getElementById("1");
+        var s2 = document.getElementById("2");
+        if (c.style.display === "none") {
+            d.style.display = "none";
+            c.style.display = "block";
+            s1.style.display = "block";
+            s2.style.display = "none";
+        }
+        else {
+            d.style.display = "block";
+            c.style.display = "none";
+            s1.style.display = "none";
+            s2.style.display = "block";
+        }
+    }
+</script>

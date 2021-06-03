@@ -8,26 +8,39 @@
 
 
 <div class="row">
-    <form method="post" enctype="multipart/form-data" asp-page-handler="Image">
-        <div class="col" style="text-align:right">
-            <label class="camera-label" for="img"><span><i class="fa fa-camera camera"></i></span></label>
-            <input type="file" id="img" name="image" style="display: none">
+    <div class="col-sm-1">
+        <div class="row">
+            <form method="post" enctype="multipart/form-data" asp-page-handler="Image">
+                <div class="col" style="text-align:right">
+                    <label class="camera-label" for="img"><span><i class="fa fa-camera camera"></i></span></label>
+                    <input type="file" id="img" name="image" style="display: none">
+                </div>
+                <button type="submit" class="login-button log-button btn btn-primary">Let's go!</button>
+            </form>
         </div>
-        <button type="submit" class="login-button log-button btn btn-primary">Let's go!</button>
-    </form>
-    <form method="post" enctype="multipart/form-data" asp-page-handler="Desc">
-        <div class="form-group">
-            <label asp-for="Description" style="padding-right:100px">Description</label>
-            <input asp-for="Description" class="login form-control" placeholder="Description">
-            <span asp-validation-for="Description" class="text-danger"></span>
-            <button type="submit" class="login-button log-button btn btn-primary">Let's go!</button>
+        <div class="row">
+            <form method="post" enctype="multipart/form-data" asp-page-handler="Desc">
+                <div class="container">
+                    <div class="row">
+                        <label asp-for="Description" style="padding-right:100px">Description</label>
+                        <input asp-for="Description" class="search" placeholder="Description"> 
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="row">
+                        <button type="submit" class="login-button log-button btn btn-primary">Let's go!</button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </form>
-    <div class="col" style="float:left; width:50%;">
-        <img class="main-page-img" src="~/Data/Images/@Model.Userr.UserPicture">
     </div>
-    <div class="col" style="float:left; width:50%;">
-        <p>@Model.Userr.Description</p>
+    <div class="colcol-sm-1" style="float:left; width:50%;">
+        <img class="profile-img" src="~/Data/Images/@Model.Userr.UserPicture">
+    </div>
+    <div class="col-sm-4" style="float:left; width:50%;">
+        <fieldset class="scheduler-border" style="float:left">
+            <legend class="scheduler-border"><i>About me:</i></legend>
+            <p>@Model.Userr.Description</p>
+        </fieldset>
     </div>
 </div>
 
