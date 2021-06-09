@@ -17,14 +17,17 @@
                     <b><label asp-for="inputModel.Title">Add a title of your recipe</label></b>
                     <input asp-for="inputModel.Title" class="search" placeholder="your title">
                     <b><span asp-validation-for="inputModel.Title" class="text-danger"></span></b><br />
-                <br />
+                    <br />
                     <b><label asp-for="inputModel.Categories">Add a category</label></b>
                     <textarea asp-for="inputModel.Categories" class="recipe-textarea" placeholder="category name" cols="30" rows="1"></textarea>
-                    <b><span asp-validation-for="inputModel.Categories" class="text-danger"></span></b><br />
+                    <b><span asp-validation-for="inputModel.Categories" class="text-danger"></span></b><br /> 
                 </div>
                 <div class="col" style="text-align:right">
                     <label class="camera-label" for="img"><span><i class="fa fa-camera camera"></i></span></label>
                     <input type="file" id="img" name="image" style="display: none">
+                    <br />
+                    <b><label asp-for="inputModel.Title">Add links</label></b>
+                    <input asp-for="inputModel.Links" class="search" placeholder="https:// something">
                 </div>
             </div>
             <div class="col" style="margin-top:45px">

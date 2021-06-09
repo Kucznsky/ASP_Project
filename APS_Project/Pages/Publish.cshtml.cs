@@ -32,6 +32,7 @@ namespace APS_Project.Pages
             public string Categories { get; set; }
             [Required]
             public string Ingredient { get; set; }
+            public string Links { get; set; }
         }
         public PublishModel(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, ApplicationDbContext dbContext)
         {
@@ -65,6 +66,9 @@ namespace APS_Project.Pages
                             Indigrients = inputModel.Ingredient,
                         };
                         string[] categories = inputModel.Categories.Split();
+                        string[] links = inputModel.Links.Split();
+                        List<Link> Links = new();
+                        
                         List<Category> Cat = new();
                         foreach (var cat in categories)
                         {
@@ -74,7 +78,8 @@ namespace APS_Project.Pages
                         await _dbContext.Category.AddRangeAsync(Cat);
                         await _dbContext.SaveChangesAsync();
                         var recWithId = _dbContext.Recipes.FirstOrDefault(p => p.Title == inputModel.Title);
-                        if(recWithId is not null)
+                        if (recWithId is not null)
+                        {
                             foreach (var cat in Cat)
                             {
                                 _dbContext.CategoryRecipe.Add(new CategoryRecipe()
@@ -83,6 +88,12 @@ namespace APS_Project.Pages
                                     Recipe = recWithId
                                 });
                             }
+                            foreach (var link in links)
+                            {    
+                                Links.Add(new Link() { LinkToImage = link , Recpie = recWithId});
+                            }
+                        }
+                        await _dbContext.Links.AddRangeAsync(Links);
                         await _dbContext.SaveChangesAsync();
                         var stream = file.OpenReadStream();
                         await stream.ReadAsync(filebuffer);
