@@ -37,10 +37,7 @@ namespace APS_Project.Pages
         }
         public async Task<IActionResult> OnPostAddCategoryAsync(string newCategory, int recipeId)
         {
-            _ = await _dbContext.Category.ToListAsync();
-            _ = await _dbContext.CategoryRecipe.ToListAsync();
-            Recipe = await _dbContext.Recipes.FindAsync(recipeId);
-            RecipeOwner = await _dbContext.AppUsers.FindAsync(Recipe.RecipeOwnerId);
+            OnGetAsync(recipeId);
             if (RecipeOwner == AppUser)
             {
                 if (ModelState.IsValid)
@@ -58,10 +55,7 @@ namespace APS_Project.Pages
         }
         public async Task<IActionResult> OnPostEditCategoryAsync(string newCategory, int categoryId, int recipeId)
         {
-            _ = await _dbContext.Category.ToListAsync();
-            _ = await _dbContext.CategoryRecipe.ToListAsync();
-            Recipe = await _dbContext.Recipes.FindAsync(recipeId);
-            RecipeOwner = await _dbContext.AppUsers.FindAsync(Recipe.RecipeOwnerId);
+            OnGetAsync(recipeId);
             if (RecipeOwner == AppUser)
             {
                 if (ModelState.IsValid)
@@ -84,10 +78,7 @@ namespace APS_Project.Pages
         }
         public async Task<IActionResult> OnPostDeleteCategoryAsync(int categoryId, int recipeId)
         {
-            _ = await _dbContext.Category.ToListAsync();
-            _ = await _dbContext.CategoryRecipe.ToListAsync();
-            Recipe = await _dbContext.Recipes.FindAsync(recipeId);
-            RecipeOwner = await _dbContext.AppUsers.FindAsync(Recipe.RecipeOwnerId);
+            OnGetAsync(recipeId);
             if (RecipeOwner == AppUser)
             {
                 if (ModelState.IsValid)
@@ -104,6 +95,7 @@ namespace APS_Project.Pages
         }
         public async Task OnGetAsync(int recipeId)
         {
+            _ = await _dbContext.Links.ToListAsync();
             _ = await _dbContext.Category.ToListAsync();
             _ = await _dbContext.CategoryRecipe.ToListAsync();
             Recipe =  await _dbContext.Recipes.FindAsync(recipeId);
