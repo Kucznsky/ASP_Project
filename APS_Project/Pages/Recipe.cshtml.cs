@@ -35,9 +35,13 @@ namespace APS_Project.Pages
                 AppUser = _dbContext.AppUsers.Find(userId);
             }
         }
-        public async Task<IActionResult> OnPostAddCategoryAsync(string newCategory)
+        public async Task<IActionResult> OnPostAddCategoryAsync(string newCategory, int recipeId)
         {
-            if(RecipeOwner == AppUser)
+            _ = await _dbContext.Category.ToListAsync();
+            _ = await _dbContext.CategoryRecipe.ToListAsync();
+            Recipe = await _dbContext.Recipes.FindAsync(recipeId);
+            RecipeOwner = await _dbContext.AppUsers.FindAsync(Recipe.RecipeOwnerId);
+            if (RecipeOwner == AppUser)
             {
                 if (ModelState.IsValid)
                 {
@@ -52,8 +56,12 @@ namespace APS_Project.Pages
             }
             return Page();
         }
-        public async Task<IActionResult> OnPostEditCategoryAsync(string newCategory, int categoryId)
+        public async Task<IActionResult> OnPostEditCategoryAsync(string newCategory, int categoryId, int recipeId)
         {
+            _ = await _dbContext.Category.ToListAsync();
+            _ = await _dbContext.CategoryRecipe.ToListAsync();
+            Recipe = await _dbContext.Recipes.FindAsync(recipeId);
+            RecipeOwner = await _dbContext.AppUsers.FindAsync(Recipe.RecipeOwnerId);
             if (RecipeOwner == AppUser)
             {
                 if (ModelState.IsValid)
@@ -74,8 +82,12 @@ namespace APS_Project.Pages
             }
             return Page();
         }
-        public async Task<IActionResult> OnPostDeleteCategoryAsync(int categoryId)
+        public async Task<IActionResult> OnPostDeleteCategoryAsync(int categoryId, int recipeId)
         {
+            _ = await _dbContext.Category.ToListAsync();
+            _ = await _dbContext.CategoryRecipe.ToListAsync();
+            Recipe = await _dbContext.Recipes.FindAsync(recipeId);
+            RecipeOwner = await _dbContext.AppUsers.FindAsync(Recipe.RecipeOwnerId);
             if (RecipeOwner == AppUser)
             {
                 if (ModelState.IsValid)
