@@ -22,6 +22,7 @@ namespace APS_Project.Pages
         private readonly ApplicationDbContext _dbContext;
         private readonly IHttpContextAccessor _httpContextAccessor;
         public AppUser AppUser { get; set; }
+        public AppUser UserProfile { get; set; }
         public List<Recipe> Recipes { get; set; }
         public UserProfileModel(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
@@ -42,6 +43,5 @@ namespace APS_Project.Pages
             }
             return Page();
         }
-        public AppUser UserProfile;
     }
 }
