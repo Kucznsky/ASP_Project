@@ -17,9 +17,7 @@ namespace APS_Project.Pages
     public class RecipeModel : PageModel
     {
         public Recipe Recipe { get; set; }
-        public AppUser RecipeOwner { get; set; }
         private AppUser AppUser { get; set; }
-        public CategoryRecipe Category { get; set; }
         private readonly ApplicationDbContext _dbContext;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -37,12 +35,8 @@ namespace APS_Project.Pages
         }
         public async Task<IActionResult> OnPostAddCategoryAsync(string newCategory, int recipeId)
         {
-            _ = await _dbContext.Links.ToListAsync();
-            _ = await _dbContext.Category.ToListAsync();
-            _ = await _dbContext.CategoryRecipe.ToListAsync();
-            Recipe = await _dbContext.Recipes.FindAsync(recipeId);
-            RecipeOwner = await _dbContext.AppUsers.FindAsync(Recipe.RecipeOwnerId);        
-            if (RecipeOwner == AppUser)
+            await LoadRecipe(recipeId);
+            if (Recipe.RecipeOwner == AppUser)
             {
                 if (ModelState.IsValid)
                 {
@@ -59,12 +53,8 @@ namespace APS_Project.Pages
         }
         public async Task<IActionResult> OnPostEditCategoryAsync(string newCategory, int recipeId, int Checked)
         {
-            _ = await _dbContext.Links.ToListAsync();
-            _ = await _dbContext.Category.ToListAsync();
-            _ = await _dbContext.CategoryRecipe.ToListAsync();
-            Recipe = await _dbContext.Recipes.FindAsync(recipeId);
-            RecipeOwner = await _dbContext.AppUsers.FindAsync(Recipe.RecipeOwnerId);
-            if (RecipeOwner == AppUser)
+            await LoadRecipe (recipeId);
+            if (Recipe.RecipeOwner == AppUser)
             {
                 if (newCategory is not null)
                 {
@@ -76,12 +66,8 @@ namespace APS_Project.Pages
         }
         public async Task<IActionResult> OnPostDeleteCategoryAsync(List<int> Checked, int recipeId)
         {
-            _ = await _dbContext.Links.ToListAsync();
-            _ = await _dbContext.Category.ToListAsync();
-            _ = await _dbContext.CategoryRecipe.ToListAsync();
-            Recipe = await _dbContext.Recipes.FindAsync(recipeId);
-            RecipeOwner = await _dbContext.AppUsers.FindAsync(Recipe.RecipeOwnerId);
-            if (RecipeOwner == AppUser)
+            await LoadRecipe(recipeId);
+            if (Recipe.RecipeOwner == AppUser)
             {
                 foreach (var check in Checked)
                 {
@@ -94,11 +80,16 @@ namespace APS_Project.Pages
         }
         public async Task OnGetAsync(int recipeId)
         {
-            _ = await _dbContext.Links.ToListAsync();
-            _ = await _dbContext.Category.ToListAsync();
-            _ = await _dbContext.CategoryRecipe.ToListAsync();
-            Recipe = await _dbContext.Recipes.FindAsync(recipeId);
-            RecipeOwner = await _dbContext.AppUsers.FindAsync(Recipe.RecipeOwnerId);
+            await LoadRecipe(recipeId);
+        }
+        private async Task LoadRecipe(int recipeId)
+        {
+            Recipe = await _dbContext.Recipes
+                .Include(p => p.Links)
+                .Include(p => p.RecipeOwner)
+                .Include(p => p.CategoryRecipe)
+                .ThenInclude(p => p.Category)
+                .FirstOrDefaultAsync(p => p.RecipeId == recipeId);
         }
     }
 }

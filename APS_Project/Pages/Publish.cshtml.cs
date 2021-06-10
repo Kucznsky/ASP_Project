@@ -56,57 +56,38 @@ namespace APS_Project.Pages
                     {
                         file = Request.Form.Files[0];
                         byte[] filebuffer = new byte[file.Length];
+                        List<Category> Cat = new();
+                        List<Link> Links = new();
+                        List<CategoryRecipe> CR = new();
                         Recipe recipe = new()
                         {
                             Description = inputModel.Description,
                             Title = inputModel.Title,
                             ImageName = AppUser.Name + "_" + AppUser.LastName + "_" + inputModel.Title + ".jpg",
                             RecipeOwner = AppUser,
-                            RecipeOwnerId = AppUser.Id,
                             Indigrients = inputModel.Ingredient,
+                            CategoryRecipe = CR,
+                            Links = Links
                         };
                         string[] categories = inputModel.Categories.Split();
                         string[] links = inputModel.Links.Split();
-                        List<Link> Links = new();
-                        
-                        List<Category> Cat = new();
                         foreach (var cat in categories)
                         {
-                            Cat.Add(new Category() { Name = cat });
+                            CR.Add(new CategoryRecipe()
+                            {
+                                Category = new Category() { Name = cat },
+                                Recipe = recipe
+                            });
+                        }
+                        foreach (var link in links)
+                        {
+                            Links.Add(new Link() { LinkToImage = link, Recpie = recipe });
                         }
                         await _dbContext.Recipes.AddAsync(recipe);
-                        await _dbContext.Category.AddRangeAsync(Cat);
-                        await _dbContext.SaveChangesAsync();
-                        var recWithId = _dbContext.Recipes.FirstOrDefault(p => p.Title == inputModel.Title);
-                        if (recWithId is not null)
-                        {
-                            foreach (var cat in Cat)
-                            {
-                                _dbContext.CategoryRecipe.Add(new CategoryRecipe()
-                                {
-                                    Category = _dbContext.Category.FirstOrDefault(p => p.Name == cat.Name),
-                                    Recipe = recWithId
-                                });
-                            }
-                            foreach (var link in links)
-                            {    
-                                Links.Add(new Link() { LinkToImage = link , Recpie = recWithId});
-                            }
-                        }
-                        await _dbContext.Links.AddRangeAsync(Links);
                         await _dbContext.SaveChangesAsync();
                         var stream = file.OpenReadStream();
                         await stream.ReadAsync(filebuffer);
                         System.IO.File.WriteAllBytes("wwwroot/Data/Images/" + AppUser.Name + "_" + AppUser.LastName + "_" + inputModel.Title + ".jpg", filebuffer);
-                        try
-                        {
-                            await _dbContext.SaveChangesAsync();
-                        }
-                        catch (Exception ex)
-                        {
-                            ERROR += "Error while saving";
-                            Console.WriteLine(ex);
-                        }
                     }
                     else
                     {

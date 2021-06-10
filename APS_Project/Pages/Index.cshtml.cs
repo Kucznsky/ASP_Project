@@ -28,24 +28,27 @@ namespace APS_Project.Pages
             {
                 AppUser = _dbContext.AppUsers.Find(userId);
             }
-            Recipes = new List<Recipe>();
-
         }
         public async Task OnGetAsync()
         {
-            Recipes = await _dbContext.Recipes.OrderByDescending(p => p.RecipeLiker.Count - p.RecipeDisliker.Count).Take(Quantity).ToListAsync();
-            _ = _dbContext.UserLikeRecipes.ToList();
-            _ = _dbContext.UserDislikeRecipes.ToList();
-            _ = _dbContext.UserFollowRecipes.ToList();
-
+            await LoadRecipes();
+            Recipes = Recipes
+                .OrderByDescending(p => p.RecipeLiker.Count - p.RecipeDisliker.Count)
+                .Take(Quantity)
+                .ToList();
         }
         public async Task<IActionResult> OnPostLikeAsync(int recipeId, bool like)
         {
             if (User.Identity.IsAuthenticated)
             {
-                Recipe recipe = await _dbContext.Recipes.FindAsync(recipeId);
-                UserLikeRecipe recipeLiker = _dbContext.UserLikeRecipes.FirstOrDefault(p => p.AppUserId == AppUser.Id && p.RecipeId == recipeId);
-                UserDislikeRecipe recipeDisliker = _dbContext.UserDislikeRecipes.FirstOrDefault(p => p.AppUserId == AppUser.Id && p.RecipeId == recipeId);
+                Recipe recipe = await _dbContext.Recipes
+                    .Include(p=>p.RecipeDisliker)
+                    .Include(p=>p.RecipeLiker)
+                    .FirstOrDefaultAsync(p=>p.RecipeId == recipeId);
+                UserLikeRecipe recipeLiker = recipe.RecipeLiker
+                    .FirstOrDefault(p => p.AppUserId == AppUser.Id);
+                UserDislikeRecipe recipeDisliker = recipe.RecipeDisliker
+                    .FirstOrDefault(p => p.AppUserId == AppUser.Id);
                 if (like)
                 {
                     if (recipeLiker is not null)
@@ -53,10 +56,16 @@ namespace APS_Project.Pages
                     else if (recipeDisliker is not null)
                     {
                         recipe.RecipeDisliker.Remove(recipeDisliker);
-                        recipe.RecipeLiker.Add(new UserLikeRecipe() { Recipe = recipe, AppUser = AppUser });
+                        recipe.RecipeLiker.Add(new UserLikeRecipe() 
+                        {
+                            Recipe = recipe, AppUser = AppUser
+                        });
                     }
                     else
-                        recipe.RecipeLiker.Add(new UserLikeRecipe() { Recipe = recipe, AppUser = AppUser });
+                        recipe.RecipeLiker.Add(new UserLikeRecipe() 
+                        { 
+                            Recipe = recipe, AppUser = AppUser
+                        });
                 }
                 else
                 {
@@ -65,10 +74,16 @@ namespace APS_Project.Pages
                     else if (recipeLiker is not null)
                     {
                         recipe.RecipeLiker.Remove(recipeLiker);
-                        recipe.RecipeDisliker.Add(new UserDislikeRecipe() { Recipe = recipe, AppUser = AppUser });
+                        recipe.RecipeDisliker.Add(new UserDislikeRecipe()
+                        {
+                            Recipe = recipe, AppUser = AppUser
+                        });
                     }
                     else
-                        recipe.RecipeDisliker.Add(new UserDislikeRecipe() { Recipe = recipe, AppUser = AppUser });
+                        recipe.RecipeDisliker.Add(new UserDislikeRecipe() 
+                        { 
+                            Recipe = recipe, AppUser = AppUser
+                        });
                 }
                 await _dbContext.SaveChangesAsync();
                 return RedirectToPage();
@@ -82,10 +97,16 @@ namespace APS_Project.Pages
         {
             if (User.Identity.IsAuthenticated)
             {
-                Recipe recipe = await _dbContext.Recipes.FindAsync(recipeId);
-                UserFollowRecipe ufr = _dbContext.UserFollowRecipes.FirstOrDefault(p => p.AppUserId == AppUser.Id && p.RecipeId == recipeId);
+                Recipe recipe = await _dbContext.Recipes
+                    .Include(p=>p.RecipeFollower)
+                    .FirstOrDefaultAsync(p=>p.RecipeId == recipeId);
+                UserFollowRecipe ufr = recipe.RecipeFollower
+                    .FirstOrDefault(p => p.AppUserId == AppUser.Id);
                 if (ufr is null)
-                    await _dbContext.UserFollowRecipes.AddAsync( new UserFollowRecipe() { Recipe = recipe, AppUser = AppUser});
+                    await _dbContext.UserFollowRecipes.AddAsync( new UserFollowRecipe() 
+                    {
+                        Recipe = recipe, AppUser = AppUser
+                    });
                 else
                     _dbContext.UserFollowRecipes.Remove(ufr);
                 await _dbContext.SaveChangesAsync();
@@ -94,39 +115,32 @@ namespace APS_Project.Pages
             else
                 return Redirect("~/Identity/Account/Login");
         }
-
+        private async Task LoadRecipes()
+        {
+            Recipes = await _dbContext.Recipes
+                    .Include(p => p.RecipeDisliker)
+                    .Include(p => p.RecipeFollower)
+                    .Include(p => p.RecipeLiker)
+                    .Include(p => p.CategoryRecipe)
+                    .ThenInclude(p => p.Category)
+                    .ToListAsync();
+        }
         public async Task<IActionResult> OnPostSearchAsync(string title, string author, string category)
         {
-            _ = _dbContext.CategoryRecipe.ToList();
-            _ = _dbContext.UserLikeRecipes.ToList();
-            _ = _dbContext.UserDislikeRecipes.ToList();
-            _ = _dbContext.UserFollowRecipes.ToList();
-            _ = _dbContext.Category.ToList();
-            List<Recipe> recipes = await _dbContext.Recipes.ToListAsync();
-
+            await LoadRecipes();
             if (!string.IsNullOrEmpty(title))
-                recipes = recipes.Where(p => p.Title == title).ToList();
-
+                Recipes = Recipes
+                    .Where(p => p.Title == title)
+                    .ToList();
             if (!string.IsNullOrEmpty(author))
-                recipes = recipes.Where(p => p.RecipeOwner.Name == author).ToList();
-
+                Recipes = Recipes
+                    .Where(p => p.RecipeOwner.Name == author)
+                    .ToList();
             if (!string.IsNullOrEmpty(category))
-            {
-                var cat = _dbContext.Category.FirstOrDefault(p => p.Name == category);
-                if (cat is not null)
-                {
-                    var catRec = _dbContext.CategoryRecipe.FirstOrDefault(c => c.CategoryId == cat.Id);
-                    recipes = recipes.Where(p => p.RecipeId == catRec.RecipeId).ToList();
-                }
-                else
-                {
-                    recipes.Clear();
-                }
-            }
-            if (recipes is null)
-                Recipes = new List<Recipe>();
-            else
-                Recipes = recipes;
+                Recipes = Recipes
+                    .Where(p => p.CategoryRecipe
+                        .Any(p => p.Category.Name == category))
+                    .ToList();
             return Page();
         }
     }

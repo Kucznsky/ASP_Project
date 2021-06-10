@@ -32,19 +32,21 @@ namespace APS_Project.Pages
         }
         public async Task OnGetAsync()
         {
+            await LoadRecipes();
+        }
+        private async Task LoadRecipes()
+        {
             Recipes = await _dbContext.Recipes
-                .Where(p => _dbContext.UserFollowRecipes
-                    .Any(c => p.RecipeId == c.RecipeId && c.AppUserId == AppUser.Id))
+                .Include(p => p.RecipeDisliker)
+                .Include(p => p.RecipeFollower)
+                .Include(p => p.RecipeLiker)
+                .Where(p => p.RecipeFollower
+                    .Any(p => p.AppUserId == AppUser.Id))
                 .ToListAsync();
-            List<UserLikeRecipe> ulr = _dbContext.UserLikeRecipes.ToList();
-            List<UserDislikeRecipe> udr = _dbContext.UserDislikeRecipes.ToList();
-            List<UserFollowRecipe> ufr = _dbContext.UserFollowRecipes.ToList();
         }
         public async Task<IActionResult> OnPostSearchAsync(string category, DateTime startTime, DateTime endTime)
         {
-            _ = await _dbContext.Recipes.ToListAsync();
-            _ = await _dbContext.Category.ToListAsync();
-            Recipes = AppUser.UserRecipes;
+            await LoadRecipes();
             if (startTime != DateTime.MinValue)
             {
                 Recipes = Recipes
@@ -59,19 +61,11 @@ namespace APS_Project.Pages
             }
             if (!string.IsNullOrEmpty(category))
             {
-                var cat = _dbContext.Category.FirstOrDefault(p => p.Name == category);
-                if (cat is not null)
-                {
-                    var catRec = _dbContext.CategoryRecipe.FirstOrDefault(c => c.CategoryId == cat.Id);
-                    Recipes = Recipes.Where(p => p.RecipeId == catRec.RecipeId).ToList();
-                }
-                else
-                {
-                    Recipes.Clear();
-                }
+                Recipes = Recipes
+                    .Where(p => p.CategoryRecipe
+                        .Any(c => c.Category.Name == category))
+                    .ToList();
             }
-            if (Recipes is null)
-                Recipes = new List<Recipe>();
             return Page();
         }
     }

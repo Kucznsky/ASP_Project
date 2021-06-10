@@ -28,22 +28,28 @@ namespace APS_Project.Pages
             _httpContextAccessor = httpContextAccessor;
             if (int.TryParse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier), out int userId))
             {
-                AppUser = _dbContext.AppUsers.Find(userId);
+                AppUser = _dbContext.AppUsers
+                    .FirstOrDefault(p => p.Id == userId);
             }
+            Recipes = new();
+        }
+        private async Task LoadRecipes() 
+        {
+            Recipes = await _dbContext.Recipes
+                .Include(p => p.RecipeDisliker)
+                .Include(p => p.RecipeFollower)
+                .Include(p => p.RecipeLiker)
+                .Where(p => p.RecipeOwnerId == AppUser.Id)
+                .ToListAsync();
+
         }
         public async Task OnGetAsync()
         {
-            _ = await _dbContext.UserLikeRecipes.ToListAsync();
-            _ = await _dbContext.UserDislikeRecipes.ToListAsync();
-            _ = await _dbContext.UserFollowRecipes.ToListAsync();
-            _ = await _dbContext.Recipes.ToListAsync();
-            Recipes = AppUser.UserRecipes;
-            if (Recipes is null)
-                Recipes = new List<Recipe>();
+            await LoadRecipes();
         }
-        public async Task <IActionResult> OnPostSearchAsync(string category, DateTime startTime, DateTime endTime)
+        public async Task<IActionResult> OnPostSearchAsync(string category, DateTime startTime, DateTime endTime)
         {
-            Recipes = await _dbContext.Recipes.Where(p=>p.RecipeOwnerId==AppUser.Id).ToListAsync();
+            await LoadRecipes();
             if (startTime != DateTime.MinValue)
             {
                 Recipes = Recipes
@@ -58,19 +64,11 @@ namespace APS_Project.Pages
             }
             if (!string.IsNullOrEmpty(category))
             {
-                var cat = _dbContext.Category.FirstOrDefault(p => p.Name == category);
-                if (cat is not null)
-                {
-                    var catRec = _dbContext.CategoryRecipe.FirstOrDefault(c => c.CategoryId == cat.Id);
-                    Recipes = Recipes.Where(p => p.RecipeId == catRec.RecipeId).ToList();
-                }
-                else
-                {
-                    Recipes.Clear();
-                }
+                Recipes = Recipes
+                    .Where(p => p.CategoryRecipe
+                        .Any(c => c.Category.Name == category))
+                    .ToList();
             }
-            if (Recipes is null)
-                Recipes = new List<Recipe>();
             return Page();
         }
     }

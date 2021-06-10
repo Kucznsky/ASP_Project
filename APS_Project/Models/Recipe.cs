@@ -28,10 +28,10 @@ namespace APS_Project.Models
         {
             PublicationDate = DateTime.Now;
             LastEditDate = PublicationDate;
-            CategoryRecipe = new List<CategoryRecipe>();
-            RecipeDisliker = new List<UserDislikeRecipe>();
-            RecipeFollower = new List<UserFollowRecipe>();
-            RecipeLiker = new List<UserLikeRecipe>();
+            CategoryRecipe = new();
+            RecipeDisliker = new();
+            RecipeFollower = new();
+            RecipeLiker = new();
         }
     }
 }

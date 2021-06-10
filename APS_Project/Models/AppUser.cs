@@ -23,10 +23,10 @@ namespace APS_Project.Models
 
         public AppUser() : base()
         {
-            UserLikes = new List<UserLikeRecipe>();
-            UserDislikes = new List<UserDislikeRecipe>();
-            UserFollows = new List<UserFollowRecipe>();
-            UserDislikes = new List<UserDislikeRecipe>();
+            UserLikes = new();
+            UserDislikes = new();
+            UserFollows = new();
+            UserDislikes = new();
         
         }
     }
