@@ -33,7 +33,7 @@
             <div id="ctgr">
                 @foreach (var cat in Model.Recipe.CategoryRecipe)
                 {
-                    <label>@cat.Category.Name ;</label>
+                    <label>@cat.Category.Name |</label>
                 }
             </div>
             <div class="col" id="back" style="display:none">
@@ -43,7 +43,6 @@
                 <div class="container" id="add" style="display:none">
                     <form method="post" asp-page-handler="AddCategory">
                         <div class="row">
-                            <!-- <textarea asp-for="Category" class="recipe-textarea" cols="30" rows="1"></textarea>-->
                             <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
                             <input class="recipe-textarea" name="newCategory" placeholder="category name"/>
                         </div>
@@ -81,7 +80,7 @@
                             {
                                 <div class="col-1">
                                     <label>@cat.Category.Name</label>
-                                    <input type="checkbox" name="Checked" value="@cat.Category.Id" />
+                                    <input type="radio" name="Checked" value="@cat.Category.Id" />
                                 </div>
                             }
                         </div>
@@ -102,15 +101,15 @@
         </fieldset>
         <fieldset class="scheduler-border">
             <legend class="scheduler-border"><i class="fa fa-link" style="padding-right:10px"></i><i>Links to the galery:</i></legend>
-            @if(Model.Recipe.Links is not null)
-            {
-                @foreach (var link in Model.Recipe.Links)
-                 {
-                    <div class="row">
-                        <a href="@link.LinkToImage" class="edit">Link to image</a>
-                    </div>
-                 }
-            }
+            <div class="flex-row">
+                @if (Model.Recipe.Links is not null)
+                {
+                    @foreach (var link in Model.Recipe.Links)
+                    {
+                        <a href="@link.LinkToImage"><span class="camera-label" style="border:none"><i class="fa fa-image"></i></span></a>
+                    }
+                }
+            </div>
         </fieldset>
     </div>
 </div>
