@@ -11,9 +11,13 @@
     <div style="width: 60%;height: 100%; margin-right: auto; float: left">
         <img style="float: left; min-width:30px; min-height: 40px" src="">
         <div style="float: inline-start">
-            <div class="row" style="float:left"><a asp-page="./UserProfile" asp-route-id="@Model.RecipeOwner.Id" style="font-size:25px; color: #1A0099">@Model.Recipe.RecipeOwner.Name @Model.Recipe.RecipeOwner.LastName</a><i class="fa fa-user-circle" style="padding-left:10px; padding-top:6px ;font-size:30px"></i></div>
+            <div class="row" style="float:left">
+                <a asp-page="./UserProfile" asp-route-id="@Model.RecipeOwner.Id" style="font-size:25px; color: #1A0099">@Model.Recipe.RecipeOwner.Name @Model.Recipe.RecipeOwner.LastName</a><i class="fa fa-user-circle" style="padding-left:10px; padding-top:6px ;font-size:30px"></i>
+            </div>
             <br />
-            <div class="row" style="padding-top:30px"><h2 style="text-align:left">@Model.Recipe.Title</h2></div>
+            <div class="row" style="padding-top:30px">
+                <h2 style="text-align:left">@Model.Recipe.Title</h2>
+            </div>
             <div class="form-row">
                 <fieldset class="scheduler-border" style="float:left">
                     <legend class="scheduler-border"><i class="fa fa-pencil-square-o" style="padding-right:10px"></i><i>Description and recipe:</i></legend>
@@ -21,38 +25,69 @@
                 </fieldset>
             </div>
             <hr class="line" />
-            <form method="post">
-                <div id="ctgr">
-                    @foreach (var cat in Model.Recipe.CategoryRecipe)
-                    {
-                        <input type="checkbox" name="Checked" value="@cat.Category.Id" />
-                        /*<input type="hidden" name="@cat.Category.Id" value="@cat.Category.Id" />*/
-                        <label>@cat.Category.Name</label>
-                    }
-                    <div id="buttons">
-                        <button class="edit" type="button" onclick="Add()"><ins>Add</ins></button>
-                        <button class="edit" type="button" onclick="Edit()"><ins>Edit</ins></button>
-                        <button class="edit" type="button" onclick="Delete()"><ins>Delete</ins></button>
-                    </div>
+            <div id="buttons">
+                <button class="edit" type="button" onclick="Add()"><ins>Add</ins></button>
+                <button class="edit" type="button" onclick="Edit()"><ins>Edit</ins></button>
+                <button class="edit" type="button" onclick="Delete()"><ins>Delete</ins></button>
+            </div>
+            <div id="ctgr">
+                @foreach (var cat in Model.Recipe.CategoryRecipe)
+                {
+                    <label>@cat.Category.Name ;</label>
+                }
+            </div>
+            <div class="col" id="back" style="display:none">
+                <button class="edit" type="button" onclick="Back()"><ins>Cancel</ins></button>
+            </div>
+            <div class="col">
+                <div class="container" id="add" style="display:none">
+                    <form method="post" asp-page-handler="AddCategory">
+                        <div class="row">
+                            <!-- <textarea asp-for="Category" class="recipe-textarea" cols="30" rows="1"></textarea>-->
+                            <input asp-for="Category" class="recipe-textarea" placeholder="edit category"/>
+                        </div>
+                        <div class="row" style="padding-top:10px">
+                            <button type="submit" class="btn btn-primary">Done</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="col" id="back" style="display:none">
-                    <button class="edit" type="button" onclick="Back()"><ins>Cancel</ins></button>
+                <div class="container" id="edit" style="display:none">
+                    <form method="post" asp-page-handler="EditCategory">
+                        <div class="row">
+                            @foreach (var cat in Model.Recipe.CategoryRecipe)
+                            {
+                                <div class="col-1">
+                                    <label>@cat.Category.Name</label>
+                                    <input type="radio" name="Checked" value="@cat.Category.Id" />
+                                </div>
+                            }
+                        </div>
+                        <div class="row">
+                            <textarea asp-for="Category" class="recipe-textarea" cols="30" rows="1"></textarea>
+                        </div>
+                        <div class="row" style="padding-top:10px">
+                            <button type="submit" class="btn btn-primary">Done</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="col">
-                    <div class="form-row" id="add" style="display:none">
-                        <textarea asp-for="Category" class="recipe-textarea" cols="30" rows="1"></textarea>
-                    </div>
-                    <div class="form-row" id="edit" style="display:none">
-                        <textarea asp-for="Category" class="recipe-textarea" cols="30" rows="1"></textarea>
-                        <!--<button type="submit" class="btn btn-primary">Done</button>-->
-                    </div>
-                    <div class="form-row" id="delete" style="display:none">
-                        <!--<button type="submit" class="btn btn-primary">Done</button>-->
-                    </div>
-                    <button type="submit" class="btn btn-primary" id="sub" style="display:none">Done</button>
+                <div class="container" id="delete" style="display:none">
+                    <form method="post" asp-page-handler="DeleteCategor">
+                        <div class="row">
+                            @foreach (var cat in Model.Recipe.CategoryRecipe)
+                            {
+                            <div class="col-1">
+                                <label>@cat.Category.Name</label>
+                                <input type="radio" name="Checked" value="@cat.Category.Id" />
+                            </div>
+                            }
+                        </div>
+                        <div class="row" style="padding-top:10px">
+                            <button type="submit" class="btn btn-primary">Done</button>
+                        </div>
+                    </form>
                 </div>
-                <input type="hidden" name="recId" value="@Model.Recipe.RecipeId" />
-            </form>
+            </div>
+            <input type="hidden" name="recId" value="@Model.Recipe.RecipeId" />
         </div>
     </div>
     <div style="width: 30%; height: 100%; margin-left: auto; float: right">
@@ -61,61 +96,61 @@
             <legend class="scheduler-border"><i class="fa fa-shopping-basket" style="padding-right:10px"></i><i>Ingredients:</i></legend>
             <p style="text-align:left">@Model.Recipe.Indigrients<p>
         </fieldset>
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border"><i class="fa fa-link" style="padding-right:10px"></i><i>Links to the galery:</i></legend>
+            @foreach (var link in Model.Recipe.Links)
+            {
+                <div class="row">
+                    <a href="@link.LinkToImage" class="edit">Link to image</a>
+                </div>
+            }
+        </fieldset>
     </div>
-    <!--<a class="edit" asp-page="Categories" style="font-size:24px">cat</a>-->
 </div>
  
 <script>
     function Add() {
-        var c = document.getElementById("ctgr");
+        var cat = document.getElementById("ctgr");
+        var c = document.getElementById("buttons");
         var e = document.getElementById("add");
         var b = document.getElementById("back");
-        var s = document.getElementById("sub");
-        s.style.display = "block";
+        cat.style.display = "none";
         c.style.display = "none";
         e.style.display = "block";
-        b.style.display = "block";
-        
+        b.style.display = "block";  
     }
     function Edit() {
-    /*var c = document.getElementsByName("check");*/
+        var cat = document.getElementById("ctgr");
         var e = document.getElementById("edit");
         var x = document.getElementById("buttons");
         var b = document.getElementById("back");
-        var s = document.getElementById("sub");
-        s.style.display = "block";
-    /*c.style.display = "none";*/
+        cat.style.display = "none";
         e.style.display = "block";
         x.style.display = "none";
         b.style.display = "block";
     }
     function Delete() {
-    /*var c = document.getElementsByName("check");*/
+        var cat = document.getElementById("ctgr");
         var e = document.getElementById("delete");
         var x = document.getElementById("buttons");
         var b = document.getElementById("back");
-        var s = document.getElementById("sub");
-        s.style.display = "block";
-    /*c.style.display = "none";*/
+        cat.style.display = "none";
         e.style.display = "block";
         x.style.display = "none";
         b.style.display = "block";
     }
     function Back() {
-        /*var c = document.getElementsByName("check");*/
+        var cat = document.getElementById("ctgr");
         var e = document.getElementById("edit");
         var d = document.getElementById("delete");
         var x = document.getElementById("buttons");
         var a = document.getElementById("add");
         var b = document.getElementById("back");
-        var s = document.getElementById("sub");
-        s.style.display = "none";
-        /*c.style.display = "none";*/
+        cat.style.display = "block";
         e.style.display = "none";
         a.style.display = "none";
         d.style.display = "none";
         b.style.display = "none";
-        /*c.style.display = "block";*/
         x.style.display = "block";
     }
 </script>

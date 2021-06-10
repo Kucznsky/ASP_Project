@@ -31,13 +31,13 @@ namespace APS_Project.Pages
         }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if(id == 0)
+            if (id == 0)
             {
                 return NotFound();
             }
             else
             {
-              AppUser = await _dbContext.AppUsers.FindAsync(id);
+                AppUser = await _dbContext.AppUsers.FindAsync(id);
                 Recipes = await _dbContext.Recipes
                    .Where(p => p.RecipeOwnerId == id).ToListAsync();
             }

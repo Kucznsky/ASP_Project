@@ -98,7 +98,7 @@ namespace APS_Project.Pages
             _ = await _dbContext.Links.ToListAsync();
             _ = await _dbContext.Category.ToListAsync();
             _ = await _dbContext.CategoryRecipe.ToListAsync();
-            Recipe =  await _dbContext.Recipes.FindAsync(recipeId);
+            Recipe = await _dbContext.Recipes.FindAsync(recipeId);
             RecipeOwner = await _dbContext.AppUsers.FindAsync(Recipe.RecipeOwnerId);
         }
     }
