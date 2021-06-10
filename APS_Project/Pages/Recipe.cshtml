@@ -41,9 +41,10 @@
             </div>
             <div class="col">
                 <div class="container" id="add" style="display:none">
-                    <form method="post">
+                    <form method="post" asp-page-handler="AddCategory">
                         <div class="row">
-                            <textarea asp-for="Category" class="recipe-textarea" cols="30" rows="1"></textarea>
+                            <!-- <textarea asp-for="Category" class="recipe-textarea" cols="30" rows="1"></textarea>-->
+                            <input asp-for="Category" class="recipe-textarea" placeholder="edit category"/>
                         </div>
                         <div class="row" style="padding-top:10px">
                             <button type="submit" class="btn btn-primary">Done</button>
@@ -51,13 +52,13 @@
                     </form>
                 </div>
                 <div class="container" id="edit" style="display:none">
-                    <form method="post">
+                    <form method="post" asp-page-handler="EditCategory">
                         <div class="row">
                             @foreach (var cat in Model.Recipe.CategoryRecipe)
                             {
                                 <div class="col-1">
                                     <label>@cat.Category.Name</label>
-                                    <input type="checkbox" name="Checked" value="@cat.Category.Id" />
+                                    <input type="radio" name="Checked" value="@cat.Category.Id" />
                                 </div>
                             }
                         </div>
@@ -70,13 +71,13 @@
                     </form>
                 </div>
                 <div class="container" id="delete" style="display:none">
-                    <form method="post">
+                    <form method="post" asp-page-handler="DeleteCategor">
                         <div class="row">
                             @foreach (var cat in Model.Recipe.CategoryRecipe)
                             {
                             <div class="col-1">
                                 <label>@cat.Category.Name</label>
-                                <input type="checkbox" name="Checked" value="@cat.Category.Id" />
+                                <input type="radio" name="Checked" value="@cat.Category.Id" />
                             </div>
                             }
                         </div>
