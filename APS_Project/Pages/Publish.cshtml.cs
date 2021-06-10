@@ -34,7 +34,7 @@ namespace APS_Project.Pages
             public string Ingredient { get; set; }
             public string Links { get; set; }
         }
-        public PublishModel(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, ApplicationDbContext dbContext)
+        public PublishModel(IHttpContextAccessor httpContextAccessor, ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
             _httpContextAccessor = httpContextAccessor;
@@ -43,7 +43,6 @@ namespace APS_Project.Pages
                 AppUser = _dbContext.AppUsers.Find(userId);
             }
             ERROR = "";
-            _dbContext = context;
         }
         public async Task<IActionResult> OnPostAsync()
         {
