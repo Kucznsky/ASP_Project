@@ -44,7 +44,8 @@
                     <form method="post" asp-page-handler="AddCategory">
                         <div class="row">
                             <!-- <textarea asp-for="Category" class="recipe-textarea" cols="30" rows="1"></textarea>-->
-                            <input asp-for="Category" class="recipe-textarea" placeholder="edit category"/>
+                            <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
+                            <input class="recipe-textarea" name="newCategory" placeholder="category name"/>
                         </div>
                         <div class="row" style="padding-top:10px">
                             <button type="submit" class="btn btn-primary">Done</button>
@@ -53,6 +54,7 @@
                 </div>
                 <div class="container" id="edit" style="display:none">
                     <form method="post" asp-page-handler="EditCategory">
+                        <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
                         <div class="row">
                             @foreach (var cat in Model.Recipe.CategoryRecipe)
                             {
@@ -63,22 +65,24 @@
                             }
                         </div>
                         <div class="row">
-                            <textarea asp-for="Category" class="recipe-textarea" cols="30" rows="1"></textarea>
+                            <input class="recipe-textarea" name="newCategory" cols="30" rows="1" />
                         </div>
                         <div class="row" style="padding-top:10px">
                             <button type="submit" class="btn btn-primary">Done</button>
                         </div>
                     </form>
                 </div>
+            
                 <div class="container" id="delete" style="display:none">
-                    <form method="post" asp-page-handler="DeleteCategor">
+                    <form method="post" asp-page-handler="DeleteCategory">
                         <div class="row">
+                            <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
                             @foreach (var cat in Model.Recipe.CategoryRecipe)
                             {
-                            <div class="col-1">
-                                <label>@cat.Category.Name</label>
-                                <input type="radio" name="Checked" value="@cat.Category.Id" />
-                            </div>
+                                <div class="col-1">
+                                    <label>@cat.Category.Name</label>
+                                    <input type="checkbox" name="Checked" value="@cat.Category.Id" />
+                                </div>
                             }
                         </div>
                         <div class="row" style="padding-top:10px">
@@ -98,11 +102,14 @@
         </fieldset>
         <fieldset class="scheduler-border">
             <legend class="scheduler-border"><i class="fa fa-link" style="padding-right:10px"></i><i>Links to the galery:</i></legend>
-            @foreach (var link in Model.Recipe.Links)
+            @if(Model.Recipe.Links is not null)
             {
-                <div class="row">
-                    <a href="@link.LinkToImage" class="edit">Link to image</a>
-                </div>
+                @foreach (var link in Model.Recipe.Links)
+                 {
+                    <div class="row">
+                        <a href="@link.LinkToImage" class="edit">Link to image</a>
+                    </div>
+                 }
             }
         </fieldset>
     </div>

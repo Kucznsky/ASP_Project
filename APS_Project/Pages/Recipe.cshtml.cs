@@ -37,7 +37,11 @@ namespace APS_Project.Pages
         }
         public async Task<IActionResult> OnPostAddCategoryAsync(string newCategory, int recipeId)
         {
-            OnGetAsync(recipeId);
+            _ = await _dbContext.Links.ToListAsync();
+            _ = await _dbContext.Category.ToListAsync();
+            _ = await _dbContext.CategoryRecipe.ToListAsync();
+            Recipe = await _dbContext.Recipes.FindAsync(recipeId);
+            RecipeOwner = await _dbContext.AppUsers.FindAsync(Recipe.RecipeOwnerId);        
             if (RecipeOwner == AppUser)
             {
                 if (ModelState.IsValid)
@@ -53,43 +57,38 @@ namespace APS_Project.Pages
             }
             return Page();
         }
-        public async Task<IActionResult> OnPostEditCategoryAsync(string newCategory, int categoryId, int recipeId)
+        public async Task<IActionResult> OnPostEditCategoryAsync(string newCategory, int recipeId, int Checked)
         {
-            OnGetAsync(recipeId);
+            _ = await _dbContext.Links.ToListAsync();
+            _ = await _dbContext.Category.ToListAsync();
+            _ = await _dbContext.CategoryRecipe.ToListAsync();
+            Recipe = await _dbContext.Recipes.FindAsync(recipeId);
+            RecipeOwner = await _dbContext.AppUsers.FindAsync(Recipe.RecipeOwnerId);
             if (RecipeOwner == AppUser)
             {
-                if (ModelState.IsValid)
+                if (newCategory is not null)
                 {
-                    if (_dbContext.CategoryRecipe.Where(p => p.Category.Id == categoryId).Count() > 1)
-                    {
-                        var cr = await _dbContext.CategoryRecipe.FindAsync(Recipe.RecipeId, categoryId);
-                        _dbContext.CategoryRecipe.Remove(cr);
-                        var cat = new Category() { Name = newCategory };
-                        await _dbContext.Category.AddAsync(cat);
-                        _dbContext.CategoryRecipe.Add(new CategoryRecipe() { Category = cat, Recipe = Recipe });
-                    }
-                    else
-                        _dbContext.Category.Find(categoryId).Name = newCategory;
+                    Recipe.CategoryRecipe.FirstOrDefault(p => p.CategoryId == Checked).Category.Name = newCategory;
                     await _dbContext.SaveChangesAsync();
-                    return Page();
                 }
             }
             return Page();
         }
-        public async Task<IActionResult> OnPostDeleteCategoryAsync(int categoryId, int recipeId)
+        public async Task<IActionResult> OnPostDeleteCategoryAsync(List<int> Checked, int recipeId)
         {
-            OnGetAsync(recipeId);
+            _ = await _dbContext.Links.ToListAsync();
+            _ = await _dbContext.Category.ToListAsync();
+            _ = await _dbContext.CategoryRecipe.ToListAsync();
+            Recipe = await _dbContext.Recipes.FindAsync(recipeId);
+            RecipeOwner = await _dbContext.AppUsers.FindAsync(Recipe.RecipeOwnerId);
             if (RecipeOwner == AppUser)
             {
-                if (ModelState.IsValid)
+                foreach (var check in Checked)
                 {
-                    var c = await _dbContext.Category.FindAsync(categoryId);
-                    var cr = await _dbContext.CategoryRecipe.FindAsync(Recipe.RecipeId, categoryId);
-                    _dbContext.CategoryRecipe.Remove(cr);
-                    _dbContext.Category.Remove(c);
-                    await _dbContext.SaveChangesAsync();
-                    return Page();
+                    _dbContext.Category.Remove(Recipe.CategoryRecipe.FirstOrDefault(p => p.CategoryId == check).Category);
+                    _dbContext.CategoryRecipe.Remove(Recipe.CategoryRecipe.FirstOrDefault(p=>p.RecipeId == recipeId && p.CategoryId == check));
                 }
+                await _dbContext.SaveChangesAsync();
             }
             return Page();
         }
