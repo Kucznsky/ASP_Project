@@ -7,7 +7,7 @@
         color: #ffc7c7;
     }
 </style>
-<div class="container">
+<div class="container" id="disp">
     <div style="width: 60%;height: 100%; margin-right: auto; float: left">
         <img style="float: left; min-width:30px; min-height: 40px" src="">
         <div style="float: inline-start">
@@ -16,13 +16,17 @@
             </div>
             <br />
             <div class="row" style="padding-top:30px">
-                <h2 style="text-align:left">@Model.Recipe.Title</h2>
+                <div id="tt">
+                    <h2 style="text-align:left">@Model.Recipe.Title</h2>
+                </div>
             </div>
             <div class="form-row">
-                <fieldset class="scheduler-border" style="float:left">
-                    <legend class="scheduler-border"><i class="fa fa-pencil-square-o" style="padding-right:10px"></i><i>Description and recipe:</i></legend>
-                    <p style="text-align:left">@Model.Recipe.Description<p>
-                </fieldset>
+                <div id="fieldD" style="display:block">
+                    <fieldset class="scheduler-border" style="float:left">
+                        <legend class="scheduler-border"><i class="fa fa-pencil-square-o" style="padding-right:10px"></i><i>Description and recipe:</i></legend>
+                        <p style="text-align:left">@Model.Recipe.Description<p>
+                    </fieldset>
+                </div>
             </div>
             <hr class="line" />
             <div id="buttons">
@@ -44,7 +48,7 @@
                     <form method="post" asp-page-handler="AddCategory">
                         <div class="row">
                             <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
-                            <input class="recipe-textarea" name="newCategory" placeholder="category name"/>
+                            <input class="recipe-textarea" name="newCategory" placeholder="category name" />
                         </div>
                         <div class="row" style="padding-top:10px">
                             <button type="submit" class="btn btn-primary">Done</button>
@@ -71,7 +75,7 @@
                         </div>
                     </form>
                 </div>
-            
+
                 <div class="container" id="delete" style="display:none">
                     <form method="post" asp-page-handler="DeleteCategory">
                         <div class="row">
@@ -94,23 +98,104 @@
         </div>
     </div>
     <div style="width: 30%; height: 100%; margin-left: auto; float: right">
-        <img class="shadow" style="width:200px;height:200px" src="~/Data/Images/@Model.Recipe.ImageName">
-        <fieldset class="scheduler-border">
-            <legend class="scheduler-border"><i class="fa fa-shopping-basket" style="padding-right:10px"></i><i>Ingredients:</i></legend>
-            <p style="text-align:left">@Model.Recipe.Indigrients<p>
-        </fieldset>
+        <div id="im">
+            <img class="shadow" style="width:200px;height:200px" src="~/Data/Images/@Model.Recipe.ImageName">
+        </div>
+       
+        <div id="FieldI">
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border"><i class="fa fa-shopping-basket" style="padding-right:10px"></i><i>Ingredients:</i></legend>
+                <p style="text-align:left">@Model.Recipe.Indigrients<p>
+            </fieldset>
+        </div>
+        
         <fieldset class="scheduler-border">
             <legend class="scheduler-border"><i class="fa fa-link" style="padding-right:10px"></i><i>Links to the galery:</i></legend>
             <div class="flex-row">
-                @if (Model.Recipe.Links is not null)
-                {
-                    @foreach (var link in Model.Recipe.Links)
+                <div id="li">
+                    @if (Model.Recipe.Links is not null)
                     {
-                        <a href="@link.LinkToImage"><span class="camera-label" style="border:none"><i class="fa fa-image"></i></span></a>
+                        @foreach (var link in Model.Recipe.Links)
+                        {
+                            <a href="@link.LinkToImage"><span class="camera-label" style="border:none"><i class="fa fa-image"></i></span></a>
+                        }
                     }
-                }
+                </div>
             </div>
         </fieldset>
+        <div class="flex-container">
+            <button class="login-button log-button btn btn-primary" type="button" style="padding:10px" onclick="EditRecipe()">Edit recipe</button>
+            <form method="post">
+                <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
+                <button class="login-button log-button btn btn-primary" type="submit" style="padding:10px">Delete recipe</button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-------------------------------------------------------------------------------------------------------------------->
+<div id="edt" class="container" style="display:none">
+    <form method="post" enctype="multipart/form-data">
+        <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
+        <input class="search" name="EditTitle" value="@Model.Recipe.Title">
+        <input class="search" name="EditDescription" value="@Model.Recipe.Description">
+        <label class="camera-label" for="img"><span><i class="fa fa-camera camera"></i></span></label>
+        <input type="file" id="img" name="image" style="display: none" value="@Model.Recipe.ImageName">
+        <input class="search" name="EditIndigrients" value="@Model.Recipe.Indigrients">
+
+        <button type="button" class="btn btn-primary" onclick="BackToDisplay()">Go Back</button>
+        <button type="submit" class="btn btn-primary">Done</button>
+    </form>
+    <div id="LinkSettings">
+        <button class="edit" type="button" onclick="AddLink()"><ins>Add link</ins></button>
+        <button class="edit" type="button" onclick="EditLink()"><ins>Edit link</ins></button>
+        <button class="edit" type="button" onclick=DeleteLink()><ins>Delete link</ins></button>
+    </div>
+    <div class="flex-row" style="display:none" id="AddLink">
+        <form method="post">
+            <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
+            <div class="flex-row">
+                <input class="search" name="newLink" />
+            </div>
+            <button type="submit" class="btn btn-primary">Done</button>
+        </form>
+    </div>
+    <div class="flex-row" style="display:none" id="EditLink">
+        <form method="post">
+            <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
+            <div class="flex-row">
+                <div id="le">
+                    @if (Model.Recipe.Links is not null)
+                    {
+                        @foreach (var link in Model.Recipe.Links)
+                        {
+                            <a href="@link.LinkToImage"><span class="edit">Image</span></a>
+                            <input type="radio" name="LChecked" value="@link.LinkToImage" />
+                        }
+                    }
+                </div>
+                <input class="search" name="newLink" />
+            </div>
+            <button type="submit" class="btn btn-primary">Done</button>
+        </form>
+    </div>
+    <button type="button" id="BackToDisplay" class="edit" onclick="Cancel()" style="display:none">Cancel</button>
+    <div class="flex-row" style="display:none" id="DeleteLink">
+        <form method="post">
+            <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
+            <div class="flex-row">
+                <div id="ld">
+                    @if (Model.Recipe.Links is not null)
+                    {
+                        @foreach (var link in Model.Recipe.Links)
+                        {
+                            <a href="@link.LinkToImage"><span class="edit">Image</span></a>
+                            <input type="checkbox" name="LChecked" value="@link.LinkToImage" />
+                        }
+                    }
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Done</button>
+        </form>
     </div>
 </div>
  
@@ -153,6 +238,84 @@
         var a = document.getElementById("add");
         var b = document.getElementById("back");
         cat.style.display = "block";
+        e.style.display = "none";
+        a.style.display = "none";
+        d.style.display = "none";
+        b.style.display = "none";
+        x.style.display = "block";
+    }
+    function EditRecipe() {
+        /*var dt = document.getElementById("descr");
+        var df = document.getElementById("fieldD");
+        var it = document.getElementById("FieldI")
+        var i = document.getElementById("ingr")
+        var title = document.getElementById("tt")
+        var newTitle= document.getElementById("ntt")
+        var links = document.getElementById("li")
+        var newLinks = document.getElementById("nli")
+        var img = document.getElementById("im")
+        var newImg = document.getElementById("nim")*/
+
+        var x = document.getElementById("disp")
+        var y = document.getElementById("edt")
+        x.style.display = "none";
+        y.style.display = "block";
+
+        /*df.style.display = "none";
+        it.style.display = "none";
+        title.style.display = "none";
+        links.style.display = "none";
+        img.style.display = "none";
+        dt.style.display = "block"
+        i.style.display = "block";
+        newTitle.style.display = "block";
+        newLinks.style.display = "block";
+        newImg.style.display = "block";*/
+    }
+    function BackToDisplay() {
+        var x = document.getElementById("disp")
+        var y = document.getElementById("edt")
+        x.style.display = "block";
+        y.style.display = "none";
+    }
+    function AddLink() {
+        //var cat = document.getElementById("ctgr");
+        var c = document.getElementById("LinkSettings");
+        var e = document.getElementById("AddLink");
+        var b = document.getElementById("BackToDisplay");
+        //cat.style.display = "none";
+        c.style.display = "none";
+        e.style.display = "block";
+        b.style.display = "block"; 
+    }
+    function EditLink() {
+        //var cat = document.getElementById("ctgr");
+        var e = document.getElementById("EditLink");
+        var x = document.getElementById("LinkSettings");
+        var b = document.getElementById("BackToDisplay");
+        //cat.style.display = "none";
+        e.style.display = "block";
+        x.style.display = "none";
+        b.style.display = "block";
+    }
+    function DeleteLink() {
+        //var cat = document.getElementById("ctgr");
+        var e = document.getElementById("DeleteLink");
+        var x = document.getElementById("LinkSettings");
+        var b = document.getElementById("BackToDisplay");
+        //cat.style.display = "none";
+        e.style.display = "block";
+        x.style.display = "none";
+        b.style.display = "block";
+    }
+    function Cancel() {
+        //var cat = document.getElementById("ctgr");
+        var e = document.getElementById("EditLink");
+        var d = document.getElementById("DeleteLink");
+        var x = document.getElementById("LinkSettings");
+        var a = document.getElementById("AddLink");
+        var b = document.getElementById("BackToDisplay");
+        //cat.style.display = "block";
         e.style.display = "none";
         a.style.display = "none";
         d.style.display = "none";
