@@ -125,7 +125,7 @@
         </fieldset>
         <div class="flex-container">
             <button class="login-button log-button btn btn-primary" type="button" style="padding:10px" onclick="EditRecipe()">Edit recipe</button>
-            <form method="post">
+            <form >
                 <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
                 <button class="login-button log-button btn btn-primary" type="submit" style="padding:10px">Delete recipe</button>
             </form>
@@ -134,7 +134,7 @@
 </div>
 <!-------------------------------------------------------------------------------------------------------------------->
 <div id="edt" class="container" style="display:none">
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" asp-page-handler="Edit" enctype="multipart/form-data">
         <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
         <input class="search" name="EditTitle" value="@Model.Recipe.Title">
         <input class="search" name="EditDescription" value="@Model.Recipe.Description">
