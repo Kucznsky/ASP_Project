@@ -164,8 +164,8 @@ namespace APS_Project.Pages
             {
                 foreach (var check in Checked)
                 {
-                    _dbContext.Links.Remove(Recipe.Links.FirstOrDefault(p => p.Id == check));
-                }
+                    Recipe.Links.Remove(Recipe.Links.FirstOrDefault(p => p.Id == check));
+                } 
                 await _dbContext.SaveChangesAsync();
             }
             return Page();
