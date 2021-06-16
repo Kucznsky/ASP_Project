@@ -91,18 +91,20 @@ namespace APS_Project.Pages
                 .ThenInclude(p => p.Category)
                 .FirstOrDefaultAsync(p => p.RecipeId == recipeId);
         }
-        public async Task<IActionResult> OnDeleteAsync(int recipeId)
+        public async Task<IActionResult> OnPostDeleteRecipeAsync(int recipeId)
         {
+            string returnUrl = Url.Content("~/");
             await LoadRecipe(recipeId);
             if (Recipe.RecipeOwner == AppUser)
             {
                 _dbContext.Remove(Recipe);
             }
             await _dbContext.SaveChangesAsync();
-            return RedirectToPage("~/");
+            return LocalRedirect(returnUrl);
         }
         public async Task<IActionResult> OnPostEditAsync(int recipeId, string EditTitle, string EditDescription, string EditIndigrients)
         {
+            string returnUrl = Url.Content("~/");
             await LoadRecipe(recipeId);
             if (Recipe.RecipeOwner == AppUser)
             {
@@ -121,8 +123,9 @@ namespace APS_Project.Pages
                     System.IO.File.WriteAllBytes("wwwroot/Data/Images/" + AppUser.Name + "_" + AppUser.LastName + "_" + Recipe.Title + ".jpg", filebuffer);
                 }
                 await _dbContext.SaveChangesAsync();
+                return LocalRedirect(returnUrl);
             }
-            return RedirectToPage();
+            return Page();
         }
         public async Task<IActionResult> OnPostAddLinkAsync(string newLink, int recipeId)
         {
