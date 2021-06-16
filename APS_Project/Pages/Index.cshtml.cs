@@ -42,9 +42,9 @@ namespace APS_Project.Pages
             if (User.Identity.IsAuthenticated)
             {
                 Recipe recipe = await _dbContext.Recipes
-                    .Include(p=>p.RecipeDisliker)
-                    .Include(p=>p.RecipeLiker)
-                    .FirstOrDefaultAsync(p=>p.RecipeId == recipeId);
+                    .Include(p => p.RecipeDisliker)
+                    .Include(p => p.RecipeLiker)
+                    .FirstOrDefaultAsync(p => p.RecipeId == recipeId);
                 UserLikeRecipe recipeLiker = recipe.RecipeLiker
                     .FirstOrDefault(p => p.AppUserId == AppUser.Id);
                 UserDislikeRecipe recipeDisliker = recipe.RecipeDisliker
@@ -56,15 +56,17 @@ namespace APS_Project.Pages
                     else if (recipeDisliker is not null)
                     {
                         recipe.RecipeDisliker.Remove(recipeDisliker);
-                        recipe.RecipeLiker.Add(new UserLikeRecipe() 
+                        recipe.RecipeLiker.Add(new UserLikeRecipe()
                         {
-                            Recipe = recipe, AppUser = AppUser
+                            Recipe = recipe,
+                            AppUser = AppUser
                         });
                     }
                     else
-                        recipe.RecipeLiker.Add(new UserLikeRecipe() 
-                        { 
-                            Recipe = recipe, AppUser = AppUser
+                        recipe.RecipeLiker.Add(new UserLikeRecipe()
+                        {
+                            Recipe = recipe,
+                            AppUser = AppUser
                         });
                 }
                 else
@@ -76,13 +78,15 @@ namespace APS_Project.Pages
                         recipe.RecipeLiker.Remove(recipeLiker);
                         recipe.RecipeDisliker.Add(new UserDislikeRecipe()
                         {
-                            Recipe = recipe, AppUser = AppUser
+                            Recipe = recipe,
+                            AppUser = AppUser
                         });
                     }
                     else
-                        recipe.RecipeDisliker.Add(new UserDislikeRecipe() 
-                        { 
-                            Recipe = recipe, AppUser = AppUser
+                        recipe.RecipeDisliker.Add(new UserDislikeRecipe()
+                        {
+                            Recipe = recipe,
+                            AppUser = AppUser
                         });
                 }
                 await _dbContext.SaveChangesAsync();
@@ -98,14 +102,15 @@ namespace APS_Project.Pages
             if (User.Identity.IsAuthenticated)
             {
                 Recipe recipe = await _dbContext.Recipes
-                    .Include(p=>p.RecipeFollower)
-                    .FirstOrDefaultAsync(p=>p.RecipeId == recipeId);
+                    .Include(p => p.RecipeFollower)
+                    .FirstOrDefaultAsync(p => p.RecipeId == recipeId);
                 UserFollowRecipe ufr = recipe.RecipeFollower
                     .FirstOrDefault(p => p.AppUserId == AppUser.Id);
                 if (ufr is null)
-                    await _dbContext.UserFollowRecipes.AddAsync( new UserFollowRecipe() 
+                    await _dbContext.UserFollowRecipes.AddAsync(new UserFollowRecipe()
                     {
-                        Recipe = recipe, AppUser = AppUser
+                        Recipe = recipe,
+                        AppUser = AppUser
                     });
                 else
                     _dbContext.UserFollowRecipes.Remove(ufr);
@@ -118,12 +123,13 @@ namespace APS_Project.Pages
         private async Task LoadRecipes()
         {
             Recipes = await _dbContext.Recipes
-                    .Include(p => p.RecipeDisliker)
-                    .Include(p => p.RecipeFollower)
-                    .Include(p => p.RecipeLiker)
-                    .Include(p => p.CategoryRecipe)
-                    .ThenInclude(p => p.Category)
-                    .ToListAsync();
+                .Include(p => p.RecipeOwner)
+                .Include(p => p.RecipeDisliker)
+                .Include(p => p.RecipeFollower)
+                .Include(p => p.RecipeLiker)
+                .Include(p => p.CategoryRecipe)
+                .ThenInclude(p => p.Category)
+                .ToListAsync();
         }
         public async Task<IActionResult> OnPostSearchAsync(string title, string author, string category)
         {

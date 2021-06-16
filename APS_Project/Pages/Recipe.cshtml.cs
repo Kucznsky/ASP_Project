@@ -91,5 +91,15 @@ namespace APS_Project.Pages
                 .ThenInclude(p => p.Category)
                 .FirstOrDefaultAsync(p => p.RecipeId == recipeId);
         }
+        public async Task<IActionResult> OnDeleteAsync(int recipeId)
+        {
+            await LoadRecipe(recipeId);
+            if (Recipe.RecipeOwner == AppUser)
+            {
+                _dbContext.Remove(Recipe);
+            }
+            await _dbContext.SaveChangesAsync();
+            return RedirectToPage("~/");
+        }
     }
 }
