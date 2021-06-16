@@ -34,7 +34,7 @@
             </fieldset>
         </div>
         <div class="col-sm" id="content">
-            @foreach (var recipe in Model.Recipes)
+            @foreach (var recipe in Model.AppUser.UserRecipes)
             {
                 <div class="recipe">
                     <a asp-page="/Recipe" asp-route-recipeId="@recipe.RecipeId" style="text-decoration: none">

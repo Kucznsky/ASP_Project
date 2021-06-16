@@ -37,9 +37,15 @@ namespace APS_Project.Pages
             }
             else
             {
-                AppUser = await _dbContext.AppUsers.FindAsync(id);
-                Recipes = await _dbContext.Recipes
-                   .Where(p => p.RecipeOwnerId == id).ToListAsync();
+                AppUser = await _dbContext.AppUsers
+                    .Include(p=>p.UserRecipes)
+                    .ThenInclude(p=>p.RecipeLiker)
+                    .Include(p=>p.UserRecipes)
+                    .ThenInclude(p=>p.RecipeDisliker)
+                    .Include(p => p.UserRecipes)
+                    .ThenInclude(p => p.RecipeFollower)
+                    .FirstOrDefaultAsync(p=>p.Id == id);
+               
             }
             return Page();
         }
