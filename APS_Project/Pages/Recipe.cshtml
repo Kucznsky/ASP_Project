@@ -132,25 +132,32 @@
         </div>
     </div>
 </div>
-<!-------------------------------------------------------------------------------------------------------------------->
-<div id="edt" class="container" style="display:none">
-    <form method="post" enctype="multipart/form-data">
-        <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
-        <input class="search" name="EditTitle" value="@Model.Recipe.Title">
-        <input class="search" name="EditDescription" value="@Model.Recipe.Description">
-        <label class="camera-label" for="img"><span><i class="fa fa-camera camera"></i></span></label>
-        <input type="file" id="img" name="image" style="display: none" value="@Model.Recipe.ImageName">
-        <input class="search" name="EditIndigrients" value="@Model.Recipe.Indigrients">
-
-        <button type="button" class="btn btn-primary" onclick="BackToDisplay()">Go Back</button>
-        <button type="submit" class="btn btn-primary">Done</button>
-    </form>
-    <div id="LinkSettings">
+<!------------------------------------------------Edit Recipe---------------------------------------------------------->
+<div id="edt" class="container" style="display:none; width:100%; height:100%">
+    <div class="row" style="float: left">
+        <form method="post" enctype="multipart/form-data">
+            <div class="row">
+                <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
+                <div class="col" style="float:left">
+                    <input class="search" name="EditTitle" value="@Model.Recipe.Title">
+                    <input class="search" name="EditDescription" value="@Model.Recipe.Description">
+                    <button type="button" class="btn btn-primary" onclick="BackToDisplay()">Go Back</button>
+                    <button type="submit" class="btn btn-primary">Done</button>
+                </div>
+                <div class="col" style="float:right">
+                    <label class="camera-label" for="img"><span><i class="fa fa-camera camera"></i></span></label>
+                    <input type="file" id="img" name="image" style="display: none" value="@Model.Recipe.ImageName">
+                    <input class="search" name="EditIndigrients" value="@Model.Recipe.Indigrients">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row" id="LinkSettings" style="float:left">
         <button class="edit" type="button" onclick="AddLink()"><ins>Add link</ins></button>
         <button class="edit" type="button" onclick="EditLink()"><ins>Edit link</ins></button>
         <button class="edit" type="button" onclick=DeleteLink()><ins>Delete link</ins></button>
     </div>
-    <div class="flex-row" style="display:none" id="AddLink">
+    <div class="row" style="display:none" id="AddLink">
         <form method="post">
             <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
             <div class="flex-row">
@@ -159,7 +166,7 @@
             <button type="submit" class="btn btn-primary">Done</button>
         </form>
     </div>
-    <div class="flex-row" style="display:none" id="EditLink">
+    <div class="row" style="display:none" id="EditLink">
         <form method="post">
             <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
             <div class="flex-row">
@@ -179,7 +186,7 @@
         </form>
     </div>
     <button type="button" id="BackToDisplay" class="edit" onclick="Cancel()" style="display:none">Cancel</button>
-    <div class="flex-row" style="display:none" id="DeleteLink">
+    <div class="row" style="display:none" id="DeleteLink">
         <form method="post">
             <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
             <div class="flex-row">
