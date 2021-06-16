@@ -101,14 +101,14 @@
         <div id="im">
             <img class="shadow" style="width:200px;height:200px" src="~/Data/Images/@Model.Recipe.ImageName">
         </div>
-       
+
         <div id="FieldI">
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border"><i class="fa fa-shopping-basket" style="padding-right:10px"></i><i>Ingredients:</i></legend>
                 <p style="text-align:left">@Model.Recipe.Indigrients<p>
             </fieldset>
         </div>
-        
+
         <fieldset class="scheduler-border">
             <legend class="scheduler-border"><i class="fa fa-link" style="padding-right:10px"></i><i>Links to the galery:</i></legend>
             <div class="flex-row">
@@ -125,7 +125,7 @@
         </fieldset>
         <div class="flex-container">
             <button class="login-button log-button btn btn-primary" type="button" style="padding:10px" onclick="EditRecipe()">Edit recipe</button>
-            <form asp-page-handler="DeleteRecipe" method="post" >
+            <form asp-page-handler="DeleteRecipe" method="post">
                 <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
                 <button class="login-button log-button btn btn-primary" type="submit" style="padding:10px">Delete recipe</button>
             </form>
@@ -150,8 +150,8 @@
         <button class="edit" type="button" onclick="EditLink()"><ins>Edit link</ins></button>
         <button class="edit" type="button" onclick=DeleteLink()><ins>Delete link</ins></button>
     </div>
-    <div class="row" style="display:none" id="AddLink">
-        <form method="post">
+    <div class="flex-row" style="display:none" id="AddLink">
+        <form method="post" asp-page-handler="AddLink">
             <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
             <div class="flex-row">
                 <input class="search" name="newLink" />
@@ -159,8 +159,8 @@
             <button type="submit" class="btn btn-primary">Done</button>
         </form>
     </div>
-    <div class="row" style="display:none" id="EditLink">
-        <form method="post">
+    <div class="flex-row" style="display:none" id="EditLink">
+        <form method="post" asp-page-handler="EditLink">
             <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
             <div class="flex-row">
                 <div id="le">
@@ -169,7 +169,7 @@
                         @foreach (var link in Model.Recipe.Links)
                         {
                             <a href="@link.LinkToImage"><span class="edit">Image</span></a>
-                            <input type="radio" name="LChecked" value="@link.LinkToImage" />
+                            <input type="radio" name="Checked" value="@link.Id" />
                         }
                     }
                 </div>
@@ -179,8 +179,8 @@
         </form>
     </div>
     <button type="button" id="BackToDisplay" class="edit" onclick="Cancel()" style="display:none">Cancel</button>
-    <div class="row" style="display:none" id="DeleteLink">
-        <form method="post">
+    <div class="flex-row" style="display:none" id="DeleteLink">
+        <form method="post" asp-page-handler="DeleteLink">
             <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
             <div class="flex-row">
                 <div id="ld">
@@ -189,7 +189,7 @@
                         @foreach (var link in Model.Recipe.Links)
                         {
                             <a href="@link.LinkToImage"><span class="edit">Image</span></a>
-                            <input type="checkbox" name="LChecked" value="@link.LinkToImage" />
+                            <input type="checkbox" name="Checked" value="@link.Id" />
                         }
                     }
                 </div>
@@ -198,7 +198,7 @@
         </form>
     </div>
 </div>
- 
+
 <script>
     function Add() {
         var cat = document.getElementById("ctgr");
@@ -208,7 +208,7 @@
         cat.style.display = "none";
         c.style.display = "none";
         e.style.display = "block";
-        b.style.display = "block";  
+        b.style.display = "block";
     }
     function Edit() {
         var cat = document.getElementById("ctgr");
@@ -255,12 +255,10 @@
         var newLinks = document.getElementById("nli")
         var img = document.getElementById("im")
         var newImg = document.getElementById("nim")*/
-
         var x = document.getElementById("disp")
         var y = document.getElementById("edt")
         x.style.display = "none";
         y.style.display = "block";
-
         /*df.style.display = "none";
         it.style.display = "none";
         title.style.display = "none";
@@ -286,7 +284,7 @@
         //cat.style.display = "none";
         c.style.display = "none";
         e.style.display = "block";
-        b.style.display = "block"; 
+        b.style.display = "block";
     }
     function EditLink() {
         //var cat = document.getElementById("ctgr");

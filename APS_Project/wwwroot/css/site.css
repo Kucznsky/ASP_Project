@@ -403,9 +403,23 @@ legend.scheduler-border {
     justify-content:space-between;
 }
 
-.flex {
+.flexbox-container {
     display: flex;
-    flex-direction:column;
-    justify-content: space-around;
-    flex-wrap:nowrap;
+    width: 100%;
+    border: solid;
+    border-color: black;
+    justify-content: space-evenly;
+    flex-direction: column;
 }
+
+.flexbox-container2 {
+    display: flex;
+    border: solid;
+    border-color: deeppink;
+    flex-direction: row;
+}
+
+.flexbox-item{
+    justify-content:center;
+}
+
