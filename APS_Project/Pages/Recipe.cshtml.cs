@@ -124,5 +124,48 @@ namespace APS_Project.Pages
             }
             return RedirectToPage();
         }
+        public async Task<IActionResult> OnPostAddLinkAsync(string newLink, int recipeId)
+        {
+            await LoadRecipe(recipeId);
+            if (Recipe.RecipeOwner == AppUser)
+            {
+                if (ModelState.IsValid)
+                {
+                    Recipe.Links.Add(new Link()
+                    {
+                        LinkToImage = newLink
+                    });
+                    await _dbContext.SaveChangesAsync();
+                    return Page();
+                }
+            }
+            return Page();
+        }
+        public async Task<IActionResult> OnPostEditLinkAsync(string newLink, int recipeId, int Checked)
+        {
+            await LoadRecipe(recipeId);
+            if (Recipe.RecipeOwner == AppUser)
+            {
+                if (newLink is not null)
+                {
+                    Recipe.Links.FirstOrDefault(p => p.Id == Checked).LinkToImage = newLink;
+                    await _dbContext.SaveChangesAsync();
+                }
+            }
+            return Page();
+        }
+        public async Task<IActionResult> OnPostDeleteLinkAsync(List<int> Checked, int recipeId)
+        {
+            await LoadRecipe(recipeId);
+            if (Recipe.RecipeOwner == AppUser)
+            {
+                foreach (var check in Checked)
+                {
+                    _dbContext.Links.Remove(Recipe.Links.FirstOrDefault(p => p.Id == check));
+                }
+                await _dbContext.SaveChangesAsync();
+            }
+            return Page();
+        }
     }
 }
