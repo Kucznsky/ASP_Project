@@ -69,7 +69,6 @@ namespace APS_Project.Pages
                             Links = Links
                         };
                         string[] categories = inputModel.Categories.Split();
-                        string[] links = inputModel.Links.Split();
                         foreach (var cat in categories)
                         {
                             CR.Add(new CategoryRecipe()
@@ -78,9 +77,13 @@ namespace APS_Project.Pages
                                 Recipe = recipe
                             });
                         }
-                        foreach (var link in links)
+                        if (inputModel.Links != null)
                         {
-                            Links.Add(new Link() { LinkToImage = link, Recpie = recipe });
+                            string[] links = inputModel.Links.Split();
+                            foreach (var link in links)
+                            {
+                                Links.Add(new Link() { LinkToImage = link, Recpie = recipe });
+                            }
                         }
                         await _dbContext.Recipes.AddAsync(recipe);
                         await _dbContext.SaveChangesAsync();
