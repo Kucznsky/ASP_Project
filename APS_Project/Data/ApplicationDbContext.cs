@@ -36,34 +36,34 @@ namespace APS_Project.Data
                 .HasOne<AppUser>(udr => udr.AppUser)
                 .WithMany(au => au.UserDislikes)
                 .HasForeignKey(udr => udr.AppUserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
             builder.Entity<UserDislikeRecipe>()
                 .HasOne<Recipe>(udr => udr.Recipe)
                 .WithMany(r => r.RecipeDisliker)
                 .HasForeignKey(udr => udr.RecipeId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<UserLikeRecipe>()
                 .HasOne<AppUser>(udr => udr.AppUser)
                 .WithMany(au => au.UserLikes)
                 .HasForeignKey(udr => udr.AppUserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
             builder.Entity<UserLikeRecipe>()
                 .HasOne<Recipe>(udr => udr.Recipe)
                 .WithMany(r => r.RecipeLiker)
                 .HasForeignKey(udr => udr.RecipeId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<UserFollowRecipe>()
                 .HasOne<AppUser>(ufr => ufr.AppUser)
                 .WithMany(au => au.UserFollows)
                 .HasForeignKey(ufr => ufr.AppUserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
             builder.Entity<UserFollowRecipe>()
                 .HasOne<Recipe>(ufr => ufr.Recipe)
                 .WithMany(r => r.RecipeFollower)
                 .HasForeignKey(ufr => ufr.RecipeId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Recipe>()
                 .HasMany<Link>(r => r.Links)

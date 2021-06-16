@@ -125,7 +125,7 @@
         </fieldset>
         <div class="flex-container">
             <button class="login-button log-button btn btn-primary" type="button" style="padding:10px" onclick="EditRecipe()">Edit recipe</button>
-            <form >
+            <form asp-page-handler="DeleteRecipe" method="post" >
                 <input type="hidden" value="@Model.Recipe.RecipeId" name="recipeId" />
                 <button class="login-button log-button btn btn-primary" type="submit" style="padding:10px">Delete recipe</button>
             </form>
