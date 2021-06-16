@@ -27,7 +27,7 @@ namespace APS_Project.Models
             UserDislikes = new();
             UserFollows = new();
             UserDislikes = new();
-        
+            RegistrationDate = DateTime.Now;
         }
     }
 }
