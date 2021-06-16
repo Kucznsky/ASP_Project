@@ -101,5 +101,28 @@ namespace APS_Project.Pages
             await _dbContext.SaveChangesAsync();
             return RedirectToPage("~/");
         }
+        public async Task<IActionResult> OnPostEditAsync(int recipeId, string EditTitle, string EditDescription, string EditIndigrients)
+        {
+            await LoadRecipe(recipeId);
+            if (Recipe.RecipeOwner == AppUser)
+            {
+                if (!string.IsNullOrEmpty(EditTitle))
+                    Recipe.Title = EditTitle;
+                if (!string.IsNullOrEmpty(EditDescription))
+                    Recipe.Description = EditDescription;
+                if (!string.IsNullOrEmpty(EditIndigrients)) 
+                    Recipe.Indigrients = EditIndigrients;
+                IFormFile file = Request.Form.Files[0];
+                if (file is not null)
+                {
+                    byte[] filebuffer = new byte[file.Length];
+                    var stream = file.OpenReadStream();
+                    await stream.ReadAsync(filebuffer);
+                    System.IO.File.WriteAllBytes("wwwroot/Data/Images/" + AppUser.Name + "_" + AppUser.LastName + "_" + Recipe.Title + ".jpg", filebuffer);
+                }
+                await _dbContext.SaveChangesAsync();
+            }
+            return RedirectToPage();
+        }
     }
 }
