@@ -114,9 +114,9 @@ namespace APS_Project.Pages
                     Recipe.Description = EditDescription;
                 if (!string.IsNullOrEmpty(EditIndigrients)) 
                     Recipe.Indigrients = EditIndigrients;
-                IFormFile file = Request.Form.Files[0];
-                if (file is not null)
+                if (Request.Form.Files.Count>0)
                 {
+                    IFormFile file = Request.Form.Files[0];
                     byte[] filebuffer = new byte[file.Length];
                     var stream = file.OpenReadStream();
                     await stream.ReadAsync(filebuffer);

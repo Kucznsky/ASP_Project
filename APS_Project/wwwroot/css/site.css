@@ -405,7 +405,6 @@ legend.scheduler-border {
 
 .flexbox-container {
     display: flex;
-    width: 100%;
     border: solid;
     border-color: black;
     justify-content: space-evenly;
@@ -421,5 +420,13 @@ legend.scheduler-border {
 
 .flexbox-item{
     justify-content:center;
+}
+
+.flexbox-item2 {
+    justify-content: space-between;
+}
+
+.flexbox-item3 {
+    justify-content: space-evenly;
 }
 

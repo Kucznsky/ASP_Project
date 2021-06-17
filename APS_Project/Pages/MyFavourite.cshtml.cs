@@ -68,5 +68,89 @@ namespace APS_Project.Pages
             }
             return Page();
         }
+
+        public async Task<IActionResult> OnPostLikeAsync(int recipeId, bool like)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                Recipe recipe = await _dbContext.Recipes
+                    .Include(p => p.RecipeDisliker)
+                    .Include(p => p.RecipeLiker)
+                    .FirstOrDefaultAsync(p => p.RecipeId == recipeId);
+                UserLikeRecipe recipeLiker = recipe.RecipeLiker
+                    .FirstOrDefault(p => p.AppUserId == AppUser.Id);
+                UserDislikeRecipe recipeDisliker = recipe.RecipeDisliker
+                    .FirstOrDefault(p => p.AppUserId == AppUser.Id);
+                if (like)
+                {
+                    if (recipeLiker is not null)
+                        recipe.RecipeLiker.Remove(recipeLiker);
+                    else if (recipeDisliker is not null)
+                    {
+                        recipe.RecipeDisliker.Remove(recipeDisliker);
+                        recipe.RecipeLiker.Add(new UserLikeRecipe()
+                        {
+                            Recipe = recipe,
+                            AppUser = AppUser
+                        });
+                    }
+                    else
+                        recipe.RecipeLiker.Add(new UserLikeRecipe()
+                        {
+                            Recipe = recipe,
+                            AppUser = AppUser
+                        });
+                }
+                else
+                {
+                    if (recipeDisliker is not null)
+                        recipe.RecipeDisliker.Remove(recipeDisliker);
+                    else if (recipeLiker is not null)
+                    {
+                        recipe.RecipeLiker.Remove(recipeLiker);
+                        recipe.RecipeDisliker.Add(new UserDislikeRecipe()
+                        {
+                            Recipe = recipe,
+                            AppUser = AppUser
+                        });
+                    }
+                    else
+                        recipe.RecipeDisliker.Add(new UserDislikeRecipe()
+                        {
+                            Recipe = recipe,
+                            AppUser = AppUser
+                        });
+                }
+                await _dbContext.SaveChangesAsync();
+                return RedirectToPage();
+            }
+            else
+            {
+                return Redirect("~/Identity/Account/Login");
+            }
+        }
+        public async Task<IActionResult> OnPostFavouritesAsync(int recipeId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                Recipe recipe = await _dbContext.Recipes
+                    .Include(p => p.RecipeFollower)
+                    .FirstOrDefaultAsync(p => p.RecipeId == recipeId);
+                UserFollowRecipe ufr = recipe.RecipeFollower
+                    .FirstOrDefault(p => p.AppUserId == AppUser.Id);
+                if (ufr is null)
+                    await _dbContext.UserFollowRecipes.AddAsync(new UserFollowRecipe()
+                    {
+                        Recipe = recipe,
+                        AppUser = AppUser
+                    });
+                else
+                    _dbContext.UserFollowRecipes.Remove(ufr);
+                await _dbContext.SaveChangesAsync();
+                return RedirectToPage();
+            }
+            else
+                return Redirect("~/Identity/Account/Login");
+        }
     }
 }

@@ -62,7 +62,31 @@
                 </div>
             </a>
             <div class="row" style="float:right">
-                <span>@{var value = recipe.RecipeDisliker.Count - recipe.RecipeLiker.Count();} @value</span>
+                <span>@{var value = recipe.RecipeLiker.Count() - recipe.RecipeDisliker.Count();} @value</span>
+                <form id="Like" method="post" asp-page-handler="Like">
+                    <input type="hidden" name="userId" value="@Model.AppUser.Id">
+                    <input type="hidden" name="recipeId" value="@recipe.RecipeId">
+                    <input type="hidden" name="like" value="true">
+                    <input class="reactions" id="like" type="submit" value="&#129121;">
+                </form>
+                <form id="Unlike" method="post" asp-page-handler="Like">
+                    <input type="hidden" name="userId" value="@User.Identity.Name">
+                    <input type="hidden" name="recipeId" value="@recipe.RecipeId">
+                    <input type="hidden" name="like" value="false">
+                    <input class="reactions" id="unlike" type="submit" value="&#129123;">
+                </form>
+                <form id="Follow" asp-page-handler="Favourites">
+                    <input type="hidden" name="userId" value="@User.Identity.Name">
+                    <input type="hidden" name="recipeId" value="@recipe.RecipeId">
+                    @if (User.Identity.IsAuthenticated && recipe.RecipeFollower.Any(p => p.AppUserId == Model.AppUser.Id))
+                    {
+                        <input class="reactions" type="submit" value="&#9829;">
+                    }
+                    else
+                    {
+                        <input class="reactions" type="submit" value="&#9825;">
+                    }
+                </form>
             </div>
         </div>
     }
